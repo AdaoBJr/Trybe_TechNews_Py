@@ -417,7 +417,6 @@ Agora que sabemos pegar páginas HTML, e descobrir o link de notícias, é hora 
 📌 **É bom saber que** ao fazer scraping na vida real, você está sempre "refém" de quem construiu o site. Por exemplo, pode ser que nem toda notícia tenha **exatamente** o mesmo HTML/CSS e você precise de criatividade para contornar isso. 
 
 
-
 **🤖 O que será verificado pelo avaliador:**
 - Será verificado se a função retorna o conteúdo correto e no formato correto, dada uma página de notícia exemplo.
 
