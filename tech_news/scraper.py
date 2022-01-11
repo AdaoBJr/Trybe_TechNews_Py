@@ -21,13 +21,16 @@ def scrape_novidades(html_content):
     result = selector.css(
         ".tec--list--lg .tec--card__title > a ::attr(href)"
     ).getall()
-
     return result
 
 
 # Requisito 3
 def scrape_next_page_link(html_content):
-    """Seu código deve vir aqui"""
+    selector = Selector(html_content)
+    result = selector.css(
+        ".tec--list.tec--list--lg > a ::attr(href)"
+    ).get()
+    return result
 
 
 # Requisito 4
