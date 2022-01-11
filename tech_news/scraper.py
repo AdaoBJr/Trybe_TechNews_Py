@@ -18,9 +18,10 @@ def fetch(url):
 
 # Requisito 2
 def scrape_novidades(html_content):
-    selector = Selector(html_content)
-    all_notices = selector.css()
-    return all_notices
+    selector = Selector(text=html_content)
+    query_selector = "h3.tec--card__title a::attr(href)"
+    allNotices = selector.css(query_selector).getall()
+    return allNotices
 
 
 # Requisito 3
