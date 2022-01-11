@@ -98,4 +98,10 @@ def scrape_noticia(html_content):
 
 # Requisito 5
 def get_tech_news(amount):
-    """Seu código deve vir aqui"""
+    # BASE_URL = 'https://www.tecmundo.com.br/novidades'
+    # next_page = scrape_next_page_link(fetch(BASE_URL))
+    # while next_page:
+    #     response = fetch(next_page)
+    #     next_page = scrape_next_page_link(response)
+    # last_page = scrape_novidades(next_page)
+    # news_list = last_page[-amount:-1]
