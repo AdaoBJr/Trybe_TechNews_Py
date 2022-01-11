@@ -32,14 +32,91 @@ def scrape_next_page_link(html_content):
         "#js-main > div > div > div.z--col.z--w-2-3 > "
         "div.tec--list.tec--list--lg > a ::attr(href)"
     ).get()
-    if not next_page_url: 
+    if not next_page_url:
         return None
     return next_page_url
 
 
+def format_list(original_list):
+    new_list = []
+    for word in original_list:
+        if word != " ":
+            word = word.strip()
+            new_list.append(word)
+    return new_list
+
+
+def format_summary(original_summary):
+    new_summary = ""
+    for word in original_summary:
+        new_summary += word
+
+    return new_summary
+
+
+def format_numbers(original_numbers):
+    if not original_numbers:
+        return 0
+    else:
+        return int(original_numbers)
+
+
 # Requisito 4
 def scrape_noticia(html_content):
-    """Seu código deve vir aqui"""
+    selector = Selector(text=html_content)
+    url = selector.css("head > meta:nth-child(28) ::attr(content)").get()
+    title = selector.css("#js-article-title ::text").get()
+
+    timestamp = selector.css("#js-article-date ::attr(datetime)").get()
+
+    writer = str(
+        selector.css(
+            "#js-author-bar > div >"
+            "p.z--m-none.z--truncate.z--font-bold *::text"
+        ).get()
+    ).strip()
+
+    if writer == "None":
+        writer = str(
+            selector.css(
+                "#js-main > div > article > "
+                "div.tec--article__body-grid > div.z--pt-40.z--pb-24 >"
+                " div.z--flex.z--items-center > "
+                "div.tec--timestamp.tec--timestamp--lg"
+                " > div.tec--timestamp__item.z--font-bold > a ::text"
+            ).get()
+        ).strip()
+
+    shares_count = selector.css(
+        "#js-author-bar > nav > div:nth-child(1) ::text"
+    ).re_first(r"\d")
+    shares_count = format_numbers(shares_count)
+    comments_count = selector.css("#js-comments-btn ::text").re_first(r"\d")
+    comments_count = format_numbers(comments_count)
+    summary = selector.css(
+        "#js-main > div > article > div.tec--article__body-grid >"
+        "div.tec--article__body > p:nth-child(1) *::text"
+    ).getall()
+    summary = format_summary(summary)
+    sources = selector.css(
+        "#js-main > div > article >"
+        "div.tec--article__body-grid > div.z--mb-16 > div ::text"
+    ).getall()
+    sources = format_list(sources)
+    categories = selector.css("#js-categories ::text").getall()
+    categories = format_list(categories)
+
+    return {
+        "url": url,
+        "title": title,
+        "timestamp": timestamp,
+        "writer": writer,
+        "shares_count": shares_count,
+        "comments_count": comments_count,
+        "summary": summary,
+        "sources": sources,
+        "categories": categories,
+    }
 
 
 # Requisito 5
