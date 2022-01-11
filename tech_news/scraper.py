@@ -20,23 +20,22 @@ def fetch(url):
 # Requisito 2
 def scrape_novidades(html_content):
     """Seu código deve vir aqui"""
-    if not isinstance(html_content, str):
+    if html_content == "":
         return list()
     else:
-        response = requests.get(html_content)
-        selector = Selector(text=response.text)
-        links = selector.css('.tec--card__title a::attr(href)').getall()
+        selector = Selector(text=html_content)
+        links = selector.css(
+            'h3 a::attr(href)').getall()
         return links
 
 
 # Requisito 3
 def scrape_next_page_link(html_content):
     """Seu código deve vir aqui"""
-    if not isinstance(html_content, str):
+    if html_content == "":
         return list()
     else:
-        response = fetch(html_content)
-        selector = Selector(text=response)
+        selector = Selector(html_content)
         next_page_link = selector.css('.tec--list > a::attr(href)').get()
         return next_page_link
 
