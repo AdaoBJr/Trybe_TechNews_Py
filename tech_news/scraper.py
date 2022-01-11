@@ -77,14 +77,14 @@ def scrape_noticia(html_content):
 # Requisito 5
 def get_tech_news(amount):
     # com ajuda do Zozimo
-    url = "https://www.tecmundo.com.br/novidades"
-    response = fetch(url)
+    url_base = "https://www.tecmundo.com.br/novidades"
+    response = fetch(url_base)
     news_list = scrape_novidades(response)
     news_result = []
 
     while (len(news_list) < amount):
-        url = scrape_next_page_link(response)
-        response = fetch(url)
+        url_next = scrape_next_page_link(response)
+        response = fetch(url_next)
         news_list.extend(scrape_novidades(response))
 
     for notice in news_list[0: amount]:
