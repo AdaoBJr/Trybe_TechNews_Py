@@ -1,0 +1,1 @@
+<a href="https://www.tecmundo.com.br/novidades?page=2" class="tec--btn tec--btn--lg tec--btn--primary z--mx-auto z--mt-48"> Mostrar mais notícias </a>flex
