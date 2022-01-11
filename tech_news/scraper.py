@@ -19,7 +19,6 @@ def fetch(url):
 
 # Requisito 2
 def scrape_novidades(html_content):
-    """Seu código deve vir aqui"""
     if html_content == "":
         return list()
     else:
@@ -31,7 +30,6 @@ def scrape_novidades(html_content):
 
 # Requisito 3
 def scrape_next_page_link(html_content):
-    """Seu código deve vir aqui"""
     if html_content == "":
         return None
     else:
@@ -42,7 +40,60 @@ def scrape_next_page_link(html_content):
 
 # Requisito 4
 def scrape_noticia(html_content):
-    """Seu código deve vir aqui"""
+    selector = Selector(text=html_content)
+
+    links = selector.css('head link').xpath('@href').getall()
+
+    matching = [s for s in links if "https://www.tecmundo.com.br" in s]
+    url = matching[1]
+
+    timestamp = selector.css(
+        '.tec--timestamp__item > time::attr(datetime)').get()
+
+    shares_count = selector.css(
+        '.tec--toolbar > .tec--toolbar__item::text').get()
+    if shares_count is None:
+        shares_count = 0
+    else:
+        shares_count = int(shares_count[1])
+
+    comments_count = int(selector.css(
+        '#js-comments-btn::attr(data-count)').get())
+
+    raw_categories = selector.css("#js-categories a::text").getall()
+    categories = []
+    for category in raw_categories:
+        categories.append(category[1:-1])
+
+    title = selector.css('#js-article-title::text').get()
+
+    writer = selector.css(
+        '.tec--article__body-grid .z--font-bold a::text').get()
+    if writer is not None:
+        writer = writer[1:-1]
+    if writer is None:
+        writer = selector.css('.tec--author__info > p::text').get()
+
+    raw_sources = selector.css('.z--mb-16 > div > a::text').getall()
+    sources = []
+    for source in raw_sources:
+        sources.append(source[1:-1])
+
+    paragraph = selector.css(
+        '.tec--article__body > p:first-child *::text').getall()
+    summary = "".join(paragraph)
+
+    return {
+        "url": url,
+        "title": title,
+        "timestamp": timestamp,
+        "writer": writer,
+        "shares_count": shares_count,
+        "comments_count": comments_count,
+        "summary": summary,
+        "sources": sources,
+        "categories": categories
+    }
 
 
 # Requisito 5
