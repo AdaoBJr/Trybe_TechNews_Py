@@ -1,24 +1,23 @@
 from parsel import Selector
 
 
-def scrape_novidades(html_content):
-    """Seu código deve vir aqui"""
+def scrape_noticia(html_content):
     selector = Selector(text=html_content)
-    return selector
-
-
-def scrape_next_page_link(html_content):
-    """Seu código deve vir aqui"""
-    if not isinstance(html_content, str):
-        return list()
-    else:
-        selector = Selector(text=html_content)
-        next_page_link = selector.css('.tec--list > a::attr(href)').get()
-        return next_page_link
+    links = selector.css('head link').xpath('@href').getall()
+    matching = [s for s in links if "https://www.tecmundo.com.br" in s]
+    url = matching[1]
+    return url
 
 
 if __name__ == "__main__":
-    with open("tests/assets/tecmundo_pages/novidades.html") as f:
+    path = (
+        "tests/"
+        "assets/"
+        "tecmundo_pages/"
+        "minha-serie|"
+        "215168-10-viloes-animes-extremamente-inteligentes.htm."
+        "html"
+    )
+    with open(path) as f:
         html_content = f.read()
-    print(html_content)
-    # print(scrape_novidades(html_content))
+    print(scrape_noticia(html_content))
