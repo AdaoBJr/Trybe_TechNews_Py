@@ -38,7 +38,7 @@ def scrape_noticia(html_content):
         shares = int(
             "".join(
                 filter(
-                    str.isdigit.
+                    str.isdigit,
                     selector.css(".tec--toolbar__item::text").getall()[0],
                 )
             )
@@ -47,7 +47,7 @@ def scrape_noticia(html_content):
         shares = 0
     try:
         comments = int(
-            selector.css("#js-comments-btn:attr(data-count)").get()
+            selector.css("#js-comments-btn::attr(data-count)").get()
         )
     except TypeError:
         comments = 0
@@ -60,7 +60,7 @@ def scrape_noticia(html_content):
         # Zozimo
         "title": selector.css(".tec--article__header__title::text").get(),
         "timestamp": selector.css("time::attr(datetime)").get(),
-        "writer": selector.css("z--font-bold").css("*::text").get().strip()
+        "writer": selector.css(".z--font-bold").css("*::text").get().strip()
         or "",
         "shares_count": shares,
         "comments_count": comments,
