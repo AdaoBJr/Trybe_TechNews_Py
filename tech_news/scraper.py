@@ -4,14 +4,15 @@ import time
 
 # Requisito 1
 def fetch(url):
-    # try:
-    #     res = requests.get(url)
-    #     res.raise_for_status()
-    #     time.sleep(1)
-    # except requests.HTTPError:
-    #     return None
-    # else:
-    #     return print(res.text)
+    time.sleep(1)
+    try:
+        res = requests.get(url, timeout=3)
+        if res.status_code == 200:
+            return res.text
+    except requests.Timeout:
+        return None
+    else:
+        return None
 
 
 # Requisito 2
