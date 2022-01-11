@@ -1,5 +1,6 @@
 import requests
 import time
+from parsel import Selector
 
 
 # Requisito 1
@@ -20,6 +21,13 @@ def fetch(url):
 # Requisito 2
 def scrape_novidades(html_content):
     """Seu código deve vir aqui"""
+    selector = Selector(text=html_content)
+    # faz a busca no arquivo pela classe css,
+    # encontrando a div e depois disso a tag q possui o atr href
+    result = selector.css(
+        ".tec--list__item .tec--card__title__link::attr(href)"
+    ).getall()
+    return result
 
 
 # Requisito 3
