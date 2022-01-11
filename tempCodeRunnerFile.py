@@ -1,2 +1,0 @@
-
-selector = Selector(text=response)
