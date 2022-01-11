@@ -1,5 +1,5 @@
 import requests
-
+from parsel import Selector
 from time import sleep
 
 
@@ -18,7 +18,10 @@ def fetch(url):
 
 # Requisito 2
 def scrape_novidades(html_content):
-    """Seu código deve vir aqui"""
+    sleep(1)
+    select = Selector(html_content)
+    result = select.css("h3.tec--card__title a::attr(href)").getall()
+    return result
 
 
 # Requisito 3
