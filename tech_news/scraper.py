@@ -2,6 +2,8 @@ import requests
 import time
 
 
+# source --> https://newbedev.com/try-except-when-using-python-requests-module
+
 # Requisito 1
 def fetch(url):
     time.sleep(1)
