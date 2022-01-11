@@ -1,5 +1,6 @@
 import requests
 import time
+from parsel import Selector
 
 
 # Requisito 1
@@ -11,13 +12,15 @@ def fetch(url):
             return None
         else:
             return response.text
-    except requests.exceptions.RequestException:
+    except requests.exceptions.Timeout:
         return None
 
 
 # Requisito 2
 def scrape_novidades(html_content):
-    """Seu código deve vir aqui"""
+    selector = Selector(html_content)
+    all_notices = selector.css()
+    return all_notices
 
 
 # Requisito 3
