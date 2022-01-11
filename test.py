@@ -3,7 +3,9 @@ import requests
 import time
 
 
-# Requisito 1
+URL = 'https://www.tecmundo.com.br/novidades'
+
+
 def fetch(url):
     """Seu código deve vir aqui"""
     time.sleep(1)
@@ -17,19 +19,17 @@ def fetch(url):
         return None
 
 
-# Requisito 2
 def scrape_novidades(html_content):
     """Seu código deve vir aqui"""
     if not isinstance(html_content, str):
         return list()
     else:
-        response = requests.get(html_content)
-        selector = Selector(text=response.text)
+        response = fetch(html_content)
+        selector = Selector(text=response)
         links = selector.css('.tec--card__title a::attr(href)').getall()
         return links
 
 
-# Requisito 3
 def scrape_next_page_link(html_content):
     """Seu código deve vir aqui"""
     if not isinstance(html_content, str):
@@ -41,11 +41,5 @@ def scrape_next_page_link(html_content):
         return next_page_link
 
 
-# Requisito 4
-def scrape_noticia(html_content):
-    """Seu código deve vir aqui"""
-
-
-# Requisito 5
-def get_tech_news(amount):
-    """Seu código deve vir aqui"""
+if __name__ == "__main__":
+    print(scrape_novidades({}))
