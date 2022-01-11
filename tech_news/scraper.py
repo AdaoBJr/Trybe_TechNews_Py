@@ -24,8 +24,6 @@ def scrape_novidades(html_content):
     newsLink = selector.css(
         ".tec--card__info h3 .tec--card__title__link::attr(href)"
     ).getall()
-    if len(newsLink) == 0:
-        return list()
     return newsLink
 
 
