@@ -70,12 +70,6 @@ def get_shares_count(selector):
 
 def get_comments_count(selector):
     return selector.css("#js-comments-btn ::attr(data-count)").get()
-    # comments = selector.css("#js-comments-btn ::attr(data-count)").getall()
-    # if commnets is not []:
-    #     list_comments = list(map(lambda x: x.strip(), comments))
-    #     list_filter = list(filter(lambda x: x != "", comments))
-    #     return list_filter
-    # return None
 
 
 def get_summary(selector):
@@ -130,7 +124,7 @@ def get_tech_news(amount):
     for i in range(amount):
         url_notice = fetch(new_url[i])
         notice_info = scrape_noticia(url_notice)
-        list_news.append(notice_info)
+        list_news += [notice_info]
 
     create_news(list_news)
     return list_news
