@@ -53,12 +53,13 @@ def writer_scrape(selector, css1, css2):
 
 
 def number_scrape(selector, css):
-    result = selector.css(css).re_first(r"\d")
+    result = selector.css(css).get()
 
     if not result:
         return 0
     else:
-        return int(result)
+        value = result.strip().split(" ")[0]
+        return int(value)
 
 
 def generic_getall_scrape(selector, css):
@@ -97,7 +98,7 @@ def scrape_noticia(html_content):
         ".tec--timestamp.tec--timestamp--lg > div > a ::text"
     ).strip()
     data["shares_count"] = number_scrape(
-        selector, "#js-author-bar > nav > div:nth-child(1) ::text"
+        selector, ".tec--toolbar > div:nth-child(1)::text"
     )
     data["comments_count"] = number_scrape(
         selector, "#js-comments-btn ::attr(data-count)"
