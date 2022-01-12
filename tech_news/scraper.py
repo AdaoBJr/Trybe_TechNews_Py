@@ -7,6 +7,7 @@ import time
 # https://www.youtube.com/watch?v=vmRfO2uULfw&ab_channel=pythonbrasil
 # https://www.w3schools.com/python/ref_string_strip.asp
 # https://parsel.readthedocs.io/en/latest/usage.html
+# https://stackoverflow.com/questions/5453422/get-text-in-xpath
 
 
 # Requisito 1
@@ -56,7 +57,9 @@ def scrape_noticia(html_content):
     for author in getWritersByLinks:
         if author is not None and author != "":
             writer = author.strip()
-    getWriterByCss = selector.css(".tec--author__info p:nth-child(1)::text").get()
+    getWriterByCss = selector.css(
+        ".tec--author__info p:nth-child(1)::text"
+    ).get()
     if getWriterByCss is not None:
         writer = getWriterByCss.strip()
     shares_count = selector.css(
