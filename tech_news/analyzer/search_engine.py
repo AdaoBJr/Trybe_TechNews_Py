@@ -2,16 +2,19 @@ from tech_news.database import search_news
 import datetime
 
 
-# Requisito 6
-def search_by_title(title):
-    title_query = title.capitalize()
-    query = {"title": {"$eq": title_query}}
+def search(query):
     news_list = []
     search_list = search_news(query)
     for news in search_list:
         news_list.append((news["title"], news["url"]))
 
     return news_list
+
+
+# Requisito 6
+def search_by_title(title):
+    query = {"title": {"$regex": title, "$options": "i"}}
+    return search(query)
 
 
 # Requisito 7
@@ -27,19 +30,16 @@ def search_by_date(date):
 
     date_query = f"^{date}"
     query = {"timestamp": {"$regex": date_query}}
-    news_list = []
-    search_list = search_news(query)
-    for news in search_list:
-        news_list.append((news["title"], news["url"]))
-
-    return news_list
+    return search(query)
 
 
 # Requisito 8
 def search_by_source(source):
-    """Seu código deve vir aqui"""
+    query = {"sources": {"$regex": source, "$options": "i"}}
+    return search(query)
 
 
 # Requisito 9
 def search_by_category(category):
-    """Seu código deve vir aqui"""
+    query = {"categories": {"$regex": category, "$options": "i"}}
+    return search(query)
