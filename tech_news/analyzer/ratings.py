@@ -33,6 +33,16 @@ def top_5_news():
         result.append(notice_tuple)
     return result
 
+
 # Requisito 11
 def top_5_categories():
-    """Seu código deve vir aqui"""
+    pipeline = [
+        {"$unwind": "$categories"},
+        {"$group": {"_id": "$categories", "count": {"$sum": 1}}},
+        {"$sort": {"count": -1, "_id": 1}},
+        {"$project": {"categories": True}},
+        {"$limit": 5},
+    ]
+    return [
+        categorie["_id"] for categorie in list(db.news.aggregate(pipeline))
+    ]
