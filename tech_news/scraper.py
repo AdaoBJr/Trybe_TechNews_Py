@@ -19,6 +19,8 @@ def fetch(url):
 # Requisito 2
 def scrape_novidades(html_content):
     selector = Selector(html_content)
+    # agradecimentos ao Gabriel Essênio pela ajuda
+    # na compreensão dos seletores na função css
     return selector.css(
         ".tec--list--lg .tec--card__title > a ::attr(href)"
     ).getall()
