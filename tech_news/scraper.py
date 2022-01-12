@@ -80,12 +80,6 @@ def scrape_noticia(html_content):
     title = selector.css('#js-article-title::text').get()
 
     writer = get_writer(selector)
-    # writer = selector.css(
-    #     '.tec--article__body-grid .z--font-bold a::text').get()
-    # if writer is not None:
-    #     writer = writer[1:-1]
-    # if writer is None:
-    #     writer = selector.css('.tec--author__info > p::text').get()
 
     raw_sources = selector.css('.z--mb-16 > div > a::text').getall()
     sources = []
@@ -111,21 +105,28 @@ def scrape_noticia(html_content):
 
 # Requisito 5
 def get_tech_news(amount):
-    BASE_URL = 'https://www.tecmundo.com.br/novidades'
-    next_page = scrape_next_page_link(fetch(BASE_URL))
+    output_file = open('testing2.txt', 'a')
+    BASE_URL = 'https://www.tecmundo.com.br/novidades.html'
+    PAGE_2 = 'https://www.tecmundo.com.br/novidades?page=2.html'
     response1 = fetch(BASE_URL)
-    response2 = fetch(next_page)
+    response2 = fetch(PAGE_2)
     all_links = []
     links_page_1 = scrape_novidades(response1)
     links_page_2 = scrape_novidades(response2)
+
     for link in links_page_1:
         all_links.append(link)
-    for link in links_page_2:
-        all_links.append(link)
-    selected_links = all_links[-abs(amount):-1]
+    for link2 in links_page_2:
+        all_links.append(link2)
+    output_file.write(str(all_links))
+    output_file.write('\n')
+    selected_links = all_links[-(abs(amount+1)):-1]
+    output_file.write(str(selected_links))
     news = []
-    for link in selected_links:
-        response = scrape_noticia(fetch(link))
+    for link3 in selected_links:
+        response = scrape_noticia(fetch(link3))
         news.append(response)
+        # output_file.write(str(response + '\n'))
     create_news(news)
+    output_file.close()
     return news
