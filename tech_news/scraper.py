@@ -1,4 +1,4 @@
-# Requisito 1
+# Requisito 1 - Iniciando o Projeto Tech News
 def fetch(url):
     """Seu código deve vir aqui"""
 
