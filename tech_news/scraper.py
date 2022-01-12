@@ -51,6 +51,8 @@ def scrape_noticia(html_content):
             .strip()
             .split(" ")[0]
         )
+        if shares_count == "":
+            shares_count = 0
     except AttributeError:
         shares_count = 0
     comments_count = selector.css("#js-comments-btn ::attr(data-count)").get()
@@ -87,8 +89,8 @@ def get_tech_news(amount):
         news.extend(scrape_novidades(response))
 
     for n in news:
-        f = fetch(n)
-        new = scrape_noticia(f)
+        resp = fetch(n)
+        new = scrape_noticia(resp)
         list_of_news.append(new)
 
     create_news(list_of_news)
