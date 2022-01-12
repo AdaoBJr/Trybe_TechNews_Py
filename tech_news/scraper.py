@@ -38,8 +38,6 @@ def scrape_next_page_link(html_content):
 def generic_get_scrape(selector, css):
     result = selector.css(css).get()
 
-    print(">>>>>>>>>>>", type(result), result)
-
     return result
 
 
@@ -82,11 +80,6 @@ def scrape_noticia(html_content):
     selector = Selector(html_content)
 
     data = {}
-
-    # shares_count = generic_get_scrape(
-    #     selector, ".tec--toolbar > div:nth-child(1) ::text"
-    # ).split(' ')[0]
-    # print("<<<<<<<<<<<<<", shares_count)
 
     data["url"] = generic_get_scrape(
         selector, "head > link[rel=canonical]::attr(href)"
