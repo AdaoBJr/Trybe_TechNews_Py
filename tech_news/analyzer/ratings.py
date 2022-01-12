@@ -3,13 +3,13 @@ from tech_news.database import find_news
 
 
 def ordenacao_popularidade(news_dict):
-    title_list = []
+    keys_list = []
     # ordenação decrescente de titulos pela popularidade
-    # realizado com pesquisa em 
+    # realizado com pesquisa em
     # https://diegomariano.com/como-ordenar-um-dicionario-em-python/
     for title in sorted(news_dict, key=news_dict.get, reverse=True):
-        title_list.append(title)
-    return title_list
+        keys_list.append(title)
+    return keys_list
 
 
 # Requisito 10
@@ -32,4 +32,25 @@ def top_5_news():
 
 # Requisito 11
 def top_5_categories():
-    """Seu código deve vir aqui"""
+    categories_list = []
+    all_news = find_news()
+    for news in all_news:
+        categories_list.extend(news["categories"])
+
+    # Ordena em ordem alfabética
+    categories_list = sorted(categories_list)
+
+    # Cria um dict onde a chave é o index e o valor a quantidade de ocorrencias
+    categories_dict = {}
+    for i in range(len(categories_list)):
+        category = categories_list[i]
+        categories_dict[i] = categories_list.count(category)
+
+    # Ordena de forma decrecente
+    index_list = ordenacao_popularidade(categories_dict)
+
+    top_5_list_categories = []
+    for index in index_list[:5]:
+        top_5_list_categories.append(categories_list[index])
+
+    return top_5_list_categories
