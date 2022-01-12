@@ -128,12 +128,11 @@ def get_tech_news(amount):
         next_page_url = scrape_next_page_link(html_content)
         next_page_html_content = fetch(next_page_url)
         next_page_url_list = scrape_novidades(next_page_html_content)
-        url_list.extend(next_page_url_list)
+        url_list += next_page_url_list
 
     for i in range(amount):
-        url = url_list[i]
-        html_content = fetch(url)
-        data.append(scrape_noticia(html_content))
+        html_content = fetch(url_list[i])
+        data += [scrape_noticia(html_content)]
 
     create_news(data)
     return data
