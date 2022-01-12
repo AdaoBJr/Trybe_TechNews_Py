@@ -1,38 +1,25 @@
 import requests
-from parser import Selector
+import time
+from parsel import Selector
 
 
 # Requisito 1
 def fetch(url):
+    time.sleep(1)
     try:
         res = requests.get(url, timeout=3)
-        res.raise_for_status()
-    except requests.HTTPError:
-        return None
+        if res.status_code == 200:
+            return res.text
     except requests.Timeout:
         return None
-    finally:
-        if res.status_code != 200:
-            return None
-        else:
-            return res.text
 
 
 # Requisito 2
 def scrape_novidades(html_content):
-    url = "https://www.tecmundo.com.br/novidades"
-    res = requests.get(html_content)
-    selector = Selector(text=res.text)
-    links = []
-    news_list = selector.css("div:nth-child(1) > article > div > h3 > a")
-    try:
-        for link in news_list:
-            path = link.attrib["href"]
-            links.append(f"{url}{path}")
-    except KeyError:
-        return []
+    selector = Selector(text=html_content)
+    css_path = ".tec--list--lg h3.tec--card__title > a ::attr(href)"
 
-    return links
+    return selector.css(css_path).getall()
 
 
 # Requisito 3
