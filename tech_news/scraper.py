@@ -38,7 +38,7 @@ def scrape_next_page_link(html_content):
 def scrape_noticia(html_content):
     selector = Selector(html_content)
 
-    # Zózimo, Arlen e Mari Mohr
+    # Eu, Zózimo, Arlen e Mari Mohr
     url_select = selector.css("link[rel=canonical]::attr(href)").get()
 
     title_select = selector.css(".tec--article__header__title::text").get()

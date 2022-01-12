@@ -27,8 +27,16 @@ def search_by_date(date):
 
 
 # Requisito 8
+# https://www.delftstack.com/pt/howto/python/python-lowercase-list/
 def search_by_source(source):
-    """Seu código deve vir aqui"""
+    result = find_news()
+    data = []
+    for notice in result:
+        for i in range(len(notice['sources'])):
+            notice['sources'][i] = notice['sources'][i].lower()
+        if source.lower() in notice['sources']:
+            data.append((notice['title'], notice['url']))
+    return data
 
 
 # Requisito 9
