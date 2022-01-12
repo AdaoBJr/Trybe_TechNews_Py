@@ -36,7 +36,8 @@ def search_by_date(date):
 # Requisito 8
 def search_by_source(source):
     results = []
-    for result in search_news({"sources": {"$regex": source, "$options": "i"}}):
+    for result in search_news(
+            {"sources": {"$regex": source, "$options": "i"}}):
         results.append((result["title"], result["url"]))
     return results
 
@@ -44,6 +45,7 @@ def search_by_source(source):
 # Requisito 9
 def search_by_category(category):
     results = []
-    for result in search_news({"categories": {"$regex": category, "$options": "i"}}):
+    for result in search_news(
+            {"categories": {"$regex": category, "$options": "i"}}):
         results.append((result["title"], result["url"]))
     return results
