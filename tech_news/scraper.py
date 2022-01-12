@@ -1,5 +1,6 @@
 import requests
 import time
+from parsel import Selector
 
 
 # Requisito 1
@@ -16,7 +17,12 @@ def fetch(url):
 
 
 # Requisito 2
+# https://app.betrybe.com/course/computer-science/redes-e-raspagem-de-dados/raspagem-de-dados
+# /ab38ab4e-bdbd-4984-8987-1abf32d85f26/conteudos/b63ffce8-be02-4be1-9b88-bda695400647/recursos-obtidos-a-partir-de-outro-recurso/45e6934f-7f20-41e4-bd56-e66f348c4685?use_case=side_bar
 def scrape_novidades(html_content):
+    selector = Selector(html_content)
+    print(selector)
+    return selector.css(".tec--list--lg h3 a::attr(href)").getall()
     """Seu código deve vir aqui"""
 
 
