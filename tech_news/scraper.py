@@ -45,15 +45,13 @@ def scrape_noticia(html_content):
     except AttributeError:
         writer = ""
     try:
-        shares_count = (
+        shares_count = int(
             selector.css("#js-author-bar > nav > div:nth-child(1) ::text")
             .get()
             .strip()
             .split(" ")[0]
         )
-        if shares_count == "":
-            shares_count = 0
-    except AttributeError:
+    except (AttributeError, ValueError):
         shares_count = 0
     comments_count = selector.css("#js-comments-btn ::attr(data-count)").get()
     summary = selector.css(
@@ -69,7 +67,7 @@ def scrape_noticia(html_content):
         "title": title,
         "timestamp": timestamp,
         "writer": writer,
-        "shares_count": int(shares_count),
+        "shares_count": shares_count,
         "comments_count": int(comments_count),
         "summary": "".join(summary),
         "sources": [i.strip() for i in sources],
@@ -88,7 +86,7 @@ def get_tech_news(amount):
         response = fetch(next_page)
         news.extend(scrape_novidades(response))
 
-    for n in news:
+    for n in news[0:amount]:
         resp = fetch(n)
         new = scrape_noticia(resp)
         list_of_news.append(new)
