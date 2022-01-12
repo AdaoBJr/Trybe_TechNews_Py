@@ -19,22 +19,28 @@ def search_by_date(date):
     except ValueError:
         raise ValueError('Data inválida')
 
-    news_list = list(db.news.find({"timestamp": {"$regex": date}}))
+    find_news = db.news.find({"timestamp": {"$regex": date}})
     result_list = []
-    for i in news_list:
+    for i in find_news:
         result_list += [(i["title"], i["url"])]
     return result_list
 
 
 # Requisito 8
 def search_by_source(source):
-    news_list = db.news.find({"sources": re.compile(source, re.IGNORECASE)})
+    find_news = db.news.find({"sources": re.compile(source, re.IGNORECASE)})
     result_list = []
-    for i in news_list:
+    for i in find_news:
         result_list += [(i["title"], i["url"])]
     return result_list
 
 
 # Requisito 9
 def search_by_category(category):
-    """Seu código deve vir aqui"""
+    find_news = db.news.find({
+        "categories": re.compile(category, re.IGNORECASE)
+        })
+    result_list = []
+    for i in find_news:
+        result_list += [(i["title"], i["url"])]
+    return result_list
