@@ -2,6 +2,8 @@ import requests
 import time
 from parsel import Selector
 
+from tech_news.database import create_news
+
 
 # Requisito 1
 def fetch(url):
@@ -64,7 +66,7 @@ def format_numbers(original_numbers):
 # Requisito 4
 def scrape_noticia(html_content):
     selector = Selector(text=html_content)
-    url = selector.css("head > meta:nth-child(28) ::attr(content)").get()
+    url = selector.css("link[rel=canonical] ::attr(href)").get()
     title = selector.css("#js-article-title ::text").get()
 
     timestamp = selector.css("#js-article-date ::attr(datetime)").get()
@@ -87,22 +89,33 @@ def scrape_noticia(html_content):
             ).get()
         ).strip()
 
-    shares_count = selector.css(
-        "#js-author-bar > nav > div:nth-child(1) ::text"
-    ).re_first(r"\d")
+    try:
+        shares_count = (
+            selector.css("#js-author-bar > nav > div:nth-child(1) ::text")
+            .get()
+            .strip()
+            .split(" ")[0]
+        )
+    except AttributeError:
+        shares_count = 0
+
     shares_count = format_numbers(shares_count)
-    comments_count = selector.css("#js-comments-btn ::text").re_first(r"\d")
+
+    comments_count = selector.css("#js-comments-btn ::attr(data-count)").get()
     comments_count = format_numbers(comments_count)
+
     summary = selector.css(
         "#js-main > div > article > div.tec--article__body-grid >"
         "div.tec--article__body > p:nth-child(1) *::text"
     ).getall()
     summary = format_summary(summary)
+
     sources = selector.css(
         "#js-main > div > article >"
         "div.tec--article__body-grid > div.z--mb-16 > div ::text"
     ).getall()
     sources = format_list(sources)
+
     categories = selector.css("#js-categories ::text").getall()
     categories = format_list(categories)
 
@@ -121,4 +134,20 @@ def scrape_noticia(html_content):
 
 # Requisito 5
 def get_tech_news(amount):
-    """Seu código deve vir aqui"""
+    URL_BASE = "https://www.tecmundo.com.br/novidades"
+    html_content = fetch(URL_BASE)
+    news_url_list = scrape_novidades(html_content)
+    data = []
+
+    while len(news_url_list) < amount:
+        URL_BASE = scrape_next_page_link(html_content)
+        html_content = fetch(URL_BASE)
+        news_url_list.extend(scrape_novidades(html_content))
+
+    for i in range(amount):
+        news_url = news_url_list[i]
+        news_html_content = fetch(news_url)
+        data.append(scrape_noticia(news_html_content))
+
+    create_news(data)
+    return data
