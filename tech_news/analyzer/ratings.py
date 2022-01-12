@@ -8,7 +8,7 @@ def top_5_news():
 
     for notice in result:
         notice["soma"] = notice["shares_count"] + notice["comments_count"]
-    
+
     # Ordenação por soma - https://docs.python.org/3/howto/sorting.html
     result.sort(key=lambda x: x["soma"], reverse=True)
     top_five = result[:5]
