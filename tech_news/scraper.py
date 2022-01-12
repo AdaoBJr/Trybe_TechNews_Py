@@ -1,7 +1,6 @@
 import requests
 import time
 import parsel
-# from datetime import datetime
 
 
 # Requisito 1
@@ -37,6 +36,14 @@ def scrape_next_page_link(html_content):
     return result
 
 
+def handle_number(element):
+    if element is not None and element != 0 and element != ' ':
+        if len(element.split(' ')) > 1:
+            return int(element.split(' ')[1])
+        return int(element.split(' ')[0])
+    return 0
+
+
 # Requisito 4
 def scrape_noticia(html_content):
     """Seu código deve vir aqui"""
@@ -55,13 +62,6 @@ def scrape_noticia(html_content):
     categories = selector.css(
         '.tec--badge.tec--badge--primary ::text'
     ).getall()
-
-    def handle_number(element):
-        if element is not None and element != 0 and element != ' ':
-            if len(element.split(' ')) > 1:
-                return int(element.split(' ')[1])
-            return int(element.split(' ')[0])
-        return 0
 
     def handle_author(element):
         if element is None:
@@ -87,3 +87,8 @@ def scrape_noticia(html_content):
 # Requisito 5
 def get_tech_news(amount):
     """Seu código deve vir aqui"""
+    # html = fetch("https://www.tecmundo.com.br/novidades")
+
+    # page = scrape_novidades(html)
+    # next_page = scrape_next_page_link()
+    # while True:
