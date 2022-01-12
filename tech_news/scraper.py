@@ -40,6 +40,17 @@ def scrape_next_page_link(html_content):
 
 
 # Requisito 4
+
+def get_writer(selector):
+    writer = selector.css(
+        '.tec--article__body-grid .z--font-bold a::text').get()
+    if writer is not None:
+        writer = writer[1:-1]
+    if writer is None:
+        writer = selector.css('.tec--author__info > p::text').get()
+    return writer
+
+
 def scrape_noticia(html_content):
     selector = Selector(text=html_content)
 
@@ -68,12 +79,13 @@ def scrape_noticia(html_content):
 
     title = selector.css('#js-article-title::text').get()
 
-    writer = selector.css(
-        '.tec--article__body-grid .z--font-bold a::text').get()
-    if writer is not None:
-        writer = writer[1:-1]
-    if writer is None:
-        writer = selector.css('.tec--author__info > p::text').get()
+    writer = get_writer(selector)
+    # writer = selector.css(
+    #     '.tec--article__body-grid .z--font-bold a::text').get()
+    # if writer is not None:
+    #     writer = writer[1:-1]
+    # if writer is None:
+    #     writer = selector.css('.tec--author__info > p::text').get()
 
     raw_sources = selector.css('.z--mb-16 > div > a::text').getall()
     sources = []
