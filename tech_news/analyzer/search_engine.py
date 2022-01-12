@@ -44,4 +44,11 @@ def search_by_source(source):
 
 # Requisito 9
 def search_by_category(category):
-    """Seu código deve vir aqui"""
+    news_list = list(db.news.find({
+        "categories": re.compile(category, re.IGNORECASE)
+    }))
+    result = []
+    for notice in news_list:
+        notice_tuple = (notice["title"], notice["url"])
+        result.append(notice_tuple)
+    return result
