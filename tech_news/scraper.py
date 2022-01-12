@@ -1,6 +1,7 @@
 import requests
 import time
 from parsel import Selector
+from .database import create_news
 
 
 # Requisito 1
@@ -66,9 +67,7 @@ def get_writer(html_content):
 
 def get_shares_count(html_content):
     selector = Selector(html_content)
-    shares_text = selector.css(
-        "js-author-bar > nav > div[class=tec--tool__item] ::text"
-    ).get()
+    shares_text = selector.css(".tec--toolbar > div:nth-child(1)::text").get()
     if shares_text is not None:
         shares_value = shares_text.strip().split(" ")[0]
         return int(shares_value)
@@ -84,7 +83,7 @@ def get_comments_count(html_content):
 def get_summary(html_content):
     selector = Selector(html_content)
     summary = "".join(
-        selector.css(".p402_premium > p:nth-child(1) ::text").getall()
+        selector.css(".tec--article__body > p:nth-child(1) ::text").getall()
     )
     if summary is not None:
         return summary
@@ -109,9 +108,7 @@ def get_sources(html_content):
 def get_categories(html_content):
     selector = Selector(html_content)
     categories = selector.css("#js-categories ::text").getall()
-    categories_wo_space = list(
-        map(lambda x: x.strip(), categories)
-    )
+    categories_wo_space = list(map(lambda x: x.strip(), categories))
     return list(filter(lambda x: x != "", categories_wo_space))
 
 
@@ -134,4 +131,19 @@ def scrape_noticia(html_content):
 
 # Requisito 5
 def get_tech_news(amount):
-    """Seu código deve vir aqui"""
+    html_content = fetch("https://www.tecmundo.com.br/novidades")
+    url_list = scrape_novidades(html_content)
+    noticias_list = []
+
+    while len(url_list) < amount:
+        new_url = scrape_next_page_link(html_content)
+        new_html_content = fetch(new_url)
+        url_list += scrape_novidades(new_html_content)
+
+    for value in range(amount):
+        url_noticia = fetch(url_list[value])
+        noticia_dados = scrape_noticia(url_noticia)
+        noticias_list += [noticia_dados]
+
+    create_news(noticias_list)
+    return noticias_list
