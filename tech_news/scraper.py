@@ -29,7 +29,32 @@ def scrape_next_page_link(html_content):
 
 # Requisito 4
 def scrape_noticia(html_content):
-    """Seu código deve vir aqui"""
+    selector = Selector(html_content)
+    news = {}
+    news["url"] = selector.css("head > link[rel=amphtml]::attr(href)").get()
+    news["title"] = selector.css("h1.tec--article__header__title::text").get()
+    news["timestamp"] = selector.css(
+        "div.tec--timestamp__item > time::attr(datetime)"
+    ).get()
+    news["writer"] = selector.css(".tec--author__info__link::text").get()
+    news["shares_count"] = (
+        selector.css("div.tec--toolbar__item::text")
+        .get()
+        .strip()
+        .split(" ")[0]
+    )
+    news["comments_count"] = selector.css(
+        "#js-comments-btn::attr(data-count)"
+    ).get()
+    news["summary"] = "".join(
+        selector.css(".tec--article__body > p:nth-child(1)::text").getall()
+    )
+    news["categories"] = selector.css(
+        "a.tec--badge.tec--badge--primary::text"
+    ).getall()
+
+    print("*\n ****************** \n", news, "*********************")
+    return news
 
 
 # Requisito 5
