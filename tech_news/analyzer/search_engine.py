@@ -35,9 +35,15 @@ def search_by_date(date):
 
 # Requisito 8
 def search_by_source(source):
-    """Seu código deve vir aqui"""
+    results = []
+    for result in search_news({"sources": {"$regex": source, "$options": "i"}}):
+        results.append((result["title"], result["url"]))
+    return results
 
 
 # Requisito 9
 def search_by_category(category):
-    """Seu código deve vir aqui"""
+    results = []
+    for result in search_news({"categories": {"$regex": category, "$options": "i"}}):
+        results.append((result["title"], result["url"]))
+    return results
