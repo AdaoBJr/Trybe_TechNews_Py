@@ -1,6 +1,18 @@
+import requests
+import time
+
+
 # Requisito 1
 def fetch(url):
-    """Seu código deve vir aqui"""
+    try:
+        res = requests.get(url, timeout=3)
+        if res.status_code != 200:
+            return None
+        return res.text
+    except requests.Timeout:
+        return None
+    finally:
+        time.sleep(1)
 
 
 # Requisito 2
@@ -21,3 +33,6 @@ def scrape_noticia(html_content):
 # Requisito 5
 def get_tech_news(amount):
     """Seu código deve vir aqui"""
+
+
+print(fetch("https://www.tecmundo.com.br/novidades/"))
