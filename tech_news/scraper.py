@@ -34,19 +34,36 @@ def scrape_next_page_link(html_content):
     return result
 
 
-def generic_get_scrape(selector, string):
-    result = selector.css(string).get()
+# Requisito 4
+def generic_get_scrape(selector, css):
+    result = selector.css(css).get()
 
     print(">>>>>>>>>>>", type(result), result)
 
-    if result:
-        return result.strip()
+    return result
+
+
+def writer_scrape(selector, css1, css2):
+    result1 = selector.css(css1).get()
+    result2 = selector.css(css2).get()
+
+    if result1 is None:
+        return result2
     else:
-        return '0'
+        return result1
 
 
-def generic_getall_scrape(selector, string):
-    results = selector.css(string).getall()
+def number_scrape(selector, css):
+    result = selector.css(css).re_first(r"\d")
+
+    if not result:
+        return 0
+    else:
+        return int(result)
+
+
+def generic_getall_scrape(selector, css):
+    results = selector.css(css).getall()
 
     a = []
     for result in results:
@@ -55,26 +72,22 @@ def generic_getall_scrape(selector, string):
     return a
 
 
-def summary_scrape(selector, string):
-    results = selector.css(string).getall()
+def summary_scrape(selector, css):
+    results = selector.css(css).getall()
 
     return results
 
 
-# Requisito 4
 def scrape_noticia(html_content):
     selector = Selector(html_content)
 
     data = {}
 
-    shares_count = generic_get_scrape(
-        selector, ".tec--toolbar > div:nth-child(1) ::text"
-    ).split(' ')[0]
-    print("<<<<<<<<<<<<<", shares_count)
+    # shares_count = generic_get_scrape(
+    #     selector, ".tec--toolbar > div:nth-child(1) ::text"
+    # ).split(' ')[0]
+    # print("<<<<<<<<<<<<<", shares_count)
 
-    data["shares_count"] = int(generic_get_scrape(
-        selector, ".tec--toolbar > div:nth-child(1) ::text"
-    ).split(' ')[0])
     data["url"] = generic_get_scrape(
         selector, "head > link[rel=canonical]::attr(href)"
     )
@@ -84,21 +97,26 @@ def scrape_noticia(html_content):
     data["timestamp"] = generic_get_scrape(
         selector, ".tec--timestamp__item > time ::attr(datetime)"
     )
-    data["comments_count"] = int(generic_get_scrape(
-        selector, "#js-comments-btn ::attr(data-count)"
-    ))
-    data["writer"] = generic_get_scrape(
-        selector, ".tec--author__info > p > a ::text"
+    data["writer"] = writer_scrape(
+        selector,
+        ".tec--author__info > p.z--m-none.z--truncate.z--font-bold *::text",
+        ".tec--timestamp.tec--timestamp--lg > div > a ::text"
     ).strip()
-    data["sources"] = generic_getall_scrape(
-        selector, ".z--mb-16.z--px-16 > div > a ::text"
+    data["shares_count"] = number_scrape(
+        selector, "#js-author-bar > nav > div:nth-child(1) ::text"
     )
-    data["categories"] = generic_getall_scrape(
-        selector, "#js-categories > a ::text"
+    data["comments_count"] = number_scrape(
+        selector, "#js-comments-btn ::attr(data-count)"
     )
     data["summary"] = "".join(summary_scrape(
         selector, ".tec--article__body > p:nth-child(1) ::text"
     ))
+    data["sources"] = generic_getall_scrape(
+        selector, ".z--mb-16 > div > a ::text"
+    )
+    data["categories"] = generic_getall_scrape(
+        selector, "#js-categories > a ::text"
+    )
 
     return data
 
