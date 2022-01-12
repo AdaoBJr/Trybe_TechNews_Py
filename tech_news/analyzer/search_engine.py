@@ -1,6 +1,16 @@
+from tech_news.database import search_news
+
+
 # Requisito 6
 def search_by_title(title):
-    """Seu código deve vir aqui"""
+    title_query = title.capitalize()
+    query = {"title": {"$eq": title_query}}
+    news_list = []
+    search_list = search_news(query)
+    for news in search_list:
+        news_list.append((news['title'], news['url']))
+
+    return news_list
 
 
 # Requisito 7
