@@ -1,8 +1,8 @@
-from typing import Type
 import requests
 import time
-import datetime
 from parsel import Selector
+from tech_news.database import create_news
+
 
 # Requisito 1
 def fetch(url):
@@ -26,10 +26,11 @@ def scrape_novidades(html_content):
 # Requisito 3
 def scrape_next_page_link(html_content):
     selector = Selector(text=html_content)
-    css_selector = '#js-main > div > div > div.z--col.z--w-2-3 > div.tec--list'
-    + '.tec--list--lg > a::attr(href)'
-    next_page_link = selector.css(css_selector).get()
-    return next_page_link
+    next_page_link = selector.css(
+        '#js-main > div > div > div.z--col.z--w-2-3 > '
+        'div.tec--list.tec--list--lg > a ::attr(href)'
+    ).get()
+    return None if not next_page_link else next_page_link
 
 
 # Requisito 4
@@ -80,7 +81,7 @@ def get_sources(selector):
 def get_summary(selector):
     return ''.join(
         selector.css(
-            '.tec--article__body p:nth-child(1) *::text'
+            '.tec--article__body > p:nth-child(1) *::text'
         ).getall()
     )
 
@@ -102,7 +103,8 @@ def get_shares(selector):
 
 
 def get_writter(selector):
-    # Portella foi uma boa ajuda <3 https://github.com/tryber/sd-010-b-tech-news/blob/ebc0371950681c1b1b1f49a27e10131dd49b847c/tech_news/Tecmundo_scraper.py#L25
+    # Portella foi uma boa ajuda <3
+    # https://github.com/tryber/sd-010-b-tech-news/blob/ebc0371950681c1b1b1f49a27e10131dd49b847c/tech_news/Tecmundo_scraper.py#L25
     query_selectors = [
         ".tec--author__info__link::text",
         ".tec--timestamp a::text",
@@ -150,4 +152,21 @@ def scrape_noticia(html_content):
 
 # Requisito 5
 def get_tech_news(amount):
-    """Seu código deve vir aqui"""
+    url = 'https://www.tecmundo.com.br/novidades'
+    html_content = fetch(url)
+    news_urls = scrape_novidades(html_content)
+    news_list = []
+
+    while len(news_urls) < amount:
+        url = scrape_next_page_link(html_content)
+        html_content = fetch(url)
+        news_urls.extend(scrape_novidades(html_content))
+
+    for index in range(amount):
+        notice_url = news_urls[index]
+        notice_page = fetch(notice_url)
+        notice_info = scrape_noticia(notice_page)
+        news_list.append(notice_info)
+
+    create_news(news_list)
+    return news_list
