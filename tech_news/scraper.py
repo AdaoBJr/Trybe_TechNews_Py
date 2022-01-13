@@ -1,5 +1,6 @@
 import requests
 import time
+import parsel
 
 
 # Requisito 1
@@ -7,6 +8,7 @@ def fetch(url):
     time.sleep(1)
     try:
         response = requests.get(url, timeout=3)
+        # https://docs.python-requests.org/en/latest/user/advanced/#timeouts
         response.raise_for_status()
     except (requests.HTTPError, requests.Timeout):
         return None
@@ -14,30 +16,14 @@ def fetch(url):
         return response.text
 
 
-print(fetch("https://www.tecmundo.com.br/novidades"))
-
-
 # Requisito 2
 def scrape_novidades(html_content):
-    """Seu código deve vir aqui
+    selector = parsel.Selector(html_content)
+    novidades = selector.css(
+        ".tec--list__item .tec--card__title__link::attr(href)"
+    ).getall()
 
-    selector = parsel.Selector(param)
-    quotes = []
-    for quotes in selector.css('div.quote')
-    text = quote.css('div.txt').get()
-    author = quote.css('div.author').get()
-    tags = quote.css('div.tags').getall()
-    quotes.append({
-        "text": text
-        "author": author
-        "tags": tags
-    })
-
-    return quotes
-
-
-    """
-    pass
+    return novidades
 
 
 # Requisito 3
