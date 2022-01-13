@@ -68,8 +68,8 @@ def scrape_noticia(html_content):
     news = selector
 
     source1 = news.css(".z--mb-16.z--px-16 .tec--badge::text").getall()
-    source2 = news.css("div.tec--article__body-grid > div.z--mb-16 > div > a::text").getall()
-    # sources = [elem.strip() for elem in source2]
+    source2 = news.css("div.tec--article__body-grid > \
+                        div.z--mb-16 > div > a::text").getall()
 
     writer1 = news.css(".tec--author__info__link::text").get()
     writer2 = news.css(".tec--timestamp__item.z--font-bold a::text").get()
