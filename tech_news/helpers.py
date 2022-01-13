@@ -55,23 +55,18 @@ def getSharedCount(html_content):
 
 def getCommentCount(html_content):
     selector = Selector(text=html_content)
-    comments_count = selector.css("#js-comments-btn::text").get()
-    if comments_count == "":
-        comments_count = 0
-    elif comments_count is not None:
-        try:
-            comments_count = int(comments_count.split()[0])
-        except IndexError:
-            comments_count = 0
+    comments_count = int(
+        selector.css("#js-comments-btn::attr(data-count)").get()
+    )
     return comments_count
 
 
 def getSummary(html_content):
     selector = Selector(text=html_content)
     getSummaryCss = selector.css(
-        ".tec--article__body p:nth-child(1) *::text"
+        ".tec--article__body > p:nth-child(1) *::text"
     ).getall()
-    summary = "".join(getSummaryCss).strip("\/n")
+    summary = "".join(getSummaryCss).strip(r"\n")
     return summary
 
 
