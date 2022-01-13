@@ -31,7 +31,7 @@ def find_news():
     return list(db.news.find({}, {"_id": False}))
 
 
-def aggregation():
+def aggregation_news():
     return list(
         db.news.aggregate(
             [
@@ -46,6 +46,19 @@ def aggregation():
                     }
                 },
                 {"$sort": {"total": -1, "title": 1}},
+                {"$limit": 5},
+            ]
+        )
+    )
+
+
+def aggregation_categories():
+    return list(
+        db.news.aggregate(
+            [
+                {"$unwind": "$categories"},
+                {"$group": {"_id": "$categories", "count": {"$sum": 1}}},
+                {"$sort": {"count": -1, "_id": 1}},
                 {"$limit": 5},
             ]
         )

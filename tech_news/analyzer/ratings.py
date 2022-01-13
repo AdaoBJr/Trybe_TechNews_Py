@@ -1,10 +1,11 @@
-from tech_news.database import aggregation
+from tech_news.database import aggregation_news
+from tech_news.database import aggregation_categories
 
 
 # Requisito 10
 def top_5_news():
     """Seu código deve vir aqui"""
-    news = aggregation()
+    news = aggregation_news()
     result = []
     for n in news:
         result.append((n["title"], n["url"]))
@@ -14,4 +15,8 @@ def top_5_news():
 # Requisito 11
 def top_5_categories():
     """Seu código deve vir aqui"""
-    return print("Top 5 Categorias")
+    categories = aggregation_categories()
+    result = []
+    for c in categories:
+        result.append(c["_id"])
+    return result
