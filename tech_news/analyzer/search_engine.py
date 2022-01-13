@@ -23,7 +23,6 @@ def search_by_date(date):
         for news in all_news:
             if news["timestamp"][0:10] == date:
                 result.append((news["title"], news["url"]))
-        print(result)
         return result
     except ValueError:
         raise ValueError("Data inválida")
@@ -31,7 +30,13 @@ def search_by_date(date):
 
 # Requisito 8
 def search_by_source(source):
-    """Seu código deve vir aqui"""
+    all_news = find_news()
+    result = []
+    for news in all_news:
+        for s in news["sources"]:
+            if source.lower() == s.lower():
+                result.append((news["title"], news["url"]))
+    return result
 
 
 # Requisito 9
