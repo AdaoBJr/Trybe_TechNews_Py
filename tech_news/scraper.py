@@ -8,7 +8,7 @@ def fetch(url):
         time.sleep(1)
         response = requests.get(url, timeout=3)
         response.raise_for_status()
-    except requests.exceptions.HTTPError:
+    except requests.exceptions.HTTPError:  # source: shorturl.at/lsEX6
         return None
     except requests.exceptions.Timeout:
         return None
