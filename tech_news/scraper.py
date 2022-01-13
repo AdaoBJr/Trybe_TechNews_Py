@@ -84,11 +84,11 @@ def get_tech_news(amount):
     pass
 
 
-if __name__ == "__main__":
-    print(
-        scrape_noticia(
-            fetch(
-                "https://www.tecmundo.com.br/mercado/231813-fim-delivery-do-uber-eats-ifood-tornou-monopolista-brasil.htm"
-            )
-        )
-    )
+# if __name__ == "__main__":
+#     print(
+#         scrape_noticia(
+#             fetch(
+#                 "https://www.tecmundo.com.br/mercado/231813-fim-delivery-do-uber-eats-ifood-tornou-monopolista-brasil.htm"
+#             )
+#         )
+#     )
