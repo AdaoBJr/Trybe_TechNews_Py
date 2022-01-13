@@ -7,7 +7,7 @@ import time
 def fetch(url):
     time.sleep(1)
     try:
-        response = requests.get(url, timeout=5)
+        response = requests.get(url, timeout=3)
         # https://docs.python-requests.org/en/latest/user/advanced/#timeouts
         response.raise_for_status()
     except (requests.HTTPError, requests.Timeout):
@@ -41,7 +41,6 @@ def scrape_noticia(html_content):
     url = selector.css("link[rel=canonical]::attr(href)").get()
     title = selector.css("#js-article-title ::text").get()
     timestamp = selector.css("time::attr(datetime)").get()
-
     writer = selector.css(".tec--author__info__link ::text").get() or ""
 
     try:
@@ -60,8 +59,6 @@ def scrape_noticia(html_content):
 
     sources = selector.css(".z--mb-16 .tec--badge::text").getall()
     categories = selector.css(".tec--badge--primary::text").getall()
-
-    # return categories
 
     news_dict = {
         "url": url,
