@@ -1,4 +1,7 @@
 import re
+# Source https://qastack.com.br/programming/4289331/how-to-extract-numbers-
+# from-a-string-in-python
+# URL LINK Jonathan Souza
 
 
 def get_url(selector):
@@ -39,15 +42,16 @@ def get_comments_count(selector):
 
 
 def get_summary(selector):
-    get = selector.css(
+    summary = selector.css(
         "div.tec--article__body p:nth-child(1) *::text").getall()
-    summary = ''.join(get)
-    return summary
+    return ''.join(summary)
 
 
 def get_sources(selector):
-    pass
+    sources = selector.css("div.z--mb-16 div a::text").getall()
+    return [i.strip() for i in sources]
 
 
 def get_categories(selector):
-    pass
+    categories = selector.css("div#js-categories a::text").getall()
+    return [i.strip() for i in categories]
