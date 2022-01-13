@@ -1,3 +1,5 @@
+import re
+
 
 def get_url(selector):
     return selector.css("link[rel=canonical]::attr(href)").get()
@@ -23,15 +25,24 @@ def get_writer(selector):
 
 
 def get_shares_count(selector):
-    pass
+    shares_count = selector.css("div.tec--toolbar__item::text").get()
+    if shares_count:
+        shares_count = int(re.findall(r'\d+', shares_count)[0])
+    else:
+        shares_count = 0
+    return shares_count
 
 
 def get_comments_count(selector):
-    pass
+    return selector.css(
+        "button#js-comments-btn::attr(data-count)").get()
 
 
 def get_summary(selector):
-    pass
+    get = selector.css(
+        "div.tec--article__body p:nth-child(1) *::text").getall()
+    summary = ''.join(get)
+    return summary
 
 
 def get_sources(selector):
