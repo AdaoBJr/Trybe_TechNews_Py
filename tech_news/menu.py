@@ -4,6 +4,8 @@ from tech_news.analyzer.search_engine import search_by_title
 from tech_news.analyzer.search_engine import search_by_date
 from tech_news.analyzer.search_engine import search_by_source
 from tech_news.analyzer.search_engine import search_by_category
+from tech_news.analyzer.ratings import top_5_news
+from tech_news.analyzer.ratings import top_5_categories
 
 
 # Requisito 12
@@ -20,6 +22,8 @@ def analyzer_menu():
         "6 - Listar top 5 categorias;\n "
         "7 - Sair.\n "
     )
+    if options == "":
+        options = 8
     options_menu_p1(int(options))
     options_menu_p2(int(options))
 
@@ -44,9 +48,9 @@ def options_menu_p2(option):
         category = input("Digite a categoria:")
         return print(search_by_category(category))
     if option == 5:
-        return print("Top 5 Noticias:")
+        return print(top_5_news())
     if option == 6:
-        return print("Top 5 Categorias:")
+        return print(top_5_categories())
     if option == 7:
         print("Encerrando script")
     if option >= 8:
