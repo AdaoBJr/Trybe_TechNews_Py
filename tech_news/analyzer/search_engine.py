@@ -6,7 +6,7 @@ import datetime
 def search_by_title(title):
     """Seu código deve vir aqui"""
     case_sensitive_title = title.capitalize()
-    news = search_news({"title": case_sensitive_title})
+    news = search_news({"title": {"$regex": case_sensitive_title}})
     result = []
     for n in news:
         result.append((n["title"], n["url"]))
