@@ -41,11 +41,15 @@ def scrape_noticia(html_content):
     url = selector.css("link[rel=canonical]::attr(href)").get()
     title = selector.css("#js-article-title ::text").get()
     timestamp = selector.css("time::attr(datetime)").get()
-    writer = selector.css(".tec--author__info__link ::text").get() or ""
+    writer = selector.css(".z--font-bold *::text").get() or ""
 
     try:
-        shares = selector.css(".tec--toolbar__item ::text").get()
-        shares_count = shares.strip().split(" ")[0]
+        shares_count = (
+            selector.css(".tec--toolbar__item::text")
+            .get()
+            .strip()
+            .split(" ")[0]
+        )
     except AttributeError:
         shares_count = 0
 
@@ -57,8 +61,8 @@ def scrape_noticia(html_content):
         selector.css(".tec--article__body > p:nth-child(1) ::text").getall()
     )
 
-    sources = selector.css(".z--mb-16 .tec--badge::text").getall()
-    categories = selector.css(".tec--badge--primary::text").getall()
+    sources = selector.css(".z--mb-16 .tec--badge ::text").getall()
+    categories = selector.css(".tec--badge--primary ::text").getall()
 
     news_dict = {
         "url": url,
