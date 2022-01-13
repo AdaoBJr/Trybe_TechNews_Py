@@ -48,12 +48,12 @@ def scrape_noticia(html_content):
             .lstrip()
             .split()[:2][0]
         )
-        # Referência:
-        # https://www.geeksforgeeks.org/python-string-join-method/
 
     except AttributeError:
         shares_count = 0
 
+    # Referência:
+    # https://www.geeksforgeeks.org/python-string-join-method/
     summary = "".join(
         selector.css(".tec--article__body > p:nth-child(1) ::text").getall()
     )
