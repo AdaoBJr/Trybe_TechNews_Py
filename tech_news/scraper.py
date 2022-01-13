@@ -1,6 +1,18 @@
+import requests
+import time
 # Requisito 1 - Iniciando o Projeto Tech News
+
+
 def fetch(url):
-    """Seu código deve vir aqui"""
+    try:
+        res = requests.get(url, timeout=3)
+        time.sleep(1)
+    except requests.Timeout:
+        return None
+    if res.status_code == 200:
+        return res.text
+    else:
+        return None
 
 
 # Requisito 2
