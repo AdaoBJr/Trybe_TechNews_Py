@@ -13,7 +13,13 @@ def get_timestamps(selector):
 
 
 def get_writer(selector):
-    pass
+    writer = selector.css("a.tec--author__info__link::text").get()
+    if writer is None:
+        writer = selector.css(
+            "div.tec--timestamp div:nth-child(2) a::text").get()
+        if writer is None:
+            writer = selector.css("p.z--m-none::text").get()
+    return writer
 
 
 def get_shares_count(selector):
