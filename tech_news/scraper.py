@@ -1,7 +1,17 @@
+import requests
+import time
+
 # Requisito 1
 def fetch(url):
-    """Seu código deve vir aqui"""
-
+    try:
+        res = requests.get(url, timeout=3)
+        time.sleep(1)
+        if res.status_code != 200:
+            return None
+    except requests.ReadTimeout:
+        return None
+    else:
+        return res.text
 
 # Requisito 2
 def scrape_novidades(html_content):
