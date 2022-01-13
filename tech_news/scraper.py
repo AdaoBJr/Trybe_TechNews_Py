@@ -6,9 +6,9 @@ import time
 def fetch(url):
     time.sleep(1)
     try:
-        response = requests.get(url)
+        response = requests.get(url, timeout=3)
         response.raise_for_status()
-    except requests.HTTPError:
+    except (requests.HTTPError, requests.Timeout):
         return None
     else:
         return response.text
