@@ -1,6 +1,7 @@
 import requests
 import time
 import parsel
+from tech_news.database import create_news
 
 
 # Requisito 1
@@ -47,7 +48,7 @@ def handle_number(element):
 # Requisito 4
 def scrape_noticia(html_content):
     """Seu código deve vir aqui"""
-    selector = parsel.Selector(text=html_content)
+    selector = parsel.Selector(html_content)
 
     share = selector.css('.tec--toolbar__item ::text').get() or 0
     comments = selector.css('#js-comments-btn ::attr(data-count)').get()
@@ -87,8 +88,19 @@ def scrape_noticia(html_content):
 # Requisito 5
 def get_tech_news(amount):
     """Seu código deve vir aqui"""
-    # html = fetch("https://www.tecmundo.com.br/novidades")
+    html = fetch("https://www.tecmundo.com.br/novidades")
+    news = scrape_novidades(html)
+    list_of_news = []
+    while len(news) < amount:
+        next_page = scrape_next_page_link(html)
+        html = fetch(next_page)
+        page_content = scrape_novidades(html)
+        news.extend(page_content)
 
-    # page = scrape_novidades(html)
-    # next_page = scrape_next_page_link()
-    # while True:
+    for n in news[0:amount]:
+        new_html = fetch(n)
+        new = scrape_noticia(new_html)
+        list_of_news.append(new)
+
+    create_news(list_of_news)
+    return list_of_news
