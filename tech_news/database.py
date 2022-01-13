@@ -31,6 +31,27 @@ def find_news():
     return list(db.news.find({}, {"_id": False}))
 
 
+def aggregation():
+    return list(
+        db.news.aggregate(
+            [
+                {
+                    "$project": {
+                        "_id": 0,
+                        "url": 1,
+                        "title": 1,
+                        "total": {
+                            "$add": ["$shares_count", "$comments_count"]
+                        },
+                    }
+                },
+                {"$sort": {"total": -1, "title": 1}},
+                {"$limit": 5},
+            ]
+        )
+    )
+
+
 def search_news(query):
     return list(db.news.find(query))
 

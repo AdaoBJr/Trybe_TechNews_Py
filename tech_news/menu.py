@@ -26,6 +26,8 @@ def analyzer_menu():
         options = 8
     options_menu_p1(int(options))
     options_menu_p2(int(options))
+    if int(options) >= 8:
+        print("Opção inválida", file=sys.stderr)
 
 
 def options_menu_p1(option):
@@ -53,5 +55,3 @@ def options_menu_p2(option):
         return print(top_5_categories())
     if option == 7:
         print("Encerrando script")
-    if option >= 8:
-        print("Opção inválida", file=sys.stderr)
