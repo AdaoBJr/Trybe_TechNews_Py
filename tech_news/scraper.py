@@ -2,6 +2,7 @@ from parsel import Selector
 import requests
 import time
 from tech_news.helpers import dictTechNews
+from tech_news.database import create_news
 
 # source
 # https://newbedev.com/try-except-when-using-python-requests-module
@@ -9,6 +10,7 @@ from tech_news.helpers import dictTechNews
 # https://www.w3schools.com/python/ref_string_strip.asp
 # https://parsel.readthedocs.io/en/latest/usage.html
 # https://stackoverflow.com/questions/5453422/get-text-in-xpath
+# https://appdividend.com/2019/01/04/python-list-extend-example-tutorial/
 
 
 # Requisito 1
@@ -48,5 +50,20 @@ def scrape_noticia(html_content):
 
 # Requisito 5
 def get_tech_news(amount):
-    """Seu código deve vir aqui"""
+    html_content = fetch("https://www.tecmundo.com.br/novidades")
+    news_link = scrape_novidades(html_content)
 
+    if len(news_link) < amount:
+        news_next_page = scrape_next_page_link(html_content)
+        next_html_content = fetch(news_next_page)
+        next_news = scrape_novidades(next_html_content)
+        news_link.extend(next_news)
+
+    all_news = []
+    for news in news_link:
+        single_fetch_news = fetch(news)
+        news_info = scrape_noticia(single_fetch_news)
+        if len(all_news) != amount:
+            all_news.append(news_info)
+    create_news(all_news)
+    return all_news
