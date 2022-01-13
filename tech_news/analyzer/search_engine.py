@@ -35,9 +35,14 @@ def search_by_date(date):
 
 # Requisito 8
 def search_by_source(source):
-    """Seu código deve vir aqui"""
+    list_news = db.news.find({"sources": re.compile(source, re.IGNORECASE)})
+
+    list_title_find = []
+    for title_news in list_news:
+        list_title_find.append((title_news["title"], title_news["url"]))
+    return list_title_find
 
 
 # Requisito 9
 def search_by_category(category):
-    """Seu código deve vir aqui"""
+    
