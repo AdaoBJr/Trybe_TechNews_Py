@@ -45,4 +45,11 @@ def search_by_source(source):
 
 # Requisito 9
 def search_by_category(category):
-    pass
+    list_news = db.news.find(
+        {"categories": re.compile(category, re.IGNORECASE)}
+    )
+
+    list_title_find = []
+    for title_news in list_news:
+        list_title_find.append((title_news["title"], title_news["url"]))
+    return list_title_find
