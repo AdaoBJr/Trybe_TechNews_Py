@@ -18,11 +18,11 @@ def search_by_date(date):
         datetime.strptime(date, "%Y-%m-%d")
         find_date = list(db.news.find({"timestamp": {"$regex": date}}))
 
-        news_date = []
+        news_list = []
         for notice in find_date:
-            news_date += [(notice["title"], notice["url"])]
+            news_list += [(notice["title"], notice["url"])]
 
-        return news_date
+        return news_list
 
     except ValueError:
         raise ValueError("Data inválida")
@@ -30,7 +30,11 @@ def search_by_date(date):
 
 # Requisito 8
 def search_by_source(source):
-    """Seu código deve vir aqui"""
+    news = db.news.find({"sources": re.compile(source, re.IGNORECASE)})
+    news_list = []
+    for notice in news:
+        news_list += [(notice["title"], notice["url"])]
+    return news_list
 
 
 # Requisito 9
