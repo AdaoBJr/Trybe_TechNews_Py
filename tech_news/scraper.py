@@ -4,6 +4,8 @@ import time
 from tech_news.helpers import dictTechNews
 from tech_news.database import create_news
 
+# projeto feito em parcereia com Wellington Passo
+
 # source
 # https://newbedev.com/try-except-when-using-python-requests-module
 # https://www.youtube.com/watch?v=vmRfO2uULfw&ab_channel=pythonbrasil
