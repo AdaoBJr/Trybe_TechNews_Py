@@ -35,9 +35,6 @@ def check_date_format(date):
         raise ValueError("Data inválida")
 
 
-# print(check_date_format("2020-11-23"))
-
-
 # Requisito 7
 def search_by_date(date):
     valid_format = check_date_format(date)
@@ -60,7 +57,18 @@ def search_by_date(date):
 
 # Requisito 8
 def search_by_source(source):
-    """Seu código deve vir aqui"""
+    news_found = search_news({"sources": {'$regex': source, '$options': 'i'}})
+
+    zero = 0
+    if len(news_found) is not zero:
+        for tuple in news_found:
+            title_and_url = (
+                tuple["title"],
+                tuple["url"],
+            )
+            return [title_and_url]
+    else:
+        return []
 
 
 # Requisito 9
