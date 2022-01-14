@@ -74,7 +74,9 @@ def scrape_shares(selector):
 
 def scrape_comments(selector):
     comments = selector.css('#js-comments-btn::attr(data-count)').get()
-    return int(comments)
+    if comments:
+        return int(comments)
+    return None
 
 
 def scrape_summary(selector):
@@ -116,11 +118,13 @@ def get_tech_news(amount):
     """Seu código deve vir aqui"""
     search_results = []
     html = fetch('https://www.tecmundo.com.br/novidades')
-    while len(search_results) <= amount:
+    next_link = scrape_next_page_link(html)
+    while len(search_results) <= amount and next_link:
         news_link = scrape_novidades(html)
         for news in news_link:
             if len(search_results) <= amount:
-                search_results.append(scrape_noticia(news))
+                newsHtml = fetch(news)
+                search_results.append(scrape_noticia(newsHtml))
         next_link = scrape_next_page_link(html)
         html = fetch(next_link)
     db_connection.create_news(search_results)
