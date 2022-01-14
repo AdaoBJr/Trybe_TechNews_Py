@@ -2,6 +2,7 @@ import requests
 import time
 from parsel import Selector
 import re
+from tech_news.database import create_news
 
 
 # Requisito 1
@@ -63,14 +64,15 @@ def writer(writer):
 
 
 def shares_count(count):
-    shares = count.css("nav tec--toolbar div:first-child::text").get()
+    shares = count.css(".tec--toolbar div:first-child::text").get()
     if shares is None or not ("Compartilharam") in shares:
         return 0
-    return int(count[re.findall(shares)])  # r'^# numbers:\s+(.*)$'
+    count_share = re.findall(r"\s(\d*)\s(...*)", shares)
+    return int(count_share[0][0])
 
 
 def comments_count(count):
-    coment = count.css("button js-comments-btn::attr(data-count)").get()
+    coment = count.css("#js-comments-btn::attr(data-count)").get()
     if coment is None:
         return 0
     return int(coment)
@@ -78,7 +80,7 @@ def comments_count(count):
 
 def summary(sumary):
     return ''.join(
-        sumary.css(".tec--article__body p:nth-child(1) *::text").getall()
+        sumary.css(".tec--article__body > p:nth-child(1) *::text").getall()
     )
 
 
@@ -111,7 +113,19 @@ def scrape_noticia(html_content):
 
 # Requisito 5
 def get_tech_news(amount):
-    """Seu código deve vir aqui"""
+    notices = []
+    res = fetch("https://www.tecmundo.com.br/novidades")
+    notices.extend(scrape_novidades(res))
+    while len(notices) <= amount:
+        # page_link =
+        next_page = fetch(scrape_next_page_link(res))
+        notices.extend(scrape_novidades(next_page))
+    response = []
+    for notice in notices[:amount]:
+        pages = fetch(notice)
+        response.append(scrape_noticia(pages))
+    create_news(response)
+    return response
 
 
 # print(fetch("https://www.tecmundo.com.br/novidades/"))
