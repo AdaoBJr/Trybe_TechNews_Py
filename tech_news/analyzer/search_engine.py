@@ -5,7 +5,8 @@ from tech_news.database import db
 # Requisito 6
 def search_by_title(title):
     """Seu código deve vir aqui"""
-    news = db_connection.search_news({"title": {"$regex": title, '$options': 'i'}})
+    query = {"title": {"$regex": title, '$options': 'i'}}
+    news = db_connection.search_news(query)
     filtered_news = []
     if len(news):
         for data in news:
