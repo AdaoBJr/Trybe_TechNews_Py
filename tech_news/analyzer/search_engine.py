@@ -4,6 +4,7 @@ from datetime import datetime
 # https://www.w3schools.com/python/python_mongodb_query.asp
 # https://www.kite.com/python/answers/how-to-find-the-values-of-a-key-in-a-list-of-dictionaries-in-python#:~:
 # text=Use%20a%20list%20comprehension%20to,the%20list%20of%20dictionaries%20list_of_dicts%20.
+
 # https://www.thecodebuzz.com/mongodb-query-case-sensitive-case-insensitive/
 
 
