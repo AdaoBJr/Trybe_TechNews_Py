@@ -73,4 +73,16 @@ def search_by_source(source):
 
 # Requisito 9
 def search_by_category(category):
-    """Seu código deve vir aqui"""
+    news_found = search_news({"categories":
+                             {'$regex': category, '$options': 'i'}})
+
+    zero = 0
+    if len(news_found) is not zero:
+        for tuple in news_found:
+            title_and_url = (
+                tuple["title"],
+                tuple["url"],
+            )
+            return [title_and_url]
+    else:
+        return []
