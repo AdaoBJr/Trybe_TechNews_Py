@@ -55,7 +55,11 @@ def get_shares_count(selector):
 
 def get_comments_count(selector):
     comments_count = selector.css("button.tec--btn::attr(data-count)").get()
-    return int(comments_count)
+
+    if comments_count is not None:
+        return int(comments_count)
+
+    return 0
 
 
 def get_summary(selector):
