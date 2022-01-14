@@ -69,4 +69,6 @@ def scrape_noticia(html_content):
 
 # Requisito 5
 def get_tech_news(amount):
-    """Seu código deve vir aqui"""
+    site = fetch("https://www.tecmundo.com.br/novidades")
+    novidades = scrape_novidades(site)
+    return novidades[-6:]
