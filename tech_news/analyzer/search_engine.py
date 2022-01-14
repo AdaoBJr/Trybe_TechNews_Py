@@ -1,4 +1,5 @@
 from tech_news.database import search_news
+from datetime import datetime
 
 # https://www.w3schools.com/python/python_mongodb_query.asp
 # https://www.kite.com/python/answers/how-to-find-the-values-of-a-key-in-a-list-of-dictionaries-in-python#:~:
@@ -23,12 +24,38 @@ def search_by_title(title):
     """Seu código deve vir aqui"""
 
 
-print(search_by_title("VAMOSCOMTUDO"))
+# https://stackoverflow.com/questions/16870663/how-do-i-validate-a-date-string-format-in-python
+# https://www.geeksforgeeks.org/python-validate-string-date-format/
+
+def check_date_format(date):
+    format = "%Y-%m-%d"
+    try:
+        return bool(datetime.strptime(date, format))
+    except ValueError:
+        raise ValueError("Data inválida")
+
+
+# print(check_date_format("2020-11-23"))
 
 
 # Requisito 7
 def search_by_date(date):
-    """Seu código deve vir aqui"""
+    valid_format = check_date_format(date)
+    news_found = search_news({"timestamp": {'$regex': date}})
+    zero = 0
+    print(len(news_found))
+
+    if valid_format:
+        for tuple in news_found:
+            title_and_url = (
+                tuple["title"],
+                tuple["url"],
+            )
+            return [title_and_url]
+    if len(news_found) is zero:
+        return []
+    else:
+        return valid_format
 
 
 # Requisito 8
