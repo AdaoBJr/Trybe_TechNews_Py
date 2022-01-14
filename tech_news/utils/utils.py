@@ -64,7 +64,7 @@ def get_comments_count(selector):
 
 def get_summary(selector):
     summary = selector.css(
-        "div.tec--article__body " "p:nth-child(1) *::text"
+        "div.tec--article__body > p:nth-child(1) *::text"
     ).getall()
     return "".join(summary)
 
@@ -79,3 +79,10 @@ def get_categories(selector):
     categories = selector.css("div#js-categories > a::text").getall()
 
     return [category.strip() for category in categories]
+
+
+def flat_map(listA, listB):
+    for el in listB:
+        listA.append(el)
+
+    return listA

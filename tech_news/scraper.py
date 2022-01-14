@@ -11,7 +11,8 @@ from tech_news.utils.utils import (
     get_timestamp,
     get_title,
     get_url,
-    get_writer
+    get_writer,
+    flat_map
 )
 
 
@@ -96,7 +97,7 @@ def get_tech_news(amount):
         fetch_result = fetch(url)
         news_list = scrape_novidades(fetch_result)
 
-        all_news.append(news_list)
+        all_news = flat_map(all_news, news_list)
 
     latest_news = all_news[:amount]
 
