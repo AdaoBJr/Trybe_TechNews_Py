@@ -16,18 +16,6 @@ selector_sources = ".z--mb-16 div a::text"
 selector_categories = "#js-categories a::text"
 
 
-def rm_spaces_in_string(string):
-    if(string is not None):
-        return string[1:-1]
-
-
-def rm_spaces_in_array(array):
-    result = []
-    for string in array:
-        result.append(string[1:-1])
-    return result
-
-
 # Requisito 1
 def fetch(url):
     time.sleep(1)
@@ -44,9 +32,11 @@ def fetch(url):
 # Requisito 2
 def scrape_novidades(html_content):
     selector = Selector(text=html_content)
-    notice = selector.css("div.tec--list")
-    links = notice.css("figure a.tec--card__thumb__link::attr(href)").getall()
-    return links
+    news = selector.css("div.tec--list")
+    news_links = news.css(
+        "figure a.tec--card__thumb__link::attr(href)"
+    ).getall()
+    return news_links
 
 
 # Requisito 3
@@ -54,6 +44,13 @@ def scrape_next_page_link(html_content):
     selector = Selector(text=html_content)
     link = selector.css("div.tec--list > a.tec--btn::attr(href)").get()
     return link
+
+
+def rm_spaces_in_array(array):
+    result = []
+    for string in array:
+        result.append(string[1:-1])
+    return result
 
 
 def scrape_writer(url_writer):
@@ -93,10 +90,15 @@ def scrape_noticia(html_content):
     sources = rm_spaces_in_array(selector.css(selector_sources).getall())
     categories = rm_spaces_in_array(selector.css(selector_categories).getall())
     return{
-        'url': url, 'title': title, 'timestamp': timestamp,
-        'writer': writer, 'shares_count': (shares_count),
-        'comments_count': comments_count, 'summary': summary,
-        'sources': sources, 'categories': categories
+        'url': url,
+        'title': title,
+        'timestamp': timestamp,
+        'writer': writer,
+        'shares_count': shares_count,
+        'comments_count': comments_count,
+        'summary': summary,
+        'sources': sources,
+        'categories': categories
     }
 
 
