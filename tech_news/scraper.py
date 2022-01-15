@@ -54,10 +54,10 @@ def scrape_next_page_link(html_content):
 
 # Requisito 4
 def scrape_noticia(html_content):
-    # selector = Selector(text=html_content)
+    selector = Selector(text=html_content)
     soup = BeautifulSoup(html_content, 'lxml')
     # URL OK
-    url = scrapy_crazy.url_scrapy(soup)
+    url = scrapy_crazy.url_scrapy(selector)
     title = scrapy_crazy.title_scrapy(soup)
     timestamp = scrapy_crazy.timestamp_scrapy(soup)
     autor = scrapy_crazy.writer_scrapy(soup)
@@ -124,9 +124,9 @@ def get_tech_news(amount):
 
 
 class scrapy_crazy:
-    def url_scrapy(soup):
-        canonical = soup.find('link', {'rel': 'canonical'})
-        url = canonical['href']
+    # primeira refatoração para select pra ver se erro e bs4
+    def url_scrapy(selector):
+        url = selector.css("link[rel=canonical]::attr(href)").get()
         return url
 
     def title_scrapy(soup):
