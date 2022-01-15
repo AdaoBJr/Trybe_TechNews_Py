@@ -58,7 +58,7 @@ def scrape_noticia(html_content):
     soup = BeautifulSoup(html_content, 'lxml')
     # URL OK
     url = scrapy_crazy.url_scrapy(selector)
-    title = scrapy_crazy.title_scrapy(soup)
+    title = scrapy_crazy.title_scrapy(selector)
     timestamp = scrapy_crazy.timestamp_scrapy(soup)
     autor = scrapy_crazy.writer_scrapy(soup)
     contador_comentarios = scrapy_crazy.count_comment(soup)
@@ -129,9 +129,9 @@ class scrapy_crazy:
         url = selector.css("link[rel=canonical]::attr(href)").get()
         return url
 
-    def title_scrapy(soup):
-        titlehtml = soup.find('h1', attrs={'id': 'js-article-title'})
-        title = titlehtml.string
+    def title_scrapy(selector):
+        # segunda refatoração para select pra ver se erro e bs4
+        title = selector.css("h1.tec--article__header__title::text").get()
         return title
 
     def timestamp_scrapy(soup):
