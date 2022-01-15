@@ -2,6 +2,8 @@ import requests
 import time
 from parsel import Selector
 
+from tech_news.database import create_news
+
 
 # Requisito 1
 def fetch(url):
@@ -13,27 +15,27 @@ def fetch(url):
         return response.text
     except requests.Timeout:
         return None
+# função que traz a pagina em html
 
 
 # Requisito 2
 def scrape_novidades(html_content):
-    selector = Selector(text=html_content.text)
+    selector = Selector(text=html_content)
     lis = selector.css(
         ".tec--list--lg h3.tec--card__title a::attr(href)"
         ).getall()
     return lis
-    """Seu código deve vir aqui"""
+# acessando links do conteudo html
 
 
 # Requisito 3
 def scrape_next_page_link(html_content):
-    response = requests.get(html_content)
-    selector = Selector(text=response.text)
+    selector = Selector(text=html_content)
     link = selector.css(".tec--btn a::attr(href)").get()
     if not link:
         return None
     return link
-    """Seu código deve vir aqui"""
+# acessando o link da proxima pagina
 
 
 def write(selector):
@@ -47,6 +49,7 @@ def write(selector):
         if selected_class is not None:
             return selected_class.strip()
     return None
+# passando na lista de classes da pagina e tirando os espaços para criar o nome
 
 
 def shares_count(selector):
@@ -68,6 +71,7 @@ def sources(selector):
             remove_spaces = list(map(lambda x: x.strip(), sources))
             return list(filter(lambda x: x != "", remove_spaces))
     return None
+# map parecido com o js e o segundo parametro é onde vai
 
 
 def categories(selector):
@@ -80,7 +84,8 @@ def categories(selector):
 def scrape_noticia(html_content):
     selector = Selector(text=html_content)
     obj = {}
-    obj["url"] = selector.css("head > link[rel=canonical] ::attr(href)").get()
+    obj["url"] = selector.css("head > link[rel=canonical] ::attr(href)").get() 
+    # pegando o link do att rel e depois o herf
     obj["title"] = selector.css("#js-article-title ::text").get()
     obj["timestamp"] = selector.css("#js-article-date ::attr(datetime)").get()
     obj["writer"] = write(selector)
@@ -94,9 +99,29 @@ def scrape_noticia(html_content):
     obj["sources"] = sources(selector)
     obj["categories"] = categories(selector)
     return obj
-    """Seu código deve vir aqui"""
+# montando o obj desejado do req
 
 
 # Requisito 5
 def get_tech_news(amount):
+    url = "https://www.tecmundo.com.br/novidades"
+    html_content = fetch(url)
+    urls = scrape_novidades(html_content)
+
+    newspaper = []
+
+    while len(urls) < amount:
+        next_page = scrape_next_page_link(html_content)
+        html_content = fetch(next_page)
+        urls.extend(scrape_novidades(html_content))
+
+    for index in range(amount):
+        new_url = urls[index]
+        page = fetch(new_url)
+        info = scrape_noticia(page)
+        newspaper.append(info)
+
+    create_news(newspaper)
+
+    return newspaper
     """Seu código deve vir aqui"""
