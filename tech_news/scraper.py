@@ -18,8 +18,8 @@ def fetch(url):
 
 # Requisito 2
 def scrape_novidades(html_content):
-    selectorCss = Selector(text=html_content)
-    listLinks = selectorCss.css(
+    selec = Selector(text=html_content)
+    listLinks = selec.css(
         '.tec--card__info h3 .tec--card__title__link::attr(href)'
     ).getall()
 
@@ -28,39 +28,40 @@ def scrape_novidades(html_content):
 
 # Requisito 3
 def scrape_next_page_link(html_content):
-    selectorCss = Selector(text=html_content)
-    nextLink = selectorCss.css('div.tec--list > a::attr(href)').get()
+    selec = Selector(text=html_content)
+    nextLink = selec.css('div.tec--list > a::attr(href)').get()
     return nextLink
 
 
-def getWriter(writer, selectorCss):
+def getWriter(writer, selec):
     if writer is not None:
         return writer[1:-1]
     if writer is None:
-        return selectorCss.css('.tec--author__info > p::text').get()
+        return selec.css('.tec--author__info > p::text').get()
 
 
 # Requisito 4
 def scrape_noticia(html_content):
-    selectorCss = Selector(text=html_content)
+    selec = Selector(text=html_content)
     scrapedNews = {}
 
-    scrapedNews['url'] = selectorCss.css(
+    scrapedNews['url'] = selec.css(
         'head > link[rel=canonical]::attr(href)'
     ).get().strip()
 
-    scrapedNews['title'] = selectorCss.css(
+    scrapedNews['title'] = selec.css(
         'h1.tec--acticle__header__title::text'
     ).get()
 
-    scrapedNews['timestamp'] = selectorCss.css(
+    scrapedNews['timestamp'] = selec.css(
         'div.tec--timestamp__item > time::attr(datetime)'
     ).get()
 
     scrapedNews['writer'] = getWriter(
-        selectorCss.css(
-            '.tec--article__body-grid .z--font-bold a::text').get(),
-        selectorCss)
+        selec.css('.tec--article__body-grid .z--font-bold a::text').get(),
+        selec)
+
+    scrapedNews['']
 
     return scrapedNews
 
