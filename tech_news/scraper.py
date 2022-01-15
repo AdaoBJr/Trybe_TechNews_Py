@@ -46,6 +46,20 @@ def getShareCount(share):
     return int(share[1])
 
 
+def getSources(sources):
+    sourceArr = []
+    for source in sources:
+        sourceArr.append(source[1:-1])
+    return sourceArr
+
+
+def getCategorie(categories):
+    catArr = []
+    for categorie in categories:
+        catArr.append(categorie[1:-1])
+    return catArr
+
+
 # Requisito 4
 def scrape_noticia(html_content):
     selec = Selector(text=html_content)
@@ -56,7 +70,7 @@ def scrape_noticia(html_content):
     ).get().strip()
 
     scrapedNews['title'] = selec.css(
-        'h1.tec--acticle__header__title::text'
+        'h1.tec--article__header__title::text'
     ).get()
 
     scrapedNews['timestamp'] = selec.css(
@@ -73,11 +87,14 @@ def scrape_noticia(html_content):
     scrapedNews['comments_count'] = int(selec.css(
         '#js-comments-btn::attr(data-count)').get())
 
-    scrapedNews['summary'] = None
+    scrapedNews['summary'] = "".join(selec.css(
+        '.tec--article__body > p:nth-child(1) *::text').getall())
 
-    scrapedNews['sources'] = None
+    scrapedNews['sources'] = getSources(
+        selec.css('.z--mb-16 > div > a::text').getall())
 
-    scrapedNews['categories'] = None
+    scrapedNews['categories'] = getCategorie(
+        selec.css("#js-categories a::text").getall())
 
     return scrapedNews
 
