@@ -1,4 +1,5 @@
 from tech_news.database import db
+import datetime
 
 
 # Requisito 6
@@ -12,9 +13,29 @@ def search_by_title(title):
     return news_list
 
 
+# Source https://stackoverflow.com/questions/9978534/match-dates-using-
+# python-regular-expressions/9978701
+def valid_date(datestring):
+    try:
+        datetime.datetime.strptime(datestring, '%Y-%m-%d')
+        return True
+    except ValueError:
+        return False
+
+
 # Requisito 7
 def search_by_date(date):
-    """Seu código deve vir aqui"""
+    is_valid = valid_date(date)
+    news_list = []
+
+    if is_valid:
+        for new in db.news.find({"timestamp": {"$regex": date,
+                                               "$options": "i"}}):
+            item = new["title"], new["url"]
+            news_list.append(item)
+        return news_list
+    else:
+        raise ValueError("Data inválida")
 
 
 # Requisito 8
