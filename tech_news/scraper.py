@@ -1,9 +1,9 @@
 import time
 from requests import get
+from parsel import Selector
 
 
 # Requisito 1
-
 def fetch(url):
     time.sleep(1)
     STATUS_OK = 200
@@ -16,7 +16,8 @@ def fetch(url):
 
 # Requisito 2
 def scrape_novidades(html_content):
-    """Seu código deve vir aqui"""
+    selector = Selector(text=html_content)
+    return selector.css("h3.tec--card__title a::attr(href)").getall()
 
 
 # Requisito 3
