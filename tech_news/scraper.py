@@ -1,7 +1,7 @@
 import requests
 import time
 from parsel import Selector
-from bs4 import BeautifulSoup
+# from bs4 import BeautifulSoup
 
 
 # Requisito 1
@@ -53,148 +53,147 @@ def scrape_next_page_link(html_content):
 
 # Requisito 4
 def scrape_noticia(html_content):
-    # selector = Selector(text=html_content)
-    soup = BeautifulSoup(html_content, 'lxml')
-    # URL OK
-    url = scrapy_crazy.url_scrapy(soup)
-    title = scrapy_crazy.title_scrapy(soup)
-    timestamp = scrapy_crazy.timestamp_scrapy(soup)
-    autor = scrapy_crazy.writer_scrapy(soup)
-    contador_comentarios = scrapy_crazy.count_comment(soup)
-    contador_compartilhamentos = scrapy_crazy.count_shares(soup)
-    summary = soup.find('div', {'class': "tec--article__body"})
-    summary_text = summary.contents[0].text
-    sources = scrapy_crazy.sources_text(soup)
 
-    # print(summary.text, "estou aqui")
-    # fontes = selector.css("div.z--mb-16 div a::text").getall()
-    # fontes = soup.find("h2", {
-    #     'class': [
-    #         "z--text-base",
-    #         "z--font-semibold",
-    #         "z--mt-none",
-    #         "z--mb-8"]}).next_sibling.contents
-    # # verificar se fontes existem!!
-    # fonte_exists = soup.find_all("h2", {
-    #     'class': [
-    #         "z--text-base",
-    #         "z--font-semibold",
-    #         "z--mt-none",
-    #         "z--mb-8"]})
+    # # selector = Selector(text=html_content)
+    # soup = BeautifulSoup(html_content, 'lxml')
+    # # URL OK
+    # url = scrapy_crazy.url_scrapy(soup)
+    # title = scrapy_crazy.title_scrapy(soup)
+    # timestamp = scrapy_crazy.timestamp_scrapy(soup)
+    # autor = scrapy_crazy.writer_scrapy(soup)
+    # contador_comentarios = scrapy_crazy.count_comment(soup)
+    # contador_compartilhamentos = scrapy_crazy.count_shares(soup)
+    # summary = soup.find('div', {'class': "tec--article__body"})
+    # summary_text = summary.contents[0].text
+    # sources = scrapy_crazy.sources_text(soup)
 
-    # preciso pegar o filho com id, depois fazer o for!
-    categorias_html = soup.find('div', {'id': 'js-categories'})
-    categorias = []
-    # sources = []
-    for category in categorias_html:
-        if category.text != '' and category.text != " ":
-            categorias.append(category.text.strip())
+    # # print(summary.text, "estou aqui")
+    # # fontes = selector.css("div.z--mb-16 div a::text").getall()
+    # # fontes = soup.find("h2", {
+    # #     'class': [
+    # #         "z--text-base",
+    # #         "z--font-semibold",
+    # #         "z--mt-none",
+    # #         "z--mb-8"]}).next_sibling.contents
+    # # # verificar se fontes existem!!
+    # # fonte_exists = soup.find_all("h2", {
+    # #     'class': [
+    # #         "z--text-base",
+    # #         "z--font-semibold",
+    # #         "z--mt-none",
+    # #         "z--mb-8"]})
 
-    # for fonte in fontes:
-    #     if fonte != '' and fonte != " ":
-    #         sources.append(fonte.strip())
+    # # preciso pegar o filho com id, depois fazer o for!
+    # categorias_html = soup.find('div', {'id': 'js-categories'})
+    # categorias = []
+    # # sources = []
+    # for category in categorias_html:
+    #     if category.text != '' and category.text != " ":
+    #         categorias.append(category.text.strip())
 
-    # for fonte in fontes:
-    #     if fonte != '' and fonte != " ":
-    #         sources.append(fonte.text.strip())
+    # # for fonte in fontes:
+    # #     if fonte != '' and fonte != " ":
+    # #         sources.append(fonte.strip())
 
-    # print(fonte_exists[0].text)
-    # if fonte_exists[0].text != 'Fontes':
-    #     sources = []
+    # # for fonte in fontes:
+    # #     if fonte != '' and fonte != " ":
+    # #         sources.append(fonte.text.strip())
 
-    return {
-        "url": url,
-        "title": title,
-        "timestamp": timestamp["datetime"],
-        "writer": autor,
-        "shares_count": contador_compartilhamentos,
-        "comments_count": contador_comentarios,
-        "summary": summary_text,
-        "sources": sources,
-        "categories": categorias
-    }
+    # # print(fonte_exists[0].text)
+    # # if fonte_exists[0].text != 'Fontes':
+    # #     sources = []
+
+    # return {
+    #     "url": url,
+    #     "title": title,
+    #     "timestamp": timestamp["datetime"],
+    #     "writer": autor,
+    #     "shares_count": contador_compartilhamentos,
+    #     "comments_count": contador_comentarios,
+    #     "summary": summary_text,
+    #     "sources": sources,
+    #     "categories": categorias
+    # }
+    # """Seu código deve vir aqui"""
+
+    # Requisito 5
+    # def get_tech_news(amount):
     """Seu código deve vir aqui"""
 
+# class scrapy_crazy:
+#     def url_scrapy(soup):
+#         canonical = soup.find('link', {'rel': 'canonical'})
+#         url = canonical['href']
+#         return url
 
-# Requisito 5
-def get_tech_news(amount):
-    """Seu código deve vir aqui"""
+#     def title_scrapy(soup):
+#         titlehtml = soup.find('h1', attrs={'id': 'js-article-title'})
+#         title = titlehtml.string
+#         return title
 
+#     def timestamp_scrapy(soup):
+#         timestamp = soup.find('time')
+#         return timestamp
 
-class scrapy_crazy:
-    def url_scrapy(soup):
-        canonical = soup.find('link', {'rel': 'canonical'})
-        url = canonical['href']
-        return url
+#     def writer_scrapy(soup):
+#         try:
+#             autorhtml = soup.find('a', attrs={
+#                 'class': "tec--author__info__link"}).text.strip()
+#         except AttributeError:
+#             try:
+#                 autorhtml = soup.find('div', attrs={
+#                     'class': "tec--timestamp"}).contents[1].text.strip()
+#             except IndexError:
+#                 autorhtml = soup.find('p', attrs={
+#                     'class': "z--m-none"}).text.strip()
 
-    def title_scrapy(soup):
-        titlehtml = soup.find('h1', attrs={'id': 'js-article-title'})
-        title = titlehtml.string
-        return title
+#         return autorhtml
 
-    def timestamp_scrapy(soup):
-        timestamp = soup.find('time')
-        return timestamp
+#     def count_comment(soup):
+#         comentarios_html = soup.find('button', attrs={
+#             'id': "js-comments-btn"
+#         })
+#         contador_comentarios = int(comentarios_html["data-count"])
 
-    def writer_scrapy(soup):
-        try:
-            autorhtml = soup.find('a', attrs={
-                'class': "tec--author__info__link"}).text.strip()
-        except AttributeError:
-            try:
-                autorhtml = soup.find('div', attrs={
-                    'class': "tec--timestamp"}).contents[1].text.strip()
-            except IndexError:
-                autorhtml = soup.find('p', attrs={
-                    'class': "z--m-none"}).text.strip()
+#         return contador_comentarios
 
-        return autorhtml
+#     def count_shares(soup):
+#         compartilharam_html = soup.find_all('div', attrs={
+#             'class': "tec--toolbar__item"})[0].text
+#     # print(compartilharam_html)
+#         compartilhamentos = compartilharam_html.replace("Compartilharam", "")
+#         compartilhamentos = compartilhamentos.replace("Comentários", "")
 
-    def count_comment(soup):
-        comentarios_html = soup.find('button', attrs={
-            'id': "js-comments-btn"
-        })
-        contador_comentarios = int(comentarios_html["data-count"])
+#         return int(compartilhamentos)
 
-        return contador_comentarios
+#     def summary_text(soup):
+#         summary = soup.find(True, {
+#             'class': ["tec--article__body", "z--px-16", "p402_premium"]})
+#         summary_text = summary.contents[0].text
+#         # print(summary_text, " class here ")
+#         return summary_text
 
-    def count_shares(soup):
-        compartilharam_html = soup.find_all('div', attrs={
-            'class': "tec--toolbar__item"})[0].text
-    # print(compartilharam_html)
-        compartilhamentos = compartilharam_html.replace("Compartilharam", "")
-        compartilhamentos = compartilhamentos.replace("Comentários", "")
+#     def sources_text(soup):
+#         sources = []
+#         fontes = soup.find("h2", {
+#             'class': [
+#                 "z--text-base",
+#                 "z--font-semibold",
+#                 "z--mt-none",
+#                 "z--mb-8"]}).next_sibling.contents
+#     # verificar se fontes existem!!
+#         fonte_exists = soup.find_all("h2", {
+#             'class': [
+#                 "z--text-base",
+#                 "z--font-semibold",
+#                 "z--mt-none",
+#                 "z--mb-8"]})
 
-        return int(compartilhamentos)
+#         for fonte in fontes:
+#             if fonte != '' and fonte != " ":
+#                 sources.append(fonte.text.strip())
 
-    def summary_text(soup):
-        summary = soup.find(True, {
-            'class': ["tec--article__body", "z--px-16", "p402_premium"]})
-        summary_text = summary.contents[0].text
-        # print(summary_text, " class here ")
-        return summary_text
+#         if fonte_exists[0].text != 'Fontes':
+#             sources = []
 
-    def sources_text(soup):
-        sources = []
-        fontes = soup.find("h2", {
-            'class': [
-                "z--text-base",
-                "z--font-semibold",
-                "z--mt-none",
-                "z--mb-8"]}).next_sibling.contents
-    # verificar se fontes existem!!
-        fonte_exists = soup.find_all("h2", {
-            'class': [
-                "z--text-base",
-                "z--font-semibold",
-                "z--mt-none",
-                "z--mb-8"]})
-
-        for fonte in fontes:
-            if fonte != '' and fonte != " ":
-                sources.append(fonte.text.strip())
-
-        if fonte_exists[0].text != 'Fontes':
-            sources = []
-
-        return sources
+#         return sources
