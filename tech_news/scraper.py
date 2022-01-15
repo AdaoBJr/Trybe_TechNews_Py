@@ -157,12 +157,13 @@ class scrapy_crazy:
 
     def count_shares(select):
         try:
-            shares_count = select.css("div.tec--toolbar__item::text")
-            shares_count = re.findall(r"\d+", shares_count.get())[0]
+            contador_comentarios = select.css("div.tec--toolbar__item::text")
+            contador_comentarios = re.findall(
+                r"\d+", contador_comentarios.get())[0]
         except TypeError:
-            shares_count = 0
+            contador_comentarios = '0'
 
-        return int(shares_count)
+        return int(contador_comentarios)
 
     def summary_text(soup):
         summary = soup.find(True, {
