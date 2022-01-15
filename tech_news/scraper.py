@@ -22,7 +22,8 @@ def scrape_novidades(html_content):
 
 # Requisito 3
 def scrape_next_page_link(html_content):
-    return Selector(html_content).css(".tec--btn--primary::attr(href)").get() or None
+    selector = Selector(html_content)
+    return selector.css(".tec--btn--primary::attr(href)").get() or None
 
 
 # Requisito 4
