@@ -13,6 +13,8 @@ from tech_news.functions import (
     get_categories
 )
 
+from tech_news.database import create_news
+
 
 # Requisito 1
 def fetch(url):
@@ -71,4 +73,18 @@ def scrape_noticia(html_content):
 def get_tech_news(amount):
     site = fetch("https://www.tecmundo.com.br/novidades")
     novidades = scrape_novidades(site)
-    return novidades[-6:]
+    next_page_url = scrape_next_page_link(site)
+
+    while len(novidades) < amount:
+        site = fetch(next_page_url)
+        novidades + scrape_novidades(site)
+        next_page_url = scrape_next_page_link(site)
+
+    scraped_news = []
+    for n in novidades[:amount]:
+        html_news = fetch(n)
+        scraped_news.append(scrape_noticia(html_news))
+
+    create_news(scraped_news)
+
+    return scraped_news
