@@ -19,7 +19,7 @@ def search_by_date(date):
 
 # Requisito 8
 def search_by_source(source):
-    """Seu código deve vir aqui"""
+    return search_notice({"sources": re.compile(source, re.IGNORECASE)})
 
 
 # Requisito 9
