@@ -84,7 +84,7 @@ def categories(selector):
 def scrape_noticia(html_content):
     selector = Selector(text=html_content)
     obj = {}
-    obj["url"] = selector.css("head > link[rel=canonical] ::attr(href)").get() 
+    obj["url"] = selector.css("head > link[rel=canonical] ::attr(href)").get()
     # pegando o link do att rel e depois o herf
     obj["title"] = selector.css("#js-article-title ::text").get()
     obj["timestamp"] = selector.css("#js-article-date ::attr(datetime)").get()
