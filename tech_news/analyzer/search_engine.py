@@ -20,7 +20,7 @@ def search_by_date(date):
     try:
         # REFERÊNCIA
         # https://docs.python.org/3/library/datetime.html#datetime.date.strftime
-        dt.strptime(date, '%Y-%m-%d')
+        dt.strptime(date, "%Y-%m-%d")
 
     except ValueError:
         raise ValueError("Data inválida")
@@ -36,7 +36,15 @@ def search_by_date(date):
 
 # Requisito 8
 def search_by_source(source):
-    """Seu código deve vir aqui"""
+    # REFERÊNCIA
+    # https://stackoverflow.com/questions/35321004/mongodb-query-in-with-regex-array-of-element/35321231
+    news = db.news.find({"sources": {"$regex": source, "$options": "i"}})
+    titles_and_urls = []
+
+    for n in news:
+        titles_and_urls.append((n["title"], n["url"]))
+
+    return titles_and_urls
 
 
 # Requisito 9
