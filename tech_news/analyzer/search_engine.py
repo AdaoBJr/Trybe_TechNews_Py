@@ -1,6 +1,6 @@
 # Requisito 6
 def search_by_title(title):
-    """Seu código deve vir aqui"""
+    """Seu código deve vir aqui """
 
 
 # Requisito 7
