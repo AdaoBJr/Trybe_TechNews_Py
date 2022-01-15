@@ -23,7 +23,7 @@ def fetch(URL):
         if res != "" and res.status_code == 200:
             # Status Code 200: OK, deve ser retornado seu conteúdo de texto;
             return res.text
-        # status diferente de 200, deve-se retornar None
+        # status diferente de 200, deve-se retornar Non
         return None
 
 
