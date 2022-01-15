@@ -1,6 +1,15 @@
+from tech_news.database import db
+import re
+
+
+def search_notice(query):
+    notices = db.news.find(query)
+    return [(search_not["title"], search_not["url"]) for search_not in notices]
+
+
 # Requisito 6
 def search_by_title(title):
-    """Seu código deve vir aqui"""
+    return search_notice({"title": re.compile(title, re.IGNORECASE)})
 
 
 # Requisito 7
