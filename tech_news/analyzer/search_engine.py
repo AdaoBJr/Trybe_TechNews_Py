@@ -1,5 +1,6 @@
 import re
 from tech_news.database import db
+from datetime import datetime
 
 
 # Requisito 6
@@ -16,7 +17,18 @@ def search_by_title(title):
 
 # Requisito 7
 def search_by_date(date):
-    """Seu código deve vir aqui"""
+    try:
+        datetime.strptime(date, "%Y-%m-%d")
+        # para ver se a data está correta, se não vai pro erro
+        search_date = list(db.news.find({"timestamp": {"$regex": date}}))
+        itens = []
+        for find in search_date:
+            itens.append((find["title"], find["url"]))
+        return itens
+    except ValueError:
+        raise ValueError("Data inválida")
+    # https://docs.mongodb.com/manual/reference/operator/query/regex/
+    # https://www.programiz.com/python-programming/datetime/strptime
 
 
 # Requisito 8
