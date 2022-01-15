@@ -40,36 +40,35 @@ def scrape_noticia(html_content):
     """Seu código deve vir aqui"""
     selector = Selector(html_content)
 
-    # Zózimo, Arlen e Mari Mohr
     url_select = selector.css("link[rel=canonical]::attr(href)").get()
 
     title_select = selector.css(".tec--article__header__title::text").get()
 
     timestamp_select = selector.css("time::attr(datetime)").get()
 
-    writer_select = selector.css(
-        ".z--font-bold").css("*::text").get().strip() or ""
+    writer_select = (
+        selector.css(".z--font-bold").css("*::text").get().strip() or ""
+    )
 
     try:
-        shares_count = selector.css(
-            ".tec--toolbar__item::text"
-        ).get().strip().split(" ")[0]
+        shares_count = (
+            selector.css(".tec--toolbar__item::text")
+            .get()
+            .strip()
+            .split(" ")[0]
+        )
     except AttributeError:
         shares_count = 0
 
     comments_count = selector.css(".tec--btn::attr(data-count)").get()
 
-    summary_select = "".join(selector.css(
-        ".tec--article__body > p:nth-child(1) ::text"
-    ).getall())
+    summary_select = "".join(
+        selector.css(".tec--article__body > p:nth-child(1) ::text").getall()
+    )
 
-    sources_select = selector.css(
-        ".z--mb-16 .tec--badge::text"
-    ).getall()
+    sources_select = selector.css(".z--mb-16 .tec--badge::text").getall()
 
-    categories_select = selector.css(
-        ".tec--badge--primary::text"
-    ).getall()
+    categories_select = selector.css(".tec--badge--primary::text").getall()
 
     return {
         "url": url_select,
