@@ -2,6 +2,7 @@ import requests
 import time
 from parsel import Selector
 from bs4 import BeautifulSoup
+import re
 # from tech_news.database import create_news
 
 
@@ -154,14 +155,14 @@ class scrapy_crazy:
 
         return contador_comentarios
 
-    def count_shares(soup):
-        compartilharam_html = soup.find_all('div', attrs={
-            'class': "tec--toolbar__item"})[0].text
-    # print(compartilharam_html)
-        compartilhamentos = compartilharam_html.replace("Compartilharam", "")
-        compartilhamentos = compartilhamentos.replace("Comentários", "")
+    def count_shares(select):
+        try:
+            shares_count = select.css("div.tec--toolbar__item::text")
+            shares_count = re.findall(r"\d+", shares_count.get())[0]
+        except TypeError:
+            shares_count = 0
 
-        return int(compartilhamentos)
+        return int(shares_count)
 
     def summary_text(soup):
         summary = soup.find(True, {
