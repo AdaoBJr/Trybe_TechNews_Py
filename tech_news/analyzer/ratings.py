@@ -1,5 +1,6 @@
 from tech_news.database import find_news
 import operator
+from collections import Counter
 
 
 # Requisito 10
@@ -18,4 +19,12 @@ def top_5_news():
 
 # Requisito 11
 def top_5_categories():
-    """Seu código deve vir aqui"""
+    notices = find_news()
+    if (notices):
+        categorie = []
+        for notice in notices:
+            categorie.extend(notice["categories"])
+        top_categorie = list(Counter(categorie).keys())
+        top_categorie.sort()
+        return top_categorie[:5]
+    return []
