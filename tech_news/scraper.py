@@ -4,85 +4,6 @@ from parsel import Selector
 from bs4 import BeautifulSoup
 
 
-class scrapy_crazy:
-    def url_scrapy(soup):
-        canonical = soup.find('link', {'rel': 'canonical'})
-        url = canonical['href']
-        return url
-
-    def title_scrapy(soup):
-        titlehtml = soup.find('h1', attrs={'id': 'js-article-title'})
-        title = titlehtml.string
-        return title
-
-    def timestamp_scrapy(soup):
-        timestamp = soup.find('time')
-        return timestamp
-
-    def writer_scrapy(soup):
-        try:
-            autorhtml = soup.find('a', attrs={
-                'class': "tec--author__info__link"}).text.strip()
-        except AttributeError:
-            try:
-                autorhtml = soup.find('div', attrs={
-                    'class': "tec--timestamp"}).contents[1].text.strip()
-            except IndexError:
-                autorhtml = soup.find('p', attrs={
-                    'class': "z--m-none"}).text.strip()
-
-        return autorhtml
-
-    def count_comment(soup):
-        comentarios_html = soup.find('button', attrs={
-            'id': "js-comments-btn"
-        })
-        contador_comentarios = int(comentarios_html["data-count"])
-
-        return contador_comentarios
-
-    def count_shares(soup):
-        compartilharam_html = soup.find_all('div', attrs={
-            'class': "tec--toolbar__item"})[0].text
-    # print(compartilharam_html)
-        compartilhamentos = compartilharam_html.replace("Compartilharam", "")
-        compartilhamentos = compartilhamentos.replace("Comentários", "")
-
-        return int(compartilhamentos)
-
-    def summary_text(soup):
-        summary = soup.find(True, {
-            'class': ["tec--article__body", "z--px-16", "p402_premium"]})
-        summary_text = summary.contents[0].text
-        # print(summary_text, " class here ")
-        return summary_text
-
-    def sources_text(soup):
-        sources = []
-        fontes = soup.find("h2", {
-            'class': [
-                "z--text-base",
-                "z--font-semibold",
-                "z--mt-none",
-                "z--mb-8"]}).next_sibling.contents
-    # verificar se fontes existem!!
-        fonte_exists = soup.find_all("h2", {
-            'class': [
-                "z--text-base",
-                "z--font-semibold",
-                "z--mt-none",
-                "z--mb-8"]})
-
-        for fonte in fontes:
-            if fonte != '' and fonte != " ":
-                sources.append(fonte.text.strip())
-
-        if fonte_exists[0].text != 'Fontes':
-            sources = []
-
-        return sources
-
-
 # Requisito 1
 def fetch(URL):
     # A função deve receber uma URL
@@ -198,3 +119,82 @@ def scrape_noticia(html_content):
 # Requisito 5
 def get_tech_news(amount):
     """Seu código deve vir aqui"""
+
+
+class scrapy_crazy:
+    def url_scrapy(soup):
+        canonical = soup.find('link', {'rel': 'canonical'})
+        url = canonical['href']
+        return url
+
+    def title_scrapy(soup):
+        titlehtml = soup.find('h1', attrs={'id': 'js-article-title'})
+        title = titlehtml.string
+        return title
+
+    def timestamp_scrapy(soup):
+        timestamp = soup.find('time')
+        return timestamp
+
+    def writer_scrapy(soup):
+        try:
+            autorhtml = soup.find('a', attrs={
+                'class': "tec--author__info__link"}).text.strip()
+        except AttributeError:
+            try:
+                autorhtml = soup.find('div', attrs={
+                    'class': "tec--timestamp"}).contents[1].text.strip()
+            except IndexError:
+                autorhtml = soup.find('p', attrs={
+                    'class': "z--m-none"}).text.strip()
+
+        return autorhtml
+
+    def count_comment(soup):
+        comentarios_html = soup.find('button', attrs={
+            'id': "js-comments-btn"
+        })
+        contador_comentarios = int(comentarios_html["data-count"])
+
+        return contador_comentarios
+
+    def count_shares(soup):
+        compartilharam_html = soup.find_all('div', attrs={
+            'class': "tec--toolbar__item"})[0].text
+    # print(compartilharam_html)
+        compartilhamentos = compartilharam_html.replace("Compartilharam", "")
+        compartilhamentos = compartilhamentos.replace("Comentários", "")
+
+        return int(compartilhamentos)
+
+    def summary_text(soup):
+        summary = soup.find(True, {
+            'class': ["tec--article__body", "z--px-16", "p402_premium"]})
+        summary_text = summary.contents[0].text
+        # print(summary_text, " class here ")
+        return summary_text
+
+    def sources_text(soup):
+        sources = []
+        fontes = soup.find("h2", {
+            'class': [
+                "z--text-base",
+                "z--font-semibold",
+                "z--mt-none",
+                "z--mb-8"]}).next_sibling.contents
+    # verificar se fontes existem!!
+        fonte_exists = soup.find_all("h2", {
+            'class': [
+                "z--text-base",
+                "z--font-semibold",
+                "z--mt-none",
+                "z--mb-8"]})
+
+        for fonte in fontes:
+            if fonte != '' and fonte != " ":
+                sources.append(fonte.text.strip())
+
+        if fonte_exists[0].text != 'Fontes':
+            sources = []
+
+        return sources
