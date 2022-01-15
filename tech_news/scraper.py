@@ -1,6 +1,18 @@
+from urllib.error import HTTPError
+import requests
+import time
+
+
 # Requisito 1
 def fetch(url):
-    """Seu código deve vir aqui: tá bom"""
+    try:
+        time.sleep(1)
+        res = requests.get(url, timeout=1)
+        res.raise_for_status()
+    except (requests.HTTPError, requests.Timeout):
+        return None
+    else:
+        return res.text
 
 
 # Requisito 2
