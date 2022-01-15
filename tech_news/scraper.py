@@ -40,6 +40,12 @@ def getWriter(writer, selec):
         return selec.css('.tec--author__info > p::text').get()
 
 
+def getShareCount(share):
+    if(share is None):
+        return 0
+    return int(share[1])
+
+
 # Requisito 4
 def scrape_noticia(html_content):
     selec = Selector(text=html_content)
@@ -61,7 +67,17 @@ def scrape_noticia(html_content):
         selec.css('.tec--article__body-grid .z--font-bold a::text').get(),
         selec)
 
-    scrapedNews['']
+    scrapedNews['shares_count'] = getShareCount(
+        selec.css('div.tec--toolbar__item::text').get())
+
+    scrapedNews['comments_count'] = int(selec.css(
+        '#js-comments-btn::attr(data-count)').get())
+
+    scrapedNews['summary'] = None
+
+    scrapedNews['sources'] = None
+
+    scrapedNews['categories'] = None
 
     return scrapedNews
 
