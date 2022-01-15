@@ -172,7 +172,8 @@ class scrapy_crazy:
         return "".join(summary)
 
     def sources_text(select):
-        sources = select.css("div.z--mb-16 > div > a.tec--badge::text").getall()
+        sources = select.css(
+            "div.z--mb-16 > div > a.tec--badge::text").getall()
 
         return [source.strip() for source in sources]
 
