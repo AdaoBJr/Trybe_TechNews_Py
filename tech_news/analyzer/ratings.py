@@ -10,9 +10,6 @@ def top_5_news():
         key=lambda x: x["shares_count"] + x["comments_count"], reverse=True
     )
 
-    for new in news:
-        new["count"] = new["shares_count"] + new["comments_count"]
-
     top = news[:5]
     for new in top:
         top5.append((new["title"], new["url"]))
