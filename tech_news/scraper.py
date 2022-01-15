@@ -1,12 +1,11 @@
 import requests
-import time
+from parsel import Selector
 
 
 # Requisito 1
 def fetch(url):
     """Seu código deve vir aqui"""
     try:
-        time.sleep(1)
         res = requests.get(url, timeout=3)
     except requests.exceptions.RequestException:
         return None
@@ -19,6 +18,11 @@ def fetch(url):
 # Requisito 2
 def scrape_novidades(html_content):
     """Seu código deve vir aqui"""
+    selector = Selector(html_content)
+
+    return selector.css(
+        ".tec--list__item .tec--card__title__link::attr(href)"
+    ).getall()
 
 
 # Requisito 3
