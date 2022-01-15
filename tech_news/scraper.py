@@ -60,7 +60,7 @@ def scrape_noticia(html_content):
     url = scrapy_crazy.url_scrapy(selector)
     title = scrapy_crazy.title_scrapy(selector)
     timestamp = scrapy_crazy.timestamp_scrapy(selector)
-    autor = scrapy_crazy.writer_scrapy(soup)
+    autor = scrapy_crazy.writer_scrapy(selector)
     contador_comentarios = scrapy_crazy.count_comment(soup)
     contador_compartilhamentos = scrapy_crazy.count_shares(soup)
     summary = soup.find('div', {'class': "tec--article__body"})
@@ -106,7 +106,7 @@ def scrape_noticia(html_content):
     return {
         "url": url,
         "title": title,
-        "timestamp": timestamp["datetime"],
+        "timestamp": timestamp,
         "writer": autor,
         "shares_count": contador_compartilhamentos,
         "comments_count": contador_comentarios,
@@ -139,25 +139,18 @@ class scrapy_crazy:
         timestamp = selector.css("time::attr(datetime)").get()
         return timestamp
 
-    def writer_scrapy(soup):
+    def writer_scrapy(selector):
+        autor = selector.css(".z--font-bold").css("*::text").get().strip()
+
+        return autor
+
+    def count_comment(select):
         try:
-            autorhtml = soup.find('a', attrs={
-                'class': "tec--author__info__link"}).text.strip()
-        except AttributeError:
-            try:
-                autorhtml = soup.find('div', attrs={
-                    'class': "tec--timestamp"}).contents[1].text.strip()
-            except IndexError:
-                autorhtml = soup.find('p', attrs={
-                    'class': "z--m-none"}).text.strip()
-
-        return autorhtml
-
-    def count_comment(soup):
-        comentarios_html = soup.find('button', attrs={
-            'id': "js-comments-btn"
-        })
-        contador_comentarios = int(comentarios_html["data-count"])
+            comentarios_html = select.css(
+                "button.tec--btn::attr(data-count)").get()
+            contador_comentarios = int(comentarios_html)
+        except TypeError:
+            contador_comentarios = 0
 
         return contador_comentarios
 
