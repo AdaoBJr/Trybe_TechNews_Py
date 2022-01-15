@@ -51,7 +51,8 @@ class scrapy_crazy:
         return int(compartilhamentos)
 
     def summary_text(soup):
-        summary = soup.find(True, {'class': ["tec--article__body", "z--px-16", "p402_premium"]})
+        summary = soup.find(True, {
+            'class': ["tec--article__body", "z--px-16", "p402_premium"]})
         summary_text = summary.contents[0].text
         # print(summary_text, " class here ")
         return summary_text
