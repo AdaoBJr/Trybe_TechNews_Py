@@ -1,5 +1,4 @@
 import tech_news.database as db_connection
-from tech_news.database import db
 
 
 # Requisito 6
