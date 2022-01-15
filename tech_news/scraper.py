@@ -88,7 +88,7 @@ def get_tech_news(amount):
     news_db = []
 
     for url in news_urls:
-        content_url = scrape_novidades(fetch(url))
+        content_url = scrape_noticia(fetch(url))
         if len(news_db) != amount:
             news_db.append(content_url)
 
