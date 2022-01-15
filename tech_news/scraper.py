@@ -85,7 +85,9 @@ def get_sources(selector):
     return [item.strip() for item in sources]
 
 
-
+def get_categories(selector):
+    categories = selector.css("#js-categories a::text").getall()
+    return [item.strip() for item in categories]
 
 
 def scrape_noticia(html_content):
@@ -100,6 +102,7 @@ def scrape_noticia(html_content):
         "comments_count": get_comments_count(selector),
         "summary": get_summary(selector),
         "sources": get_sources(selector),
+        "categories": get_categories(selector),
     }
 
 
