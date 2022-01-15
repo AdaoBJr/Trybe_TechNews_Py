@@ -1,7 +1,7 @@
 import requests
 import time
 from parsel import Selector
-from bs4 import BeautifulSoup
+# from bs4 import BeautifulSoup
 import re
 # from tech_news.database import create_news
 
@@ -56,17 +56,17 @@ def scrape_next_page_link(html_content):
 # Requisito 4
 def scrape_noticia(html_content):
     selector = Selector(text=html_content)
-    soup = BeautifulSoup(html_content, 'lxml')
+    # soup = BeautifulSoup(html_content, 'lxml')
     # URL OK
     url = scrapy_crazy.url_scrapy(selector)
     title = scrapy_crazy.title_scrapy(selector)
     timestamp = scrapy_crazy.timestamp_scrapy(selector)
     autor = scrapy_crazy.writer_scrapy(selector)
-    contador_comentarios = scrapy_crazy.count_comment(soup)
-    contador_compartilhamentos = scrapy_crazy.count_shares(soup)
-    summary = soup.find('div', {'class': "tec--article__body"})
-    summary_text = summary.contents[0].text
-    sources = scrapy_crazy.sources_text(soup)
+    contador_comentarios = scrapy_crazy.count_comment(selector)
+    contador_compartilhamentos = scrapy_crazy.count_shares(selector)
+    # summary = soup.find('div', {'class': "tec--article__body"})
+    summary_text = scrapy_crazy.summary_text(selector)
+    sources = scrapy_crazy.sources_text(selector)
 
     # print(summary.text, "estou aqui")
     # fontes = selector.css("div.z--mb-16 div a::text").getall()
@@ -85,12 +85,12 @@ def scrape_noticia(html_content):
     #         "z--mb-8"]})
 
     # preciso pegar o filho com id, depois fazer o for!
-    categorias_html = soup.find('div', {'id': 'js-categories'})
-    categorias = []
+    # categorias_html = soup.find('div', {'id': 'js-categories'})
+    categorias = scrapy_crazy.categories_text(selector)
     # sources = []
-    for category in categorias_html:
-        if category.text != '' and category.text != " ":
-            categorias.append(category.text.strip())
+    # for category in categorias_html:
+    #     if category.text != '' and category.text != " ":
+    #         categorias.append(category.text.strip())
 
     # for fonte in fontes:
     #     if fonte != '' and fonte != " ":
@@ -165,34 +165,18 @@ class scrapy_crazy:
 
         return int(contador_comentarios)
 
-    def summary_text(soup):
-        summary = soup.find(True, {
-            'class': ["tec--article__body", "z--px-16", "p402_premium"]})
-        summary_text = summary.contents[0].text
-        # print(summary_text, " class here ")
-        return summary_text
+    def summary_text(select):
+        summary = select.css(
+            "div.tec--article__body > p:nth-child(1) *::text"
+        ).getall()
+        return "".join(summary)
 
-    def sources_text(soup):
-        sources = []
-        fontes = soup.find("h2", {
-            'class': [
-                "z--text-base",
-                "z--font-semibold",
-                "z--mt-none",
-                "z--mb-8"]}).next_sibling.contents
-    # verificar se fontes existem!!
-        fonte_exists = soup.find_all("h2", {
-            'class': [
-                "z--text-base",
-                "z--font-semibold",
-                "z--mt-none",
-                "z--mb-8"]})
+    def sources_text(select):
+        sources = select.css("div.z--mb-16 > div > a.tec--badge::text").getall()
 
-        for fonte in fontes:
-            if fonte != '' and fonte != " ":
-                sources.append(fonte.text.strip())
+        return [source.strip() for source in sources]
 
-        if fonte_exists[0].text != 'Fontes':
-            sources = []
+    def categories_text(select):
+        categories = select.css("div#js-categories > a::text").getall()
 
-        return sources
+        return [category.strip() for category in categories]
