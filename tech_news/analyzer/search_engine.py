@@ -1,6 +1,17 @@
+import re
+from tech_news.database import db
+
+
 # Requisito 6
 def search_by_title(title):
-    """Seu código deve vir aqui"""
+    search_title = list(
+        db.news.find({"title": re.compile(title, re.IGNORECASE)})
+    )
+    # buscando no banco e ignorando case sensitive
+    result = []
+    for titulo in search_title:
+        result.append((titulo["title"], titulo["url"]))
+    return result
 
 
 # Requisito 7
