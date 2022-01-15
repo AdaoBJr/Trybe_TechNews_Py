@@ -39,8 +39,16 @@ def search_by_date(date):
 
 
 # Requisito 8
+# Source https://petrim.com.br/blog/index.php/2018/08/22/consultando-dentro-de
+# -arrays-no-mongodb/#:~:text=Arrays%20s%C3%A3o%20estruturas%20muito%20
+# utilizadas,um%20array%20de%20uma%20cole%C3%A7%C3%A3o.
 def search_by_source(source):
-    """Seu código deve vir aqui"""
+    news_list = []
+    for new in db.news.find({"sources": {"$elemMatch": {"$regex": source,
+                                                        "$options": "i"}}}):
+        item = new["title"], new["url"]
+        news_list.append(item)
+    return news_list
 
 
 # Requisito 9
