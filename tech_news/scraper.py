@@ -31,11 +31,15 @@ def get_url(selector):
     return selector.css("head link[rel=canonical]::attr(href)").get()
 
 
+def get_title(selector):
+    return selector.css(".tec--article__header__title::text").get()
+
 def scrape_noticia(html_content):
     selector = Selector(html_content)
 
     return {
         "url": get_url(selector),
+        "title": get_title(selector),
     }
 
 
