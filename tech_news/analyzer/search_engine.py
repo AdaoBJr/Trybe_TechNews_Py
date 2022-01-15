@@ -42,7 +42,7 @@ def search_by_source(source):
     ]
 
 
-# Requisito 9
+# Requisito 9 -
 def search_by_category(category):
     find_news = db.find_news()
     return [
