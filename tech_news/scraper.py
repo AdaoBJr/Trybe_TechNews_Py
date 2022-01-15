@@ -77,10 +77,12 @@ def get_tech_news(amount):
 
     while len(novidades) < amount:
         site = fetch(next_page_url)
-        novidades + scrape_novidades(site)
-        next_page_url = scrape_next_page_link(site)
+        # Source https://www.delftstack.com/pt/howto/python/how-to-concatenate
+        # -two-or-multiple-lists-in-python/
+        novidades += scrape_novidades(site)
 
     scraped_news = []
+    # pego do inicio da lista até o amount
     for n in novidades[:amount]:
         html_news = fetch(n)
         scraped_news.append(scrape_noticia(html_news))

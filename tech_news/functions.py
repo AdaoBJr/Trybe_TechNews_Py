@@ -43,8 +43,9 @@ def get_comments_count(selector):
 
 def get_summary(selector):
     summary = selector.css(
-        "div.tec--article__body p:nth-child(1) *::text").getall()
+        "div.tec--article__body > p:nth-child(1) *::text").getall()
     return ''.join(summary)
+# > Aula tribo 10 b Bux 34.4
 
 
 def get_sources(selector):
