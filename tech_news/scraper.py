@@ -27,8 +27,16 @@ def scrape_next_page_link(html_content):
 
 
 # Requisito 4
+def get_url(selector):
+    return selector.css("head link[rel=canonical]::attr(href)").get()
+
+
 def scrape_noticia(html_content):
-    """Seu código deve vir aqui"""
+    selector = Selector(html_content)
+
+    return {
+        "url": get_url(selector),
+    }
 
 
 # Requisito 5
