@@ -104,8 +104,7 @@ def scrape_noticia(html_content):
 
 # Requisito 5
 def get_tech_news(amount):
-    url = "https://www.tecmundo.com.br/novidades"
-    html_content = fetch(url)
+    html_content = fetch("https://www.tecmundo.com.br/novidades")
     urls = scrape_novidades(html_content)
 
     newspaper = []
@@ -114,6 +113,7 @@ def get_tech_news(amount):
         next_page = scrape_next_page_link(html_content)
         html_content = fetch(next_page)
         urls.extend(scrape_novidades(html_content))
+        # append de 1 em 1, extendo vários valores dentro de um array
 
     for index in range(amount):
         new_url = urls[index]
@@ -124,4 +124,4 @@ def get_tech_news(amount):
     create_news(newspaper)
 
     return newspaper
-    """Seu código deve vir aqui"""
+# agradeço ao Pedro Henrique pela ajuda no projeto
