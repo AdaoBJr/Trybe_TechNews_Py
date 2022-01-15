@@ -22,10 +22,10 @@ def search_by_title(title):
 # Requisito 7
 def search_by_date(date):
     validate_date(date)
-    found_news = db.find_news()
+    find_news = db.find_news()
     return [
         (notice["title"], notice["url"])
-        for notice in found_news
+        for notice in find_news
         if datetime.strptime(date, "%Y-%m-%d").date()
         == datetime.strptime(notice["timestamp"], "%Y-%m-%dT%H:%M:%S").date()
     ]
