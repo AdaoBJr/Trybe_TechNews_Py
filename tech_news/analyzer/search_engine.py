@@ -1,6 +1,17 @@
+from tech_news.database import db
+
+
 # Requisito 6
 def search_by_title(title):
-    """Seu código deve vir aqui"""
+    # Referência
+    # https://kb.objectrocket.com/mongo-db/how-to-query-mongodb-documents-with-regex-in-python-362
+    news = db.news.find({"title": {"$regex": title, "$options": "i"}})
+    titles_and_urls = []
+
+    for n in news:
+        titles_and_urls.append((n["title"], n["url"]))
+
+    return titles_and_urls
 
 
 # Requisito 7
