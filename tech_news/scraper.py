@@ -122,4 +122,4 @@ def get_tech_news(amount):
     create_news(newspaper)
 
     return newspaper
-# agradeço ao Pedro Henrique pela ajuda no projeto
+# agradeço ao Pedro Henrique pela ajuda no projeto.
