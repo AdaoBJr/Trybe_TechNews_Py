@@ -68,16 +68,18 @@ def scrape_noticia(html_content):
     get_categories = selector.css("div#js-categories a::text").getall()
     categories = [i.strip() for i in get_categories]
 
-    return {
-        url,
-        title,
-        timestamp,
-        writer,
-        shares_count,
-        comments_count,
-        summary, sources,
-        categories
-    }
+    data = {}
+    data["url"] = url
+    data["title"] = title
+    data["timestamp"] = timestamp
+    data["writer"] = writer
+    data["shares_count"] = shares_count
+    data["comments_count"] = int(comments_count)
+    data["summary"] = summary
+    data["sources"] = sources
+    data["categories"] = categories
+
+    return data
 
 
 # Requisito 5
