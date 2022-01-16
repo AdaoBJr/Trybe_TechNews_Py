@@ -26,6 +26,7 @@ def valid_date(date, format):
 
 
 # Requisito 7
+# recebi ajuda da Camila Arruda
 def search_by_date(date):
     format = "%Y-%m-%d"
     valid = valid_date(date, format)
@@ -44,7 +45,17 @@ def search_by_date(date):
 
 # Requisito 8
 def search_by_source(source):
-    """Seu código deve vir aqui"""
+    news_found = search_news({"sources": {'$regex': source, '$options': 'i'}})
+
+    if len(news_found) != 0:
+        for i in news_found:
+            news_list = (
+                i["title"],
+                i["url"],
+            )
+            return [news_list]
+    else:
+        return []
 
 
 # Requisito 9
