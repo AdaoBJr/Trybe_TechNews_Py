@@ -1,3 +1,4 @@
+from datetime import datetime
 from tech_news.database import search_news
 
 
@@ -11,14 +12,27 @@ def search_by_title(title):
     return []
 
 
+def is_valid_date(data):
+    try:
+        datetime.strptime(data, "%Y-%m-%d")
+        return True
+    except ValueError:
+        raise ValueError('Data inválida')
+
 # Requisito 7
 def search_by_date(date):
-    
+    validate = is_valid_date(date)
+    find_date = search_news({"timestamp": {'$regex': date}})
+    if validate:
+        for dic in find_date:
+            tupla = [(dic["title"], dic["url"])]
+            return tupla
+    return []
 
 
 # Requisito 8
 def search_by_source(source):
-    """Seu código deve vir aqui"""
+    
 
 
 # Requisito 9
