@@ -1,7 +1,8 @@
 import requests
 import time
 from parsel import Selector
-
+from tech_news.database import create_news
+import re
 
 def fetch(url):
     response = ""
@@ -36,6 +37,15 @@ def scrape_next_page_link(html_content):
     return None
 
 
+def shares_count_func(selector):
+    answer = selector.css("div.tec--toolbar__item::text").get()
+    if answer:
+        answer = int(re.findall(r'\d+', answer)[0])
+    else:
+        answer = 0
+    return answer 
+
+
 # Requisito 4
 def scrape_noticia(html_content):
     noticia = {}
@@ -50,16 +60,10 @@ def scrape_noticia(html_content):
     sources = "div.z--mb-16.z--px-16 > div > a::text"
     sources2 = "div.z--mb-16 > div > a::text"
     title = "h1.tec--article__header__title::text"
-    shares_count = ".feather z--mr-8::text"
     url = "link[rel=canonical]::attr(href)"
-    select_shares_count = select.css(shares_count).get()
+    select_shares_count = shares_count_func(select)
     select_writer = select.css(writer).get()
     select_source = select.css(sources).getall()
-
-    if select_shares_count:
-        select_shares_count.re(r"£\d+\.\d{2}")
-    else:
-        select_shares_count = 0
 
     if select_writer is not None:
         writer = select_writer
@@ -70,6 +74,7 @@ def scrape_noticia(html_content):
         sources = [sc.strip() for sc in select_source]
     else:
         sources = [source.strip() for source in select.css(sources2).getall()]
+
     if writer:
         writer = writer.strip()
     else:
@@ -92,4 +97,19 @@ def scrape_noticia(html_content):
 
 # Requisito 5
 def get_tech_news(amount):
-    """Seu código deve vir aqui"""
+    fetch_url = fetch("https://www.tecmundo.com.br/novidades")
+    novidades = scrape_novidades(fetch_url)
+    next_page = scrape_next_page_link(fetch_url)
+
+    while len(novidades) < amount:
+        page = fetch(next_page)
+        novidades += scrape_novidades(page)
+
+    news = []
+    for n in novidades[0:amount]:
+        noticias = fetch(n)
+        news.append(scrape_noticia(noticias))
+
+    create_news(news)
+
+    return news
