@@ -3,6 +3,9 @@ import time
 from parsel import Selector
 from tech_news.database import create_news
 
+# https://github.com/tryber/sd-010-b-tech-news/blob/bd683abd7aa4529b30be1934eb339d46cf7c59d1/tech_news/scraper.py
+# https://github.com/tryber/sd-010-b-tech-news/blob/f933ffec2c5e291618b430fdaadd7d6c23e4298b/tech_news/scraper.py
+
 
 # Requisito 1
 def fetch(url):
