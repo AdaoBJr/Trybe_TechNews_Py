@@ -42,4 +42,9 @@ def search_by_source(source):
 
 # Requisito 9
 def search_by_category(category):
-    """Seu código deve vir aqui"""
+    find_category = search_news({"categories": {'$regex': category, '$options': 'i'}})
+    if find_category:
+        for dic in find_category:
+            tupla = [(dic["title"], dic["url"])]
+            return tupla
+    return []
