@@ -1,6 +1,13 @@
+import requests
+import time
+
+
 # Requisito 1
 def fetch(url):
     """Seu código deve vir aqui"""
+    time.sleep(1)
+    response = requests.get(url)
+    return response.content
 
 
 # Requisito 2
@@ -21,3 +28,6 @@ def scrape_noticia(html_content):
 # Requisito 5
 def get_tech_news(amount):
     """Seu código deve vir aqui"""
+
+
+fetch("https://www.tecmundo.com.br/novidades")
