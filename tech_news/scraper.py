@@ -1,6 +1,7 @@
 import requests
 import time
 from parsel import Selector
+from tech_news.database import create_news
 
 
 # função para remover espaços de cada string do array utilizada no requisito 4
@@ -124,4 +125,22 @@ def scrape_noticia(html_content):
 
 # Requisito 5
 def get_tech_news(amount):
-    """Seu código deve vir aqui"""
+    html = fetch("https://www.tecmundo.com.br/novidades")
+    news_list = scrape_novidades(html)
+    news_scraped = []
+
+    while len(news_scraped) < amount:
+        for link in news_list:
+            html = fetch(link)
+            if html:
+                news_scraped.append(scrape_noticia(html))
+            else:
+                continue
+        if scrape_next_page_link(html):
+            html = fetch(scrape_next_page_link(html))
+            news_list = scrape_novidades(html)
+        else:
+            break
+
+    create_news(news_scraped)
+    return news_scraped
