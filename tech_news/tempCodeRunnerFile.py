@@ -8,10 +8,9 @@ def fetch(url):
         time.sleep(1)
         res = requests.get(url, timeout=3)
     except requests.exceptions.RequestException:
-        return None
+        return res.status_code
     else:
         if res.status_code == 200:
-            return res.text
+            return res
         return None
-
 print(fetch('https://httpbin.org/delay/5'))

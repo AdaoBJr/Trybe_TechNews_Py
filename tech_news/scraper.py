@@ -1,5 +1,7 @@
 import requests
 import time
+
+
 # Requisito 1
 def fetch(url):
     try:
@@ -11,8 +13,8 @@ def fetch(url):
         if res.status_code == 200:
             return res.text
         return None
-
 # print(fetch('https://httpbin.org/delay/5'))
+
 
 # Requisito 2
 def scrape_novidades(html_content):
