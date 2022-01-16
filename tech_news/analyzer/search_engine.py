@@ -1,7 +1,7 @@
 from tech_news.database import search_news
+from tech_news.utils.utils import return_tuple_list, validate_date
 import re
 # from tech_news.scraper import get_tech_news
-# import time
 
 
 # Requisito 6
@@ -18,7 +18,14 @@ def search_by_title(title):
 
 # Requisito 7
 def search_by_date(date):
-    pass
+    is_date = validate_date(date)
+    if not is_date:
+        query = {"timestamp": {"$regex": date}}
+        search_result = search_news(query)
+
+        return return_tuple_list(search_result)
+    else:
+        raise ValueError("Data inválida")
 
 
 # Requisito 8
@@ -37,5 +44,6 @@ def search_by_category(category):
 
 # Requisito 7
 # # get_tech_news(10)
-# timestamp = "2022-01-14"
+# timestamp = "21-12-1980"
+# timestamp = "2020-11-23"
 # print(search_by_date(timestamp))

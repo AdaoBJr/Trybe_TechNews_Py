@@ -1,4 +1,5 @@
 import re
+import datetime
 
 
 def get_url(selector):
@@ -86,3 +87,20 @@ def flat_map(listA, listB):
         listA.append(el)
 
     return listA
+
+
+def return_tuple_list(list):
+    result_list = []
+
+    for el in list:
+        result_list.append((el["title"], el["url"]))
+
+    return result_list
+
+
+def validate_date(date):
+    try:
+        datetime.datetime.strptime(date, "%Y-%m-%d")
+        return False
+    except ValueError:
+        return True
