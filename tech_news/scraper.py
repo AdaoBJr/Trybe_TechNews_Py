@@ -4,6 +4,7 @@ from parsel import Selector
 from tech_news.database import create_news
 import re
 
+
 def fetch(url):
     response = ""
     try:
@@ -40,10 +41,10 @@ def scrape_next_page_link(html_content):
 def shares_count_func(selector):
     answer = selector.css("div.tec--toolbar__item::text").get()
     if answer:
-        answer = int(re.findall(r'\d+', answer)[0])
+        answer = int(re.findall(r"\d+", answer)[0])
     else:
         answer = 0
-    return answer 
+    return answer
 
 
 # Requisito 4
