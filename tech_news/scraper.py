@@ -1,7 +1,5 @@
 import requests
 import time
-
-
 # Requisito 1
 def fetch(url):
     try:
@@ -14,7 +12,7 @@ def fetch(url):
             return res.text
         return None
 
-print(fetch('https://httpbin.org/delay/5'))
+# print(fetch('https://httpbin.org/delay/5'))
 
 # Requisito 2
 def scrape_novidades(html_content):
