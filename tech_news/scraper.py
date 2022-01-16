@@ -41,7 +41,53 @@ def scrape_next_page_link(html_content):
 
 # Requisito 4
 def scrape_noticia(html_content):
-    """Seu código deve vir aqui"""
+    selector = Selector(html_content)
+
+    url_selector = selector.css("link[rel=canonical]::attr(href)").get()
+
+    title_selector = selector.css(".tec--article__header__title::text").get()
+
+    timestamp_selector = selector.css("time::attr(datetime)").get()
+
+    # o método strip remove espeços em branco no início e fim de uma string
+    writer_selector = (
+        selector.css(".z--font-bold").css("*::text").get().strip() or ""
+    )
+
+    # https://github.com/tryber/sd-010-b-tech-news/pull/10/files
+    try:
+        shares_count = (
+            selector.css(".tec--toolbar__item::text")
+            .get()
+            .strip()
+            .split(" ")[0]
+        )
+    except AttributeError:
+        shares_count = 0
+
+    comments_count_selector = selector.css(
+        "button#js-comments-btn::attr(data-count)"
+    ).get()
+
+    summary_select = "".join(
+        selector.css(".tec--article__body > p:nth-child(1) ::text").getall()
+    )
+
+    sources_select = selector.css(".z--mb-16 .tec--badge::text").getall()
+
+    categories_select = selector.css(".tec--badge--primary::text").getall()
+    
+    return {
+        "url": url_selector,
+        "title": title_selector,
+        "timestamp": timestamp_selector,
+        "write": writer_selector,
+        "shares_count": int(shares_count),
+        "comments_count": int(comments_count_selector),
+        "summary": summary_select,
+        "sources": [source.strip() for source in sources_select],
+        "categories": [category.strip() for category in categories_select],
+    }
 
 
 # Requisito 5
