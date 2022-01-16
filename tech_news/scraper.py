@@ -1,11 +1,11 @@
 import requests
 import time
+from parsel import Selector
 
 # Requisito 1
 
 
 def fetch(url):
-    """Seu código deve vir aqui"""
     try:
         # recurso demora muito a responder
         response = requests.get(url, timeout=3)
@@ -21,7 +21,11 @@ def fetch(url):
 
 # Requisito 2
 def scrape_novidades(html_content):
-    """Seu código deve vir aqui"""
+    selector = Selector(text=html_content)
+    noticias = selector.css(
+        ".tec--list__item > article > div > h3 > a::attr(href)"
+    ).getall()
+    return noticias
 
 
 # Requisito 3
