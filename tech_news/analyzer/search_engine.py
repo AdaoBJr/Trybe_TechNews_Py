@@ -1,6 +1,7 @@
 from tech_news.database import search_news
 import datetime
 
+
 # Requisito 6
 # recebi a ajuda do Bugs
 # https://www.thecodebuzz.com/mongodb-query-case-sensitive-case-insensitive/
