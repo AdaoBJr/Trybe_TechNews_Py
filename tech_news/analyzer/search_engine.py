@@ -61,7 +61,8 @@ def search_by_source(source):
 
 # Requisito 9
 def search_by_category(category):
-    news_found = search_news({"categories": {'$regex': category, '$options': 'i'}})
+    news_found = search_news({"categories":
+                             {'$regex': category, '$options': 'i'}})
 
     if len(news_found) != 0:
         for i in news_found:
