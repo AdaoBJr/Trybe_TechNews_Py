@@ -68,21 +68,22 @@ def scrape_noticia(html_content):
     sources = noticia.css('.z--mb-16 div a.tec--badge::text').getall()
     categories = noticia.css(
         '#js-categories .tec--badge--primary::text').getall()
-    if shares_count is not int:
-        print(url)
-        print(type(shares_count))
-        shares_count = shares_count.replace('Compartilharam', '')
-        print(shares_count)
+    shares_count_int = shares_count
+    if shares_count:
+        shares_count_replaced = shares_count.replace('Compartilharam', '')
+        shares_count_int = int(shares_count_replaced)
+    if writer is not None:
+        writer = writer.strip()
     fullinfo = {
         "url": url,
         "categories": rm_space(categories),
         "comments_count": int(comments_count),
-        "shares_count": int(shares_count),
+        "shares_count": shares_count_int,
         "sources": rm_space(sources),
         "summary": rm_tags(summary),
         "timestamp": timestamp,
         "title": title,
-        "writer": writer.strip()
+        "writer": writer
     }
     return fullinfo
 
