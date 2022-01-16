@@ -55,4 +55,4 @@ def search_by_category(category):
     return itens
 
 
-# Agradecimentos ao Pedro Henrique pela ajuda
+# Agradecimentos ao Pedro Henrique pela ajuda.
