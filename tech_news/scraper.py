@@ -37,30 +37,57 @@ def scrape_next_page_link(html_content):
 
 # Requisito 4
 def scrape_noticia(html_content):
-    # selector = Selector(html_content)
-    # url = selector.css('meta[property="og:url"]').attrib["content"]
-    # title = selector.css("h1::text").get()
-    # timestamp = selector.css("time::attr(datetime)").get()
-    # writer = selector.css(".tec--author__info__link::text").get()
-    """sources = [
-        source.strip()
-        for source in selector.css(".z--mb-16 > div > a::text").getall()
-    ]"""
-    """ categories = [
-        category.strip()
-        for category in selector.css("#js-categories a::text").getall()
-    ] """
-    # // a linha abaixo não funciona
-    # summary = selector.css(".tec--article__body > p *::text").get()
-    """ shares_count, comment_count = [
-        int(social_num_info)
-        for social_num_info in selector.css(".tec--toolbar__item *::text").re(
-            r"\\d+"
+    selector = Selector(html_content)
+    url = {"url": selector.css('meta[property="og:url"]').attrib["content"]}
+    title = {"title": selector.css("h1::text").get()}
+    timestamp = {"timestamp": selector.css("time::attr(datetime)").get()}
+    writer = {"writer": selector.css(".z--font-bold *::text").get().strip()}
+    shares_count_res = (
+        selector.css("#js-author-bar > nav > div:first-child::text").re_first(
+            r"\d+"
         )
-    ] """
-    # print()
-    # print(summary)
-    # print({url, title})
+        or 0
+    )
+    shares_count = {"shares_count": int(shares_count_res)}
+    comments_count = {
+        "comments_count": int(
+            selector.css("#js-comments-btn::text").re_first(r"\d+")
+        )
+    }
+    summary_str_list = selector.css(
+        ".tec--article__body > p:first-child *::text"
+    ).getall()
+    summary = {"summary": "".join(summary_str_list)}
+    sources = {
+        "sources": [
+            source.strip()
+            for source in selector.css(".z--mb-16 > div > a::text").getall()
+        ]
+    }
+    categories = {
+        "categories": [
+            category.strip()
+            for category in selector.css("#js-categories a::text").getall()
+        ]
+    }
+    scrape_res_list = [
+        url,
+        title,
+        timestamp,
+        writer,
+        shares_count,
+        comments_count,
+        summary,
+        sources,
+        categories,
+    ]
+
+    scraped_news_dict = {}
+
+    for d in scrape_res_list:
+        scraped_news_dict.update(d)
+
+    return scraped_news_dict
 
 
 # Requisito 5
