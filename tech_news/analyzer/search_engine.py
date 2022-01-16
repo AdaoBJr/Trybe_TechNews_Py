@@ -1,4 +1,14 @@
 from tech_news.database import search_news
+import datetime
+
+
+# Função feita com ajuda da Letícia Galvão
+def valid_date(date):
+    try:
+        datetime.datetime.strptime(date, '%Y-%m-%d')
+        return True
+    except ValueError:
+        return False
 
 
 # Requisito 6
@@ -8,8 +18,8 @@ def search_by_title(title):
     results = search_news(
         {"title": {'$regex': title, '$options': 'i'}})
 
-    zero = 0
-    if len(results) > zero:
+    ZERO = 0
+    if len(results) > ZERO:
         for result in results:
             tupla_result = [(result['title'], result['url'])]
             return tupla_result
@@ -18,14 +28,43 @@ def search_by_title(title):
 
 # Requisito 7
 def search_by_date(date):
-    """Seu código deve vir aqui"""
+    results = search_news(
+        {"timestamp": {'$regex': date}})
+    date_validation = valid_date(date)
+
+    # tupla_result = []
+
+    if date_validation:
+        for result in results:
+            tupla_result = [(result['title'], result['url'])]
+            return tupla_result
+    return ValueError('Data Inválida')
 
 
 # Requisito 8
 def search_by_source(source):
-    """Seu código deve vir aqui"""
+    results = search_news(
+        {"sources": {"$elemMatch": {'$regex': source, '$options': 'i'}}})
+
+    # tupla_result = []
+    ZERO = 0
+    if len(results) > ZERO:
+        for result in results:
+            tupla_result = [(result['title'], result['url'])]
+            return tupla_result
+    # print(results, "Camilaaa")
+    return []
 
 
 # Requisito 9
 def search_by_category(category):
-    """Seu código deve vir aqui"""
+    results = search_news(
+        {"categories": {"$elemMatch": {'$regex': category, '$options': 'i'}}})
+
+    ZERO = 0
+    if len(results) > ZERO:
+        for result in results:
+            tupla_result = [(result['title'], result['url'])]
+            return tupla_result
+
+    return []
