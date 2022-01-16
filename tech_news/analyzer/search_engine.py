@@ -43,7 +43,8 @@ def search_by_source(source):
 
 # Requisito 9
 def search_by_category(category):
-    find_category = search_news({"categories": {'$regex': category, '$options': 'i'}})
+    find_category = search_news({
+        "categories": {'$regex': category, '$options': 'i'}})
     if find_category:
         for dic in find_category:
             tupla = [(dic["title"], dic["url"])]
