@@ -8,9 +8,9 @@ def fetch(url):
         time.sleep(1)
         res = requests.get(url, timeout=3)
     except requests.exceptions.RequestException:
-        return res.status_code
+        return None
     else:
         if res.status_code == 200:
-            return res
+            return res.text
         return None
-print(fetch('https://httpbin.org/delay/5'))
+print(fetch('https://www.tecmundo.com.br/novidades'))

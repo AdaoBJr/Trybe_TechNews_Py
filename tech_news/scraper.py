@@ -1,5 +1,6 @@
 import requests
 import time
+from parsel import Selector
 
 
 # Requisito 1
@@ -13,12 +14,14 @@ def fetch(url):
         if res.status_code == 200:
             return res.text
         return None
-# print(fetch('https://httpbin.org/delay/5'))
 
 
+# print(fetch('https://www.tecmundo.com.br/novidades'))
 # Requisito 2
 def scrape_novidades(html_content):
-    """Seu código deve vir aqui"""
+    selector = Selector(html_content)
+    result = selector.css("div.tec--card__info h3 a::attr(href)").getall()
+    return result
 
 
 # Requisito 3
