@@ -71,11 +71,12 @@ def scrape_noticia(html_content):
         comments_count = 0
 
     # https://pt.stackoverflow.com/questions/421678/juntar-elementos-de-uma-lista-com-o-%C3%BAltimo-separador-diferente
-    summary = "".join(
-        selector.css(
-            "div.tec--article__body.p402_premium > p:nth-child(1) ::text"
-        ).getall()
-    )
+    # https://github.com/tryber/sd-010-b-tech-news/blob/alessandra-rezende-tech-news/tech_news/scraper.py
+    summary = "".join(selector.css(
+        ".tec--article__body > p:nth-child(1) ::text"
+    ).getall())
+
+    # --------
     sources = with_out_space(
         selector.css(".z--mb-16 > div > a ::text").getall()
     )
@@ -88,8 +89,8 @@ def scrape_noticia(html_content):
         "title": title,
         "timestamp": timestamp,
         "writer": writer,
-        "shares_count": shares_count,
-        "comments_count": comments_count,
+        "shares_count": int(shares_count),
+        "comments_count": int(comments_count),
         "summary": summary,
         "sources": sources,
         "categories": categories,
@@ -102,7 +103,8 @@ def get_tech_news(amount):
     save_list = list_news_tecmundo(next_page, amount)
 
     while len(save_list) < amount:
-        next_page = scrape_next_page_link(next_page)
+        html_content_1 = fetch(next_page)
+        next_page = scrape_next_page_link(html_content_1)
         save_list_1 = list_news_tecmundo(next_page, (amount - len(save_list)))
         save_list.extend(save_list_1)
 
