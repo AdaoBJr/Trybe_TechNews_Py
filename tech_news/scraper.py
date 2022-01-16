@@ -1,6 +1,7 @@
 import requests
 import time
 from parsel import Selector
+from tech_news.database import create_news
 
 # Requisito 1
 
@@ -90,4 +91,28 @@ def scrape_noticia(html_content):
 
 # Requisito 5
 def get_tech_news(amount):
-    """Seu código deve vir aqui"""
+    # https://app.betrybe.com/course/computer-science/redes-e-raspagem-de
+    # -dados/raspagem-de-dados/ab38ab4e-bdbd-4984-8987-1abf32d85f26/conteudos/b63ffce8-be02-4be1-9b88-bda695400647/
+    # recursos-paginados/96623da6-152d-49aa-8fec-6a34556a79df?use_case=side_bar
+
+    # https://github.com/tryber/sd-010-b-tech-news/blob/3786d9a1c2d3517fb62267119321fe530a6fab25/tech_news/scraper.py
+    # https://github.com/tryber/sd-010-b-tech-news/pull/12/files
+
+    base_url = "https://www.tecmundo.com.br/novidades"
+    html_content = fetch(base_url)
+    list_news_updates = scrape_novidades(html_content)
+
+    database = []
+
+    while len(list_news_updates) < amount:
+        base_url = scrape_next_page_link(html_content)
+        fetch_url = fetch(base_url)
+        list_news_updates.extend(scrape_novidades(fetch_url))
+
+    for new_url in list_news_updates[0:amount]:
+        data = fetch(new_url)
+        notice_html_content = scrape_noticia(data)
+        database.append(notice_html_content)
+
+    create_news(database)
+    return database
