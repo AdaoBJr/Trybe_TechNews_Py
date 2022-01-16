@@ -50,15 +50,24 @@ def get_news_timestamp(selector):
 
 
 def get_news_writer(selector):
-    writer = selector.css(".tec--author__info__link ::text").get()
-    if writer is not None:
-        return writer.strip()
+    css_class = [
+        ".tec--author__info__link ::text",
+        ".tec--timestamp a ::text",
+        ".tec--author div .z--font-bold ::text",
+    ]
+    for item in css_class:
+        writer = selector.css(item).get()
+        if writer is not None:
+            return writer.strip()
 
 
 def get_news_share_count(selector):
-    text_count = selector.css(".tec--toolbar__item ::text").get()
-    number_count = int(text_count.split(" ")[1])
-    return number_count
+    text_count = selector.css(
+        ".tec--toolbar__item > div:nth-child(1) ::text"
+    ).get()
+    if text_count is not None:
+        return int(text_count.split(" ")[1])
+    return 0
 
 
 def get_news_comments_count(selector):
