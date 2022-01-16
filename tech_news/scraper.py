@@ -3,7 +3,7 @@ import time
 import re
 from parsel import Selector
 from tech_news.database import create_news
-from tech_news.assistants import seletores, list_strip, URL_MAIN
+from tech_news.assistants import seletores, list_strip
 
 
 # Requisito 1
@@ -48,15 +48,22 @@ def scrape_noticia(html_content):
 
 
 # Requisito 5
-def get_tech_news(amount, results=[], url=URL_MAIN):
-    html_page = fetch(url)
-    news = scrape_novidades(html_page)
-    for new in news[: abs(amount - len(results))]:
-        dict_new = scrape_noticia(fetch(new))
-        results.append(dict_new)
-    if len(results) >= amount:
-        create_news(results)
-        return results
-    else:
-        next_page = scrape_next_page_link(html_page)
-        return get_tech_news(amount, results, next_page)
+# AJUDA DA ALESSANDRA REZENDE
+def get_tech_news(amount):
+    base_url = "https://www.tecmundo.com.br/novidades"
+    fetch_url = fetch(base_url)
+    notice_list = scrape_novidades(fetch_url)
+    notice_result = []
+
+    while len(notice_list) < amount:
+        base_url = scrape_next_page_link(fetch_url)
+        fetch_url = fetch(base_url)
+        notice_list.extend(scrape_novidades(fetch_url))
+
+    for notice_url in notice_list[0:amount]:
+        data = fetch(notice_url)
+        notice = scrape_noticia(data)
+        notice_result.append(notice)
+
+    create_news(notice_result)
+    return notice_result

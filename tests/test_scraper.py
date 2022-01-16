@@ -141,7 +141,7 @@ def test_get_tech_news(amount, mocker):
     db.news.drop()
     mocker.patch("tech_news.scraper.fetch", new=mocked_fetch)
     mocked_create_news = mocker.patch("tech_news.scraper.create_news")
-
+    
     # Act
     result = get_tech_news(amount)
     mocked_create_news.assert_called_once_with(result)
