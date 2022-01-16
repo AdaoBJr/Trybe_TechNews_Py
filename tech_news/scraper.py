@@ -134,10 +134,4 @@ def get_tech_news(amount):
     return info_lista
 
 
-if __name__ == "__main__":
-    base_url = "https://www.tecmundo.com.br/novidades"
-    fetch_url = fetch(base_url)
-    novidades_urls = scrape_novidades(fetch_url)
-    scrapeNoticias = scrape_noticia(fetch_url)
-    teste = get_tech_news(2)
-    print(get_tech_news)
+
