@@ -20,9 +20,9 @@ def search_by_date(date):
     try:
         datetime.strptime(date, "%Y-%m-%d")
         # para ver se a data está correta, se não vai pro erro
-        search_date = list(db.news.find({"timestamp": {"$regex": date}}))
+        search = list(db.news.find({"timestamp": {"$regex": date}}))
         itens = []
-        for item in search_date:
+        for item in search:
             itens.append((item["title"], item["url"]))
         return itens
     except ValueError:
@@ -45,4 +45,14 @@ def search_by_source(source):
 
 # Requisito 9
 def search_by_category(category):
-    """Seu código deve vir aqui"""
+    search = list(
+        db.news.find({"categories": re.compile(category, re.IGNORECASE)})
+    )
+
+    itens = []
+    for item in search:
+        itens.append((item["title"], item["url"]))
+    return itens
+
+
+# Agradecimentos ao Pedro Henrique pela ajuda
