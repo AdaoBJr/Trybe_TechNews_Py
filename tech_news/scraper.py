@@ -76,6 +76,8 @@ def get_comments_count(count):
 # https://stackoverflow.com/questions/3232953/python-removing-spaces-from-list-objects
 # https://www.geeksforgeeks.org/python-extract-numbers-from-string/
 # https://flexiple.com/check-if-list-is-empty-python/
+# https://stackoverflow.com/questions/28534125/list-comprehension
+# -elegantly-strip-and-remove-empty-elements-in-list
 # Requisito 4
 def scrape_noticia(html_content):
     selector = Selector(html_content)
@@ -117,6 +119,9 @@ def scrape_noticia(html_content):
 
 
 # Requisito 5
+# https://app.betrybe.com/course/computer-science/redes-e-raspagem-de-dados/raspagem-de-dados/ab38ab4e-bdbd-4984-8987-1abf32d85f26/conteudos/b63ffce8-be02-4be1-9b88-bda695400647/
+# recursos-paginados/96623da6-152d-49aa-8fec-6a34556a79df?use_case=side_bar
+# consultei o reposistório do colega João Vanelli
 def get_tech_news(amount):
     url = "https://www.tecmundo.com.br/novidades"
     html = fetch(url)
