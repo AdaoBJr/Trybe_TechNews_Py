@@ -35,7 +35,7 @@ def scrape_next_page_link(html_content):
 def shares_count_func(selector):
     answer = selector.css("div.tec--toolbar__item::text").get()
     if answer:
-        answer = int(re.findall(r'\d+', answer)[0])
+        answer = re.findall(r'\d+', answer)[0]
     else:
         answer = 0
     return answer
@@ -74,7 +74,7 @@ def scrape_noticia(html_content):
     data["title"] = title
     data["timestamp"] = timestamp
     data["writer"] = writer
-    data["shares_count"] = shares_count
+    data["shares_count"] = int(shares_count)
     data["comments_count"] = int(comments_count)
     data["summary"] = summary
     data["sources"] = sources
