@@ -3,7 +3,7 @@ import time
 import re
 from parsel import Selector
 from tech_news.database import create_news
-from tech_news.assistants import seletores, list_strip, get_writer, URL_MAIN
+from tech_news.assistants import seletores, list_strip, URL_MAIN
 
 
 # Requisito 1
@@ -31,22 +31,20 @@ def scrape_next_page_link(html_content):
 
 # Requisito 4
 def scrape_noticia(html_content):
-    write = {}
     page = Selector(html_content)
-    write["url"] = page.css(seletores["url"]).get()
-    write["title"] = page.css(seletores["title"]).get()
-    write["timestamp"] = page.css(seletores["timestamp"]).get()
-    write["writer"] = get_writer(page)
     share_count = page.css(seletores["shares_count"]).get() or "0"
-    write["shares_count"] = int(re.sub("[^0-9]", "", share_count))
-    comment_cout = page.css(seletores["comments_count"]).get() or 0
-    write["comments_count"] = int(comment_cout)
-    write["summary"] = "".join(page.css(seletores["sumary"]).getall())
-    write["sources"] = list_strip(page.css(seletores["sources"]).getall())
-    write["categories"] = list_strip(
-        page.css(seletores["categories"]).getall()
-    )
-    return write
+    comment_cout = page.css(seletores["comments_count"]).get() or "0"
+    return {
+        "url": page.css(seletores["url"]).get(),
+        "title": page.css(seletores["title"]).get(),
+        "timestamp": page.css(seletores["timestamp"]).get(),
+        "writer": page.css(".z--font-bold").css("*::text").get().strip() or "",
+        "shares_count": int(re.sub("[^0-9]", "", share_count)),
+        "comments_count": int(comment_cout),
+        "summary": "".join(page.css(seletores["sumary"]).getall()),
+        "sources": list_strip(page.css(seletores["sources"]).getall()),
+        "categories": list_strip(page.css(seletores["categories"]).getall()),
+    }
 
 
 # Requisito 5
