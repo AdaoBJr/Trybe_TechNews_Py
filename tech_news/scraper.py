@@ -104,6 +104,8 @@ def get_tech_news(amount):
 
 class scrapy_crazy:
     # primeira refatoração para select pra ver se erro e bs4
+    # referência para querys em parsel
+    # https://appletree.or.kr/quick_reference_cards/CSS/CSS%20selectors%20cheatsheet.pdf
     def url_scrapy(selector):
         url = selector.css("link[rel=canonical]::attr(href)").get()
         return url
