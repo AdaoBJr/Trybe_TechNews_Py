@@ -37,4 +37,10 @@ def search_by_source(source):
 
 # Requisito 9
 def search_by_category(category):
-    """Seu código deve vir aqui"""
+    found_news = db.news.find({
+        "categories": re.compile(category, re.IGNORECASE)
+        })
+    result = []
+    for news in found_news:
+        result += [(news["title"], news["url"])]
+    return result
