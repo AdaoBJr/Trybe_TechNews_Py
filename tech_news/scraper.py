@@ -2,6 +2,7 @@ import requests
 from parsel import Selector
 import time
 from requests.exceptions import ReadTimeout
+from tech_news.database import create_news
 
 
 # Requisito 1
@@ -96,6 +97,7 @@ def scrape_noticia(html_content):
         "title": title,
         "writer": search_autor(writer1, writer2, writer3)
     }
+    create_news(fullinfo)
     return fullinfo
 
 
