@@ -1,10 +1,6 @@
 from tech_news.database import find_news
 
 
-def myFunc(e):
-    return e['popularidade']
-
-
 # Requisito 10
 def top_5_news():
     news_list = []
