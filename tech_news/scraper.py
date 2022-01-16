@@ -57,6 +57,7 @@ def scrape_noticia(html_content):
     if html_content == "":
         return []
     noticia = Selector(html_content)
+    url = noticia.css('meta::attr(content)').getall()[3]
     title = noticia.css('.tec--article__header__title::text').get()
     timestamp = noticia.css('.tec--timestamp__item time::attr(datetime)').get()
     writer = noticia.css('.tec--author__info__link::text').get() or None
@@ -67,11 +68,16 @@ def scrape_noticia(html_content):
     sources = noticia.css('.z--mb-16 div a.tec--badge::text').getall()
     categories = noticia.css(
         '#js-categories .tec--badge--primary::text').getall()
+    if shares_count is not int:
+        print(url)
+        print(type(shares_count))
+        shares_count = shares_count.replace('Compartilharam', '')
+        print(shares_count)
     fullinfo = {
-        # "url": url,
+        "url": url,
         "categories": rm_space(categories),
         "comments_count": int(comments_count),
-        "shares_count": int(shares_count.replace('Compartilharam', '')),
+        "shares_count": int(shares_count),
         "sources": rm_space(sources),
         "summary": rm_tags(summary),
         "timestamp": timestamp,
