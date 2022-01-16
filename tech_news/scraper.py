@@ -79,7 +79,7 @@ def scrape_noticia(html_content):
         "url": url_selector,
         "title": title_selector,
         "timestamp": timestamp_selector,
-        "write": writer_selector,
+        "writer": writer_selector,
         "shares_count": int(shares_count),
         "comments_count": int(comments_count),
         "summary": summary_selector,
