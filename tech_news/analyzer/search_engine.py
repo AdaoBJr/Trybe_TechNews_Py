@@ -32,7 +32,12 @@ def search_by_date(date):
 
 # Requisito 8
 def search_by_source(source):
-    
+    find_source = search_news({"sources": {'$regex': source, '$options': 'i'}})
+    if find_source:
+        for dic in find_source:
+            tupla = [(dic["title"], dic["url"])]
+            return tupla
+    return []
 
 
 # Requisito 9
