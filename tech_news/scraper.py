@@ -65,27 +65,26 @@ def scrape_noticia(html_content):
     except AttributeError:
         shares_count = 0
 
-    comments_count_selector = selector.css(
-        "button#js-comments-btn::attr(data-count)"
-    ).get()
+    comments_count = selector.css(".tec--btn::attr(data-count)").get()
 
-    summary_select = "".join(
+    summary_selector = "".join(
         selector.css(".tec--article__body > p:nth-child(1) ::text").getall()
     )
 
-    sources_select = selector.css(".z--mb-16 .tec--badge::text").getall()
+    sources_selector = selector.css(".z--mb-16 .tec--badge::text").getall()
 
-    categories_select = selector.css(".tec--badge--primary::text").getall()
+    categories_selector = selector.css(".tec--badge--primary::text").getall()
+
     return {
         "url": url_selector,
         "title": title_selector,
         "timestamp": timestamp_selector,
         "write": writer_selector,
         "shares_count": int(shares_count),
-        "comments_count": int(comments_count_selector),
-        "summary": summary_select,
-        "sources": [source.strip() for source in sources_select],
-        "categories": [category.strip() for category in categories_select],
+        "comments_count": int(comments_count),
+        "summary": summary_selector,
+        "sources": [source.strip() for source in sources_selector],
+        "categories": [category.strip() for category in categories_selector],
     }
 
 
