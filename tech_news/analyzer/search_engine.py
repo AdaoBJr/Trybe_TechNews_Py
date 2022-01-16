@@ -5,10 +5,10 @@ import datetime
 # Função feita com ajuda da Letícia Galvão
 def valid_date(date):
     try:
-        datetime.datetime.strptime(date, '%Y-%m-%d')
-        return True
+        return datetime.datetime.strptime(date, '%Y-%m-%d')
+        # return True
     except ValueError:
-        return False
+        raise ValueError("Data inválida")
 
 
 # Requisito 6
@@ -38,7 +38,7 @@ def search_by_date(date):
         for result in results:
             tupla_result = [(result['title'], result['url'])]
             return tupla_result
-    return ValueError('Data Inválida')
+    return []
 
 
 # Requisito 8
