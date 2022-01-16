@@ -6,8 +6,14 @@ import time
 def fetch(url):
     """Seu código deve vir aqui"""
     time.sleep(1)
-    response = requests.get(url)
-    return response.content
+    try:
+        response = requests.get(url, timeout=3)
+    except requests.ReadTimeout:
+        return None
+    else:
+        if response.status_code == 200:
+            return response.text
+        return None
 
 
 # Requisito 2
@@ -30,4 +36,4 @@ def get_tech_news(amount):
     """Seu código deve vir aqui"""
 
 
-fetch("https://www.tecmundo.com.br/novidades")
+# fetch("https://www.tecmundo.com.br/novidades")
