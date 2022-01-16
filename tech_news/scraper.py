@@ -76,7 +76,6 @@ def scrape_noticia(html_content):
     sources_select = selector.css(".z--mb-16 .tec--badge::text").getall()
 
     categories_select = selector.css(".tec--badge--primary::text").getall()
-    
     return {
         "url": url_selector,
         "title": title_selector,
