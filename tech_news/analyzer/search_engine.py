@@ -1,3 +1,4 @@
+import datetime
 from tech_news.database import find_news
 
 
@@ -19,10 +20,23 @@ def search_by_title(title):
     return getTitleAndUrl(fullNews)
 
 
+# https://stackoverflow.com/questions/16870663/how-do-i-validate-a-date-string-format-in-python
+def validate(date):
+    try:
+        datetime.datetime.strptime(date, "%Y-%m-%d")
+    except ValueError:
+        raise ValueError("Data inválida")
+
+
 # Requisito 7
 def search_by_date(date):
-    pass
-    # for now ;)
+    validate(date)
+
+    allNews = find_news()
+
+    fullNews = [n for n in allNews if date == n['timestamp'][0:10]]
+
+    return getTitleAndUrl(fullNews)
 
 
 # Requisito 8
