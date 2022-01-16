@@ -23,7 +23,7 @@ def fetch(url):
 
 # Requisito 2
 def scrape_novidades(html_content):
-    selector = Selector(text=html_content)
+    selector = Selector(html_content)
     divlist = selector.css("div.tec--list__item")
     # Porque nao me permite usar direto o a.tec--card... Não sei??
     hreflist = divlist.css(
