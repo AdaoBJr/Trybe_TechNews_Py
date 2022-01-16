@@ -91,6 +91,7 @@ def get_tech_news(amount):
         # final da lista
         link_list += scrape_novidades(res)
 
+    # Tricks para array em python
     # https://gist.github.com/RatulSaha/b41c52614da34762a74d16dc066b68df
     for notice_link in link_list[0:amount]:
         html = fetch(notice_link)

@@ -26,6 +26,10 @@ def search_by_date(date):
 
     for notice in notice_list:
         try:
+            # fromisoformat( date_string ) ¶
+            # Retorne um datecorrespondente a um date_string fornecido
+            # no formato YYYY-MM-DD:
+            # https://docs.python.org/3/library/datetime.html
             datetime.date.fromisoformat(date)
             if notice["timestamp"].find(date) == 0:
                 title_url_list.append((notice["title"], notice["url"]))
