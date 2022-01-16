@@ -34,8 +34,8 @@ def search_by_source(source):
     dbNews = find_news()
     result = []
     for news in dbNews:
-        for index in range(len(news["sources"])):
-            news["sources"][index] = news["sources"][index].lower()
+        for i in range(len(news["sources"])):
+            news["sources"][i] = news["sources"][i].lower()
         if source.lower() in news["sources"]:
             result.append((news["title"], news["url"]))
     return result
