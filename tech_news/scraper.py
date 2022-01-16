@@ -36,7 +36,43 @@ def scrape_next_page_link(html_content):
 
 # Requisito 4
 def scrape_noticia(html_content):
-    """Seu código deve vir aqui"""
+    selector = Selector(text=html_content)
+    url_selected = (
+        selector.css('meta[property="og:url"]::attr("content")').get()
+    )
+    title_selected = selector.css(".tec--article__header__title::text").get()
+    timestamp_selected = selector.css("time::attr(datetime)").get()
+    writer_selected = (
+        selector.css(".z--font-bold").css("*::text").get().strip() or ""
+    )
+    try:
+        shares_count = (
+            selector.css(".tec--toolbar__item::text")
+            .get()
+            .strip()
+            .split(" ")[0]
+        )
+    except AttributeError:
+        shares_count = 0
+        
+    comments_count = selector.css(".tec--btn::attr(data-count)").get()
+    summary_selected = "".join(
+        selector.css(".tec--article__body > p:nth-child(1) ::text").getall()
+    )
+    sources_selected = selector.css(".z--mb-16 > div > a::text").getall()
+    categories_selected = selector.css("div#js-categories a::text").getall()
+
+    return {
+        "url": url_selected,
+        "title": title_selected,
+        "timestamp": timestamp_selected,
+        "writer": writer_selected,
+        "shares_count": int(shares_count),
+        "comments_count": int(comments_count),
+        "summary": summary_selected,
+        "sources": [source.strip() for source in sources_selected],
+        "categories": [category.strip() for category in categories_selected],
+    }
 
 
 # Requisito 5
