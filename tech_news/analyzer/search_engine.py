@@ -32,8 +32,6 @@ def search_by_date(date):
         {"timestamp": {'$regex': date}})
     date_validation = valid_date(date)
 
-    # tupla_result = []
-
     if date_validation:
         for result in results:
             tupla_result = [(result['title'], result['url'])]
