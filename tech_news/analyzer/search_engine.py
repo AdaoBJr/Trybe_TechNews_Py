@@ -21,12 +21,20 @@ def search_by_title(title):
 
 # Requisito 7
 def search_by_date(date):
-    """Seu código deve vir aqui"""
+    pass
+    # for now ;)
 
 
 # Requisito 8
 def search_by_source(source):
-    """Seu código deve vir aqui"""
+    allNews = find_news()
+    titleAndUrlNews = []
+
+    for fullN in allNews:
+        news = [fullN for n in fullN['sources'] if source.lower() == n.lower()]
+        titleAndUrlNews.extend(getTitleAndUrl(news))
+
+    return titleAndUrlNews
 
 
 # Requisito 9
