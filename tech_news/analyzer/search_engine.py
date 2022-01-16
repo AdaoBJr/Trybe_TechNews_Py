@@ -23,8 +23,7 @@ def search_by_date(date):
 
 # Requisito 8
 def search_by_source(source):
-    get_source = db.news.find(
-        {"sources": re.compile(source, re.IGNORECASE)})
+    get_source = db.news.find({"sources": re.compile(source, re.IGNORECASE)})
     return [(item["title"], item["url"]) for item in get_source]
 
 
