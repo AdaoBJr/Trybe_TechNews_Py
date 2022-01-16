@@ -8,6 +8,7 @@ from datetime import datetime
 
 
 # Requisito 6
+# https://www.kite.com/python/answers/how-to-find-the-values-of-a-key-in-a-list-of-dictionaries-in-python#:~:text=Use%20a%20list%20comprehension%20to,the%20list%20of%20dictionaries%20list_of_dicts%20.
 def search_by_title(title):
     news_found = search_news({"title": {'$regex': title, '$options': 'i'}})
 
@@ -36,6 +37,7 @@ def check_date_format(date):
 
 
 # Requisito 7
+# https://www.kite.com/python/answers/how-to-find-the-values-of-a-key-in-a-list-of-dictionaries-in-python#:~:text=Use%20a%20list%20comprehension%20to,the%20list%20of%20dictionaries%20list_of_dicts%20.
 def search_by_date(date):
     valid_format = check_date_format(date)
     news_found = search_news({"timestamp": {'$regex': date}})

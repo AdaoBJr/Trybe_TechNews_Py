@@ -78,6 +78,7 @@ def get_comments_count(count):
 # https://flexiple.com/check-if-list-is-empty-python/
 # https://stackoverflow.com/questions/28534125/list-comprehension
 # -elegantly-strip-and-remove-empty-elements-in-list
+# https://developer.mozilla.org/pt-BR/docs/Web/CSS/:nth-child
 # Requisito 4
 def scrape_noticia(html_content):
     selector = Selector(html_content)
