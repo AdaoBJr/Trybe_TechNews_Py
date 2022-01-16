@@ -49,4 +49,11 @@ def search_by_source(source):
 
 # Requisito 9
 def search_by_category(category):
-    """Seu código deve vir aqui"""
+    news = []
+    for n in db.news.find({
+        "categories": {
+            "$elemMatch": {"$regex": category, "$options": "i"}
+            }}):
+        item = n["title"], n["url"]
+        news.append(item)
+    return news
