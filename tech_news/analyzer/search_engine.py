@@ -1,6 +1,7 @@
 from tech_news.database import search_news
 from tech_news.utils.utils import return_tuple_list, validate_date
 import re
+
 # from tech_news.scraper import get_tech_news
 
 
@@ -35,7 +36,13 @@ def search_by_source(source):
 
 # Requisito 9
 def search_by_category(category):
-    """Seu código deve vir aqui"""
+    query = {
+        "categories": {"$elemMatch": {"$regex": category, "$options": "i"}}
+    }
+
+    search_result = search_news(query)
+
+    return return_tuple_list(search_result)
 
 
 # source = "ResetEra"
