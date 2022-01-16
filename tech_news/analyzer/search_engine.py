@@ -21,14 +21,18 @@ def search_by_date(date):
 
     found_news = db.news.find({"timestamp": {"$regex": date}})
     result = []
-    for i in found_news:
-        result += [(i["title"], i["url"])]
+    for news in found_news:
+        result += [(news["title"], news["url"])]
     return result
 
 
 # Requisito 8
 def search_by_source(source):
-    """Seu código deve vir aqui"""
+    found_news = db.news.find({"sources": re.compile(source, re.IGNORECASE)})
+    result = []
+    for news in found_news:
+        result += [(news["title"], news["url"])]
+    return result
 
 
 # Requisito 9
