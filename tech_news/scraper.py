@@ -1,20 +1,19 @@
 import requests
 import time
 from parsel import Selector
-# from bs4 import BeautifulSoup
 import re
-# from tech_news.database import create_news
+from tech_news.database import create_news
 
 
 # Requisito 1
-def fetch(URL):
+def fetch(url):
     # A função deve receber uma URL
 
     res = ""
     try:
         # A função deve respeitar um Rate Limit de 1
         time.sleep(1)
-        res = requests.get(URL, timeout=3)
+        res = requests.get(url, timeout=3)
         # A função deve fazer uma requisição
         # HTTP get para esta URL utilizando a função requests.get
     except requests.exceptions.Timeout:
@@ -121,7 +120,26 @@ def scrape_noticia(html_content):
 # Requisito 5
 def get_tech_news(amount):
     """Seu código deve vir aqui"""
-    pass
+    url = "https://www.tecmundo.com.br/novidades"
+    res = fetch(url)
+    link_list = scrape_novidades(res)
+    scrapy_results = []
+
+    while len(link_list) < amount:
+        url = scrape_next_page_link(res)
+        res = fetch(url)
+        # aqui também poderia ser usado o extend para adicionar no
+        # final da lista
+        link_list += scrape_novidades(res)
+
+    # https://gist.github.com/RatulSaha/b41c52614da34762a74d16dc066b68df
+    for notice_link in link_list[0:amount]:
+        html = fetch(notice_link)
+        scrapy_of_page = scrape_noticia(html)
+        scrapy_results.append(scrapy_of_page)
+
+    create_news(scrapy_results)
+    return scrapy_results
 
 
 class scrapy_crazy:
