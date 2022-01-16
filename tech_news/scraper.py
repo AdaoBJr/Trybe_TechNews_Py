@@ -1,13 +1,12 @@
 import requests
 import time
+from parsel import Selector
 
 
 # Requisito 1
 def fetch(url):
     try:
-        response = requests.get(
-            url, timeout=2
-        )
+        response = requests.get(url, timeout=2)
         response.raise_for_status()
         return response.text
     except (requests.ReadTimeout, requests.exceptions.HTTPError):
@@ -18,7 +17,12 @@ def fetch(url):
 
 # Requisito 2
 def scrape_novidades(html_content):
-    """Seu código deve vir aqui"""
+    selector = Selector(text=html_content)
+    list_links = selector.css(
+        "#js-main > div > div > div.z--col.z--w-2-3 >"
+        + " div.tec--list.tec--list--lg article > div > h3 > a::attr(href)"
+    ).getall()
+    return list_links
 
 
 # Requisito 3
