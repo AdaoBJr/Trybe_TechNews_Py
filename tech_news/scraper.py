@@ -52,6 +52,15 @@ def rm_tags(item):
     return ''.join(new_item)
 
 
+def search_autor(writer1, writer2, writer3):
+    if writer1 is not None:
+        return writer1.strip()
+    elif writer2 is not None:
+        return writer2.strip()
+    elif writer3 is not None:
+        return writer3.strip()
+
+
 # Requisito 4
 def scrape_noticia(html_content):
     if html_content == "":
@@ -60,7 +69,11 @@ def scrape_noticia(html_content):
     url = noticia.css('meta::attr(content)').getall()[3]
     title = noticia.css('.tec--article__header__title::text').get()
     timestamp = noticia.css('.tec--timestamp__item time::attr(datetime)').get()
-    writer = noticia.css('.tec--author__info__link::text').get() or None
+    writer1 = noticia.css('.tec--author__info__link::text').get() or None
+    writer2 = noticia.css(
+        '.tec--timestamp .tec--timestamp__item a::text').get() or None
+    writer3 = noticia.css(
+        '.tec--author__info .z--font-bold::text').get() or None
     shares_count = noticia.css('.tec--toolbar__item::text').get() or 0
     comments_count = noticia.css(
         '.tec--toolbar__item #js-comments-btn::attr(data-count)').get()
@@ -72,8 +85,6 @@ def scrape_noticia(html_content):
     if shares_count:
         shares_count_replaced = shares_count.replace('Compartilharam', '')
         shares_count_int = int(shares_count_replaced)
-    if writer is not None:
-        writer = writer.strip()
     fullinfo = {
         "url": url,
         "categories": rm_space(categories),
@@ -83,7 +94,7 @@ def scrape_noticia(html_content):
         "summary": rm_tags(summary),
         "timestamp": timestamp,
         "title": title,
-        "writer": writer
+        "writer": search_autor(writer1, writer2, writer3)
     }
     return fullinfo
 
