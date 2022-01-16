@@ -97,19 +97,20 @@ def scrape_noticia(html_content):
 
 # Requisito 5
 def get_tech_news(amount):
-    fetch_url = fetch("https://www.tecmundo.com.br/novidades")
-    novidades = scrape_novidades(fetch_url)
-    next_page = scrape_next_page_link(fetch_url)
+    url = "https://www.tecmundo.com.br/novidades"
+    html_content = fetch(url)
+    novidades = scrape_novidades(html_content)
+    next_page = scrape_next_page_link(html_content)
 
     while len(novidades) < amount:
         page = fetch(next_page)
         novidades += scrape_novidades(page)
 
-    news = []
-    for n in novidades[0:amount]:
-        noticias = fetch(n)
-        news.append(scrape_noticia(noticias))
+    dados = []
+    for link_noticia in novidades[0:amount]:
+        noticias = fetch(link_noticia)
+        dados.append(scrape_noticia(noticias))
 
-    create_news(news)
+    create_news(dados)
 
-    return news
+    return dados
