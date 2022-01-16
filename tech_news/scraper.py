@@ -1,18 +1,12 @@
 import requests
 import time
 from parsel import Selector
-
-
-# função para remover espaços de cada string do array utilizada no requisito 4
-def remove_spaces(array):
-    new_array = []
-    for item in array:
-        new_array.append(item.strip())
-    return new_array
+from tech_news.database import create_news
 
 
 # Requisito 1
 def fetch(url):
+    """Seu código deve vir aqui"""
     time.sleep(1)
     try:
         response = requests.get(url, timeout=3)
@@ -26,6 +20,7 @@ def fetch(url):
 
 # Requisito 2
 def scrape_novidades(html_content):
+    """Seu código deve vir aqui"""
     selector = Selector(text=html_content)
     news = selector.css("div.tec--list")
     get_links_of_news = news.css(
@@ -36,92 +31,35 @@ def scrape_novidades(html_content):
 
 # Requisito 3
 def scrape_next_page_link(html_content):
-    selector = Selector(text=html_content)
-    next_page_link = selector.css(
-        "div.tec--list > a.tec--btn::attr(href)"
-        ).get()
-    return next_page_link
+    """Seu código deve vir aqui"""
 
 
 # Requisito 4
 def scrape_noticia(html_content):
-    selector = Selector(text=html_content)
-
-    # URL
-    url = selector.css(
-        "link[rel=canonical]::attr(href)"
-        ).get()
-
-    # TITLE
-    title = selector.css(
-        "h1.tec--article__header__title::text"
-        ).get()
-
-    # TIMESTAMP
-    timestamp = selector.css(
-        "#js-article-date::attr(datetime)"
-        ).get()
-
-    # WRITER
-    writer = selector.css(
-        ".z--font-bold ::text"
-    ).get()
-
-    if writer:
-        writer = writer.strip()
-    else:
-        writer = None
-
-    # SHARES COUNT
-    shares_count = selector.css(
-        ".tec--toolbar > .tec--toolbar__item::text"
-        ).get()
-
-    if shares_count:
-        shares_count = int(shares_count.strip("Compartilharam"))
-    else:
-        shares_count = 0
-
-    # COMMENTS COUNT
-    comments_count = selector.css(
-        ".tec--toolbar__item > button::attr(data-count)"
-        ).get()
-
-    if comments_count:
-        comments_count = int(comments_count.strip("Comentários"))
-    else:
-        comments_count = 0
-
-    # SUMMARY
-    # https://stackoverflow.com/questions/30083949/how-to-join-list-in-python-but-make-the-last-separator-different
-    summary = "".join(selector.css(
-        ".tec--article__body > p:nth-child(1) *::text"
-        ).getall())
-
-    # SOURCES
-    sources = remove_spaces(selector.css(
-        ".z--mb-16 div a::text"
-        ).getall())
-
-    # CATEGORIES
-    # remover espacos em branco
-    categories = remove_spaces(selector.css(
-        "#js-categories a::text"
-        ).getall())
-
-    return {
-        "url": url,
-        "title": title,
-        "timestamp": timestamp,
-        "writer": writer,
-        "shares_count": shares_count,
-        "comments_count": comments_count,
-        "summary": summary,
-        "sources": sources,
-        "categories": categories
-    }
+    """Seu código deve vir aqui"""
 
 
 # Requisito 5
 def get_tech_news(amount):
-    """Seu código deve vir aqui"""
+    url = "https://www.tecmundo.com.br/novidades"
+    html = fetch(url)
+    news_list = scrape_novidades(html)
+    news_scraped = []
+
+    while len(news_scraped) < amount:
+        for link in news_list:
+            html = fetch(link)
+            if html:
+                news = scrape_noticia(html)
+                news_scraped.append(news)
+                if len(news_scraped) == amount:
+                    break
+        if scrape_next_page_link(html):
+            url = scrape_next_page_link(html)
+            html = fetch(url)
+            news_list = scrape_novidades(html)
+        else:
+            break
+
+    create_news(news_scraped)
+    return news_scraped
