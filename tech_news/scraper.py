@@ -40,6 +40,7 @@ def rm_space(array):
         result.append(new_item)
     return result
 
+
 def rm_tags(item):
     is_remove = False
     new_item = []

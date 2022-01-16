@@ -19,6 +19,7 @@ def is_valid_date(data):
     except ValueError:
         raise ValueError('Data inválida')
 
+
 # Requisito 7
 def search_by_date(date):
     validate = is_valid_date(date)
