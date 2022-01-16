@@ -64,7 +64,6 @@ def search_by_category(category):
 
     return title_url_list
 
-    return title_url_list
 # fontes do projeto
 # https://stackoverflow.com/questions/319426/how-do-i-do-a-case-insensitive-string-comparison
 # https://docs.python.org/pt-br/3/library/datetime.html#examples-of-usage-datetime
