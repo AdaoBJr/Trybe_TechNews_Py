@@ -35,11 +35,75 @@ def scrape_next_page_link(html_content):
     return next_page_link
 
 
-# html = fetch("https://www.tecmundo.com.br/novidades")
-# print(scrape_next_page_link(html))
 # Requisito 4
+def get_news_url(selector):
+    return selector.css("head link[rel=canonical] ::attr(href)").get()
+
+
+def get_news_title(selector):
+    return selector.css(".tec--article__header__title ::text").get()
+
+
+def get_news_timestamp(selector):
+    # https://stackoverflow.com/questions/56427277/how-to-extract-the-value-of-the-datetime-attribute-in-a-time-tag-using-xpath-or
+    return selector.css("time::attr(datetime)").get()
+
+
+def get_news_writer(selector):
+    writer = selector.css(".tec--author__info__link ::text").get()
+    if writer is not None:
+        return writer.strip()
+
+
+def get_news_share_count(selector):
+    text_count = selector.css(".tec--toolbar__item ::text").get()
+    number_count = int(text_count.split(" ")[1])
+    return number_count
+
+
+def get_news_comments_count(selector):
+    text_count = selector.css("#js-comments-btn ::attr(data-count)").get()
+    return int(text_count)
+
+
+def get_news_summary(selector):
+    return "".join(
+        selector.css(".tec--article__body p:nth-child(1) ::text").getall()
+    )
+
+
+def get_news_sources(selector):
+    sources_list_dirty = selector.css(
+        ".z--mb-16 div .tec--badge ::text"
+    ).getall()
+    sources_list_with_none = [source.strip() for source in sources_list_dirty]
+    source_list = list(filter(None, sources_list_with_none))
+    return source_list
+
+
+def get_news_categories(selector):
+    # https://www.delftstack.com/pt/howto/python/how-to-remove-whitespace-in-a-string/#:~:text=strip()%20M%C3%A9todo-,str.,e%20no%20fim%20da%20string.
+    category_list_dirty = selector.css("#js-categories ::text").getall()
+    category_list_with_none = [
+        category.strip() for category in category_list_dirty
+    ]
+    category_list = list(filter(None, category_list_with_none))
+    return category_list
+
+
 def scrape_noticia(html_content):
-    """Seu código deve vir aqui"""
+    selector = Selector(html_content)
+    news = {}
+    news["url"] = get_news_url(selector)
+    news["title"] = get_news_title(selector)
+    news["timestamp"] = get_news_timestamp(selector)
+    news["writer"] = get_news_writer(selector)
+    news["shares_count"] = get_news_share_count(selector)
+    news["comments_count"] = get_news_comments_count(selector)
+    news["summary"] = get_news_summary(selector)
+    news["sources"] = get_news_sources(selector)
+    news["categories"] = get_news_categories(selector)
+    return news
 
 
 # Requisito 5
