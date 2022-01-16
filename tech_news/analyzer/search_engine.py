@@ -2,7 +2,7 @@ from tech_news.database import search_news
 import datetime
 
 
-# Função feita com ajuda da Letícia Galvão
+# Req 7 feito com ajuda da Letícia Galvão e Cristian Bugs
 def valid_date(date):
     try:
         return datetime.datetime.strptime(date, '%Y-%m-%d')
