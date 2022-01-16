@@ -1,7 +1,7 @@
 import requests
 import time
 from parsel import Selector
-import tech_news.database as db_connection
+from tech_news.database import create_news
 
 
 # Requisito 1
@@ -22,7 +22,8 @@ def fetch(url):
 def scrape_novidades(html_content):
     """Seu código deve vir aqui"""
     selector = Selector(text=html_content)
-    url_list = selector.css(".tec--card__info a::attr(href)").getall()
+    css_selector = '.tec--list--lg h3.tec--card__title > a ::attr(href)'
+    url_list = selector.css(css_selector).getall()
     if len(url_list):
         return url_list
     return []
@@ -58,9 +59,15 @@ def scrape_timeStamp(selector):
 
 
 def scrape_writer(selector):
-    writer = selector.css('.tec--author__info a::text').get()
-    if writer:
-        return writer
+    css_selectors = [
+        ".tec--author__info__link::text",
+        ".tec--timestamp a::text",
+        "#js-author-bar > div p::text",
+    ]
+    for query in css_selectors:
+        writer = selector.css(query).get()
+        if writer is not None:
+            return writer.strip()
     return None
 
 
@@ -80,19 +87,25 @@ def scrape_comments(selector):
 
 
 def scrape_summary(selector):
-    path = '.tec--article__body p:nth-child(1) *::text'
+    path = '.tec--article__body > p:nth-child(1) *::text'
     summary = selector.css(path).getall()
     return ''.join(summary)
 
 
 def scrape_sources(selector):
     sources = selector.css('.z--mb-16 .tec--badge::text').getall()
-    return sources
+    trimmed_list = []
+    for source in sources:
+        trimmed_list.append(source.strip())
+    return trimmed_list
 
 
 def scrape_categories(selector):
     categories = selector.css('#js-categories a::text').getall()
-    return categories
+    trimmed_list = []
+    for category in categories:
+        trimmed_list.append(category.strip())
+    return trimmed_list
 
 
 # Requisito 4
@@ -102,7 +115,7 @@ def scrape_noticia(html_content):
     news = {
         'url': scrape_url(selector),
         'title': scrape_title(selector),
-        'timeStamp': scrape_timeStamp(selector),
+        'timestamp': scrape_timeStamp(selector),
         'writer': scrape_writer(selector),
         'shares_count': scrape_shares(selector),
         'comments_count': scrape_comments(selector),
@@ -116,16 +129,17 @@ def scrape_noticia(html_content):
 # Requisito 5
 def get_tech_news(amount):
     """Seu código deve vir aqui"""
-    search_results = []
     html = fetch('https://www.tecmundo.com.br/novidades')
-    next_link = scrape_next_page_link(html)
-    while len(search_results) <= amount and next_link:
-        news_link = scrape_novidades(html)
-        for news in news_link:
-            if len(search_results) <= amount:
-                newsHtml = fetch(news)
-                search_results.append(scrape_noticia(newsHtml))
-        next_link = scrape_next_page_link(html)
-        html = fetch(next_link)
-    db_connection.create_news(search_results)
+    news_urls = scrape_novidades(html)
+    search_results = []
+    while len(news_urls) < amount:
+        url = scrape_next_page_link(html)
+        html = fetch(url)
+        news_urls.extend(scrape_novidades(html))
+    for news in news_urls:
+        if len(search_results) < amount:
+            news_html = fetch(news)
+            news_data = scrape_noticia(news_html)
+            search_results.append(news_data)
+    create_news(search_results)
     return search_results

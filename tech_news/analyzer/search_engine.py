@@ -7,16 +7,23 @@ def search_by_title(title):
     query = {"title": {"$regex": title, '$options': 'i'}}
     news = db_connection.search_news(query)
     filtered_news = []
-    if len(news):
-        for data in news:
-            filtered_news.append((data['title'], data['url']))
-        return filtered_news
-    return news
-
+    for data in news:
+        filtered_news.append((data['title'], data['url']))
+    return filtered_news
+   
 
 # Requisito 7
 def search_by_date(date):
     """Seu código deve vir aqui"""
+    # try:
+    #     query = {"timeStamp": ISODate(date)}
+    #     news = db_connection.search_news(query)
+    #     filtered_news = []
+    #     for data in news:
+    #         filtered_news.append((data['title'], data['url']))
+    #     return filtered_news
+    # except ValueError:
+    #     print('Data inválida')
 
 
 # Requisito 8
