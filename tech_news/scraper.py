@@ -2,6 +2,8 @@ import requests
 import time
 from parsel import Selector
 
+from tech_news.database import create_news
+
 # Requisito 1
 
 
@@ -37,11 +39,15 @@ def scrape_next_page_link(html_content):
 
 # Requisito 4
 def verify_share(numberShare):
-    number = numberShare
-    if number:
-        return number.strip().split(" ")[0]
-    else:
+    if numberShare == ' ':
         return 0
+    number = numberShare
+
+    if number is not None:
+        print(number)
+        return int(number.strip().split(" ")[0])
+
+    return 0
 
 
 def check_writer(author):
@@ -87,8 +93,7 @@ def scrape_noticia(html_content):
     )
     summary = "".join(
         selector.css(
-            "#js-main > div > article > div.tec--article__body-grid >"
-            " div.tec--article__body.p402_premium > p:nth-child(1) ::text"
+            ".tec--article__body > p:nth-child(1) *::text"
         ).getall()
     )
     sources = check_source(html_content)
@@ -101,7 +106,7 @@ def scrape_noticia(html_content):
     data["title"] = title
     data["timestamp"] = dateTime
     data["writer"] = writer
-    data["shares_count"] = int(shares_count)
+    data["shares_count"] = shares_count
     data["comments_count"] = int(comments_count)
     data["summary"] = summary
     data["sources"] = sources
@@ -111,12 +116,28 @@ def scrape_noticia(html_content):
 
 # Requisito 5
 def get_tech_news(amount):
-    """Seu código deve vir aqui"""
+    base_url = "https://www.tecmundo.com.br/novidades"
+    fetch_url = fetch(base_url)
+    novidades_urls = scrape_novidades(fetch_url)
+
+    info_lista = []
+    while len(novidades_urls) < amount:
+        next_page = scrape_next_page_link(fetch_url)
+        fetch_url = fetch(next_page)
+        novidades_urls.extend(scrape_novidades(fetch_url))
+
+    for url in novidades_urls[:amount]:
+        fetch_url = fetch(url)
+        info_lista.append(scrape_noticia(fetch_url))
+
+    create_news(info_lista)
+    return info_lista
 
 
 if __name__ == "__main__":
-    base_url = "https://www.tecmundo.com.br/minha-serie/215168-10-viloes-animes-extremamente-inteligentes.htm"
+    base_url = "https://www.tecmundo.com.br/novidades"
     fetch_url = fetch(base_url)
     novidades_urls = scrape_novidades(fetch_url)
     scrapeNoticias = scrape_noticia(fetch_url)
-    print(scrapeNoticias)
+    teste = get_tech_news(2)
+    print(get_tech_news)
