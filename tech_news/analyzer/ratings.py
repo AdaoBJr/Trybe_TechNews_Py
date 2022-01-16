@@ -1,5 +1,6 @@
 from tech_news.database import db
 from tech_news.utils import format_news
+# from pprint import pprint
 
 
 # Requisito 10
@@ -32,4 +33,39 @@ def top_5_news():
 
 # Requisito 11
 def top_5_categories():
-    """Seu código deve vir aqui"""
+    array_categories = list(db.news.aggregate(
+        [
+            {
+                "$unwind": "$categories"
+            },
+            {
+                "$project": {
+                    "category": "$categories",
+                }
+            },
+            {
+                "$group": {
+                   "_id": "$category",
+                   "qtd": {"$sum": 1}
+                }
+            },
+            {
+                "$sort": {
+                    "qtd": -1,
+                    "_id": 1
+                }
+            },
+            {
+                "$project": {
+                    "_id": 0,
+                    "category": "$_id"
+                }
+            },
+            {
+                "$limit": 5
+            }
+        ]
+    ))
+    # pprint([obj["category"] for obj in array_categories])
+
+    return [obj["category"] for obj in array_categories]
