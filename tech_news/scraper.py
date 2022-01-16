@@ -1,12 +1,13 @@
 import requests
 import time
 from parsel import Selector
+from tech_news.database import create_news
 
 
 # Requisito 1
 def fetch(url):
     try:
-        response = requests.get(url, timeout=2)
+        response = requests.get(url, timeout=3)
         response.raise_for_status()
         return response.text
     except (requests.ReadTimeout, requests.exceptions.HTTPError):
@@ -53,7 +54,10 @@ def scrape_noticia(html_content):
     ).get()
 
     if shares_count:
-        shares_count = int(shares_count.strip("Compartilharam"))
+        if len(shares_count) > 2:
+            shares_count = int(shares_count.strip("Compartilharam"))
+        else:
+            shares_count = 0
     else:
         shares_count = 0
 
@@ -94,7 +98,25 @@ def scrape_noticia(html_content):
 
 # Requisito 5
 def get_tech_news(amount):
-    """Seu código deve vir aqui"""
+    next_page = "https://www.tecmundo.com.br/novidades"
+    save_list = list_news_tecmundo(next_page, amount)
+
+    while len(save_list) < amount:
+        next_page = scrape_next_page_link(next_page)
+        save_list_1 = list_news_tecmundo(next_page, (amount - len(save_list)))
+        save_list.extend(save_list_1)
+
+    create_news(save_list)
+    return save_list
+
+
+def list_news_tecmundo(url, count):
+    html_content = fetch(url)
+    list_news = scrape_novidades(html_content)[:count]
+
+    save_list = [scrape_noticia(fetch(item)) for item in list_news]
+
+    return save_list
 
 
 def with_out_space(array):
