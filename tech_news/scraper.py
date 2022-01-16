@@ -5,7 +5,6 @@ import time
 
 # Requisito 1
 def fetch(url):
-    """Seu código deve vir aqui"""
     time.sleep(1)
     try:
         response = requests.get(url, timeout=3)
@@ -19,7 +18,6 @@ def fetch(url):
 
 # Requisito 2
 def scrape_novidades(html_content):
-    """Seu código deve vir aqui"""
     selector = Selector(text=html_content)
     titles = selector.css("h3.tec--card__title a::attr(href)").getall()
     return titles
@@ -27,7 +25,9 @@ def scrape_novidades(html_content):
 
 # Requisito 3
 def scrape_next_page_link(html_content):
-    """Seu código deve vir aqui"""
+    selector = Selector(text=html_content)
+    next_page_url = selector.css(".tec--list .tec--btn::attr(href)").get()
+    return next_page_url
 
 
 # Requisito 4
