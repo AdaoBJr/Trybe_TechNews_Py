@@ -1,13 +1,6 @@
 from tech_news.database import db
-from datetime import datetime
+from tech_news.utils import format_news, is_valid_date
 import re
-
-
-def format_news(array_news):
-    result = []
-    for news in array_news:
-        result.append((news['title'], news['url']))
-    return result
 
 
 # Requisito 6
@@ -15,14 +8,6 @@ def search_by_title(title):
     regx_title = re.compile(title, re.IGNORECASE)
     array_news = list(db.news.find({"title": regx_title}))
     return format_news(array_news)
-
-
-def is_valid_date(data):
-    try:
-        datetime.strptime(data, '%Y-%m-%d')
-        return True
-    except ValueError:
-        raise ValueError("Data inválida")
 
 
 # Requisito 7
