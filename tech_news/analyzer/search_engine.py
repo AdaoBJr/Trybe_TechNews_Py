@@ -69,4 +69,5 @@ def search_by_category(category):
 # https://docs.python.org/pt-br/3/library/datetime.html#examples-of-usage-datetime
 # https://stackoverflow.com/questions/319426/how-do-i-do-a-case-insensitive-string-comparison
 # https://devhints.io/css
-# Menções honrosas! Repositórios de jonathan, henrique zozimo, leticia galvao
+# Menções honrosas! Repositórios de jonathan, henrique zozimo
+# leticia galvao, christian bugs

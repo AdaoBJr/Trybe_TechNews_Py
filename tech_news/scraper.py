@@ -9,21 +9,15 @@ from tech_news.database import create_news
 def fetch(url):
     # A função deve receber uma URL
 
-    res = ""
     try:
         # A função deve respeitar um Rate Limit de 1
         time.sleep(1)
         res = requests.get(url, timeout=3)
+        if res.status_code == 200:
+            return res.text
         # A função deve fazer uma requisição
         # HTTP get para esta URL utilizando a função requests.get
     except requests.exceptions.Timeout:
-        # "Timeout" e a função deve retornar None.
-        return None
-    finally:
-        if res != "" and res.status_code == 200:
-            # Status Code 200: OK, deve ser retornado seu conteúdo de texto;
-            return res.text
-        # status diferente de 200, deve-se retornar Non
         return None
 
 
@@ -66,6 +60,7 @@ def scrape_noticia(html_content):
     # summary = soup.find('div', {'class': "tec--article__body"})
     summary_text = scrapy_crazy.summary_text(selector)
     sources = scrapy_crazy.sources_text(selector)
+    categorias = scrapy_crazy.categories_text(selector)
 
     # print(summary.text, "estou aqui")
     # fontes = selector.css("div.z--mb-16 div a::text").getall()
@@ -85,7 +80,7 @@ def scrape_noticia(html_content):
 
     # preciso pegar o filho com id, depois fazer o for!
     # categorias_html = soup.find('div', {'id': 'js-categories'})
-    categorias = scrapy_crazy.categories_text(selector)
+
     # sources = []
     # for category in categorias_html:
     #     if category.text != '' and category.text != " ":
