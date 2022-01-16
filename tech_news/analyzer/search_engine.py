@@ -22,8 +22,8 @@ def search_by_date(date):
         # para ver se a data está correta, se não vai pro erro
         search_date = list(db.news.find({"timestamp": {"$regex": date}}))
         itens = []
-        for find in search_date:
-            itens.append((find["title"], find["url"]))
+        for item in search_date:
+            itens.append((item["title"], item["url"]))
         return itens
     except ValueError:
         raise ValueError("Data inválida")
@@ -33,7 +33,14 @@ def search_by_date(date):
 
 # Requisito 8
 def search_by_source(source):
-    """Seu código deve vir aqui"""
+    search = list(
+        db.news.find({"sources": re.compile(source, re.IGNORECASE)})
+    )
+
+    itens = []
+    for item in search:
+        itens.append((item["title"], item["url"]))
+    return itens
 
 
 # Requisito 9
