@@ -1,5 +1,5 @@
-from tech_news.database import aggregation_news
-from tech_news.database import aggregation_categories
+from tech_news.helper import aggregation_news
+from tech_news.helper import aggregation_categories
 
 
 # Requisito 10
