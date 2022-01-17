@@ -32,7 +32,36 @@ def scrape_next_page_link(html_content):
 
 # Requisito 4
 def scrape_noticia(html_content):
-    """Seu código deve vir aqui"""
+    news = {}
+    selector = Selector(text=html_content)
+    news["url"] = selector.css("link[rel=canonical]::attr(href)").get()
+    news["title"] = selector.css(".tec--article__header__title::text").get()
+    news["timestamp"] = selector.css("#js-article-date::attr(datetime)").get()
+    news["writer"] = (
+        "".join(
+            selector.css(
+                ".z--m-none.z--truncate.z--font-bold *::text"
+            ).getall()
+        ).strip()
+        or "".join(
+            selector.css(
+                ".tec--timestamp__item.z--font-bold *::text"
+            ).getall()
+        ).strip()
+    )
+    # r"\w+.+\w"
+    news["shares_count"] = int(
+        selector.css(".tec--toolbar__item::text").re_first(r"\d+") or 0
+    )
+    news["comments_count"] = int(
+        selector.css("#js-comments-btn::attr(data-count)").get() or 0
+    )
+    news["summary"] = "".join(
+        selector.css(".tec--article__body p:first-of-type *::text").getall()
+    )  # 1
+    news["sources"] = selector.css(".z--mb-16 div a::text").re(r"\w+.+\w")
+    news["categories"] = selector.css("#js-categories a::text").re(r"\w+.+\w")
+    return news
 
 
 # Requisito 5
@@ -42,3 +71,8 @@ def get_tech_news(amount):
 
 # fetch("https://www.tecmundo.com.br/novidades")
 # print(scrape_novidades(fetch("https://www.tecmundo.com.br/novidades")))
+
+"""
+# 1:
+https://stackoverflow.com/questions/58904013/extract-text-content-from-nested-html-while-excluding-some-specific-tags-scrapy
+"""
