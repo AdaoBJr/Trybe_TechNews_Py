@@ -1,6 +1,7 @@
 import requests
 import time
 from parsel import Selector
+from tech_news.database import create_news
 
 # Requisito 1
 
@@ -62,9 +63,8 @@ def get_news_writer(selector):
 
 
 def get_news_share_count(selector):
-    text_count = selector.css(
-        ".tec--toolbar__item > div:nth-child(1) ::text"
-    ).get()
+    text_count = selector.css(".tec--toolbar div:nth-child(1)::text").get()
+    print(text_count)
     if text_count is not None:
         return int(text_count.split(" ")[1])
     return 0
@@ -76,9 +76,14 @@ def get_news_comments_count(selector):
 
 
 def get_news_summary(selector):
-    return "".join(
-        selector.css(".tec--article__body p:nth-child(1) ::text").getall()
+    TEXT = ""
+    summary = TEXT.join(
+        selector.css(".tec--article__body > p:nth-child(1) *::text").getall()
     )
+    if summary is not None:
+        return summary
+
+    return None
 
 
 def get_news_sources(selector):
@@ -117,4 +122,17 @@ def scrape_noticia(html_content):
 
 # Requisito 5
 def get_tech_news(amount):
-    """Seu código deve vir aqui"""
+    ULR_BASE = "https://www.tecmundo.com.br/novidades"
+    html = fetch(ULR_BASE)
+    url_news_list = scrape_novidades(html)
+    news_list = []
+    while len(url_news_list) < amount:
+        next_page_url = scrape_next_page_link(html)
+        html = fetch(next_page_url)
+        url_news_list.extend(scrape_novidades(html))
+    for url_news in url_news_list:
+        html_content = fetch(url_news)
+        news = scrape_noticia(html_content)
+        news_list += [news]
+    create_news(news_list)
+    return news_list
