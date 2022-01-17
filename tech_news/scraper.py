@@ -64,7 +64,6 @@ def get_news_writer(selector):
 
 def get_news_share_count(selector):
     text_count = selector.css(".tec--toolbar div:nth-child(1)::text").get()
-    print(text_count)
     if text_count is not None:
         return int(text_count.split(" ")[1])
     return 0
@@ -133,6 +132,6 @@ def get_tech_news(amount):
     for url_news in url_news_list:
         html_content = fetch(url_news)
         news = scrape_noticia(html_content)
-        news_list += [news]
+        news_list.append(news)
     create_news(news_list)
     return news_list
