@@ -49,9 +49,13 @@ def search_by_source(source):
 def search_by_category(category):
     """Seu código deve vir aqui"""
     news = db.news.find({"categories": {"$regex": category, "$options": "i"}})
+
     list_titles = []
 
     for curNews in news:
         list_titles.append((curNews["title"], curNews["url"]))
 
     return list_titles
+
+
+# teste evaluator
