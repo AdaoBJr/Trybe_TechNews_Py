@@ -38,7 +38,7 @@ def scrape_next_page_link(html_content):
 # Requisito 4
 def scrape_noticia(html_content):
     selector = Selector(html_content)
-    url = {"url": selector.css('meta[property="og:url"]').attrib["content"]}
+    url = {"url": selector.css("link[rel=canonical]").xpath("@href").get()}
     title = {"title": selector.css("h1::text").get()}
     timestamp = {"timestamp": selector.css("time::attr(datetime)").get()}
     writer = {"writer": selector.css(".z--font-bold *::text").get().strip()}
