@@ -29,7 +29,7 @@ def search_by_source(source):
     return filtered_list
 
 
-# Requisito 9
+# Requisito 9 - Implementado
 def search_by_category(category):
     filtered_list = []
     result = find_news()
