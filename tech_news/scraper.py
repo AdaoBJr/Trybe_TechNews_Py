@@ -130,8 +130,8 @@ def get_tech_news(amount):
         html = fetch(next_page_url)
         url_news_list.extend(scrape_novidades(html))
     for url_news in url_news_list:
-        html_content = fetch(url_news)
-        news = scrape_noticia(html_content)
+        html = fetch(url_news)
+        news = scrape_noticia(html)
         news_list.append(news)
     create_news(news_list)
     return news_list
