@@ -11,6 +11,7 @@ from tech_news.analyzer.ratings import top_5_categories
 # Requisito 12
 def analyzer_menu():
     """Seu código deve vir aqui"""
+    """teste"""
     options = input(
         "Selecione uma das opções a seguir:\n "
         "0 - Popular o banco com notícias;\n "
