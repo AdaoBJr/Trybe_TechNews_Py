@@ -14,6 +14,7 @@ def aggregation_news():
     return list(
         db.news.aggregate(
             [
+                {"$match": {"url": {"$exists": True, "$ne": None}}},
                 {
                     "$project": {
                         "_id": 0,

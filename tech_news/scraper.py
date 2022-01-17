@@ -37,10 +37,7 @@ def scrape_next_page_link(html_content):
 def scrape_noticia(html_content):
     """Seu código deve vir aqui"""
     selector = Selector(html_content)
-    url = (
-        selector.css("head > link[rel=canonical] ::attr(href)").get()
-        or selector.css("head > meta[property=og:url] ::attr(content)").get
-    )
+    url = selector.css("head > link[rel=canonical] ::attr(href)").get()
     title = selector.css("#js-article-title ::text").get()
     timestamp = selector.css("#js-article-date ::attr(datetime)").get()
     try:
@@ -96,4 +93,5 @@ def get_tech_news(amount):
         list_of_news.append(new)
 
     create_news(list_of_news)
+    print("Banco populado!")
     return list_of_news
