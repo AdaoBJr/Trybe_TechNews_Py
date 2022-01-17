@@ -1,6 +1,10 @@
 from parsel import Selector
 import requests
 import time
+from tech_news.database import (
+    create_news,
+    find_news,
+)
 
 
 # Requisito 1
@@ -44,9 +48,7 @@ def scrape_noticia(html_content):
             ).getall()
         ).strip()
         or "".join(
-            selector.css(
-                ".tec--timestamp__item.z--font-bold *::text"
-            ).getall()
+            selector.css(".tec--timestamp__item.z--font-bold *::text").getall()
         ).strip()
     )
     # r"\w+.+\w"
@@ -66,11 +68,18 @@ def scrape_noticia(html_content):
 
 # Requisito 5
 def get_tech_news(amount):
-    """Seu código deve vir aqui"""
+    next_page = "https://www.tecmundo.com.br/novidades"
+    url_news_list = scrape_novidades(fetch(next_page))
+    news_list = []
+    while len(url_news_list) < amount:
+        next_page = scrape_next_page_link(fetch(next_page))
+        url_news_list.extend(scrape_novidades(fetch(next_page)))
+    url_news_list = url_news_list[:amount]
+    for news in url_news_list:
+        news_list.append(scrape_noticia(fetch(news)))
+    create_news(news_list)
+    return find_news()
 
-
-# fetch("https://www.tecmundo.com.br/novidades")
-# print(scrape_novidades(fetch("https://www.tecmundo.com.br/novidades")))
 
 """
 # 1:
