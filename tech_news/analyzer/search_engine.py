@@ -45,12 +45,12 @@ def search_by_source(source):
 
 # Requisito 9
 def search_by_category(category):
-    """Seu código deve vir aqui"""
+    news_finder = find_news()
+    news_list = []
 
-
-if __name__ == '__main__':
-    pass
-    # print(search_by_title('ok'))
-    # print(search_by_date('2020-11-23'))
-    print(search_by_source('ResetEra'))
-    # print(search_by_category())
+    for item in news_finder:
+        formated_list = map(lambda x: x.lower(), item['categories'])
+        formated_category = category.lower()
+        if formated_category in formated_list:
+            news_list.append((item['title'], item['url']))
+    return news_list
