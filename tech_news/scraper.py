@@ -14,6 +14,7 @@ from tech_news.aux_functions import (
 )
 
 
+# Requisito 1
 def fetch(url):
     try:
         time.sleep(1)
@@ -26,6 +27,7 @@ def fetch(url):
         return None
 
 
+# Requisito 2
 def scrape_novidades(html_content):
     selector = Selector(html_content)
     url_link = 'div h3 a ::attr(href)'
@@ -33,6 +35,7 @@ def scrape_novidades(html_content):
     return url_list
 
 
+# Requisito 3
 def scrape_next_page_link(html_content):
     selector = Selector(html_content)
     next_page_button = "a.tec--btn--primary ::attr(href)"
