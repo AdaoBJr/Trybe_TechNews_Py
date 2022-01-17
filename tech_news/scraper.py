@@ -1,7 +1,7 @@
 import requests
 import time
 import parsel
-import re
+from tech_news.database import create_news
 
 
 # Requisito 1
@@ -41,50 +41,62 @@ def scrape_next_page_link(html_content):
 # Requisito 4
 def scrape_noticia(html_content):
     """Seu código deve vir aqui"""
-    get_element = parsel.Selector(html_content)
+    try:
+        get_element = parsel.Selector(html_content)
 
-    class_select = {
-        "url": "link[rel=canonical]::attr(href)",
-        "title": "#js-article-title::text",
-        "timestamp": "#js-article-date::attr(datetime)",
-        "writer": ".z--font-bold",
-        "shares_count": "#js-author-bar div:nth-child(1)::text",
-        "comments_count": "#js-comments-btn::attr(data-count)",
-        "sumary": "div.tec--article__body p:nth-child(1) *::text",
-        "sources": ".z--mb-16 .tec--badge::text",
-        "categories": ".tec--badge--primary::text",
-        "list_titles": ".tec--list__item h3 a::attr(href)",
-        "next_page": "div.tec--list.tec--list--lg > a::attr(href)",
-    }
+        url = get_element.css("link[rel='canonical']::attr(href)").get()
+        title = get_element.css(".tec--article__header__title::text").get()
+        date = get_element.css("#js-article-date::attr(datetime)").get()
+        write = get_element.css(".z--font-bold *::text").get().strip()
+        counter_comments = get_element.css(".tec--btn::attr(data-count)").get()
+        counter_share = (
+            get_element.css(".tec--toolbar__item::text")
+            .get()
+            .lstrip()
+            .split()[:2][0]
+        )
 
-    counter_share = get_element.css(class_select["shares_count"]).get() or "0"
-    counter_coment = (
-        get_element.css(class_select["comments_count"]).get() or "0"
+    except AttributeError:
+        counter_share = 0
+
+    sumary = "".join(
+        get_element.css(".tec--article__body > p:nth-child(1) ::text").getall()
     )
 
-    def func_strip(list_str):
-        return [text.strip() for text in list_str]
+    sources = get_element.css(".z--mb-16 .tec--badge::text").getall()
+
+    categories = get_element.css("#js-categories > a::text").getall()
 
     return {
-        "url": get_element.css(class_select["url"]).get(),
-        "title": get_element.css(class_select["title"]).get(),
-        "timestamp": get_element.css(class_select["timestamp"]).get(),
-        "writer": get_element.css(".z--font-bold")
-        .css("*::text")
-        .get()
-        .strip(),
-        "shares_count": int(re.sub("[^0-9]", "", counter_share)),
-        "comments_count": int(counter_coment),
-        "summary": "".join(get_element.css(class_select["sumary"]).getall()),
-        "sources": func_strip(
-            get_element.css(class_select["sources"]).getall()
-        ),
-        "categories": func_strip(
-            get_element.css(class_select["categories"]).getall()
-        ),
+        "url": url,
+        "title": title,
+        "timestamp": date,
+        "writer": write,
+        "shares_count": int(counter_share),
+        "comments_count": int(counter_comments),
+        "summary": sumary,
+        "sources": [source.strip() for source in sources],
+        "categories": [category.strip() for category in categories],
     }
 
 
 # Requisito 5
 def get_tech_news(amount):
     """Seu código deve vir aqui"""
+    url_fetch = fetch("https://www.tecmundo.com.br/novidades")
+    url_news = scrape_novidades(url_fetch)
+
+    while len(url_news) < amount:
+        url_next = fetch(scrape_next_page_link(url_fetch))
+        url_news.extend(scrape_novidades(url_next))
+
+    news = []
+
+    for url in url_news:
+        url = scrape_noticia(fetch(url))
+        if len(news) != amount:
+            news.append(url)
+
+    create_news(news)
+
+    return news
