@@ -37,7 +37,10 @@ def scrape_next_page_link(html_content):
 def scrape_noticia(html_content):
     """Seu código deve vir aqui"""
     selector = Selector(html_content)
-    url = selector.css("head > link[rel=canonical] ::attr(href)").get()
+    url = (
+        selector.css("head > link[rel=canonical] ::attr(href)").get()
+        or selector.css("head > meta[property=og:url] ::attr(content)").get
+    )
     title = selector.css("#js-article-title ::text").get()
     timestamp = selector.css("#js-article-date ::attr(datetime)").get()
     try:
@@ -53,7 +56,9 @@ def scrape_noticia(html_content):
         )
     except (AttributeError, ValueError):
         shares_count = 0
-    comments_count = selector.css("#js-comments-btn ::attr(data-count)").get()
+    comments_count = (
+        selector.css("#js-comments-btn ::attr(data-count)").get() or 0
+    )
     summary = selector.css(
         "div.tec--article__body-grid >"
         " div.tec--article__body > p:nth-child(1) ::text"
