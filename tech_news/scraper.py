@@ -14,6 +14,7 @@ def fetch(url):
     except requests.Timeout:
         return None
 
+
 # Requisito 2
 def scrape_novidades(html_content):
     """Seu código deve vir aqui"""
