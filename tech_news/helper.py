@@ -7,6 +7,8 @@ DB_PORT = config("DB_PORT", default="27017")
 client = MongoClient(host=DB_HOST, port=int(DB_PORT))
 db = client.tech_news
 
+# teste
+
 
 def aggregation_news():
     return list(
