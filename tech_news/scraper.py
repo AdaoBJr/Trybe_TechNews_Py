@@ -61,6 +61,7 @@ def get_shares_count(selector):
     shares_count = selector.css(".tec--toolbar > div:nth-child(1)::text").get()
     if shares_count is not None:
         return shares_count.strip().split(" ")[0]
+
     return 0
 
 
