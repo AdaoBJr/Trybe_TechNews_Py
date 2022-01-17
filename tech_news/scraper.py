@@ -22,7 +22,7 @@ def scrape_novidades(html_content):
     selector = parsel.Selector(text=html_content)
     return selector.css(
         ".tec--list__item .tec--card__title__link::attr(href)"
-        ).getall()
+    ).getall()
 
 
 # Requisito 3
@@ -69,8 +69,9 @@ def get_comments_count(selector):
 
 
 def get_summary(selector):
-    summary = "".join(selector.css(".tec--article__body > "
-                                   "p:nth-child(1) ::text").getall())
+    summary = "".join(
+        selector.css(".tec--article__body > " "p:nth-child(1) ::text").getall()
+    )
     if summary is not None:
         return summary
 
