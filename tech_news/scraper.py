@@ -58,7 +58,6 @@ def scrape_noticia(html_content):
         "div.tec--article__body-grid >"
         " div.tec--article__body > p:nth-child(1) ::text"
     ).getall()
-
     sources = selector.css(".z--mb-16 .tec--badge ::text").getall()
     categories = selector.css("#js-categories > a ::text").getall()
 
