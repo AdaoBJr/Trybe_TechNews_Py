@@ -2,7 +2,7 @@ import requests
 from parsel import Selector
 import time
 from requests.exceptions import ReadTimeout
-from tech_news.database import create_news
+# from tech_news.database import create_news
 
 
 # Requisito 1
