@@ -12,6 +12,7 @@ from tech_news.aux_functions import (
     get_news_sources,
     get_news_categories,
 )
+from tech_news.database import create_news
 
 
 # Requisito 1
@@ -72,4 +73,20 @@ def scrape_noticia(html_content):
 
 # Requisito 5
 def get_tech_news(amount):
-    """Seu código deve vir aqui"""
+    destiny_url = fetch('https://www.tecmundo.com.br/novidades')
+    new_stuff = scrape_novidades(destiny_url)
+    next_page_news = scrape_next_page_link(destiny_url)
+
+    while len(new_stuff) < amount:
+        destiny_url = fetch(next_page_news)
+        new_stuff.extend(scrape_novidades(destiny_url))
+
+    returned_news = []
+    for news in new_stuff[:amount]:
+        news_link = fetch(news)
+        returned_news.append(scrape_noticia(news_link))
+
+    create_news(returned_news)
+
+    return returned_news
+

@@ -54,7 +54,7 @@ def get_news_comments_count(selector):
 # Auxiliar Requisito 4
 def get_news_summary(selector):
     select_news_summary = selector.css(
-        'div.tec--article__body p:nth-child(1) *::text').getall()
+        'div.tec--article__body > p:nth-child(1) *::text').getall()
     return ''.join(select_news_summary)
 
 
