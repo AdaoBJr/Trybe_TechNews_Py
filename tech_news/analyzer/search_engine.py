@@ -31,17 +31,16 @@ def search_by_date(date):
 
 # Requisito 8
 def search_by_source(source):
-    pass
-    # news_finder = find_news()
-    # news_list = []
+    news_finder = find_news()
+    news_list = []
 
-    # for item in news_finder:
-    #     formated_list = map(lambda x: x.lower(), item['sources'])
-    #     # https://www.delftstack.com/pt/howto/python/python-lowercase-list/
-    #     formated_source = source.lower()
-    #     if formated_source in formated_list:
-    #         news_list.append((item['title'], item['url']))
-    # return news_list
+    for item in news_finder:
+        formated_list = map(lambda x: x.lower(), item['sources'])
+        # https://www.delftstack.com/pt/howto/python/python-lowercase-list/
+        formated_source = source.lower()
+        if formated_source in formated_list:
+            news_list.append((item['title'], item['url']))
+    return news_list
 
 
 # Requisito 9
