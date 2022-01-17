@@ -106,8 +106,6 @@ def get_tech_news(amount):
             news_urls_list.extend(urls_list[:end_index])
         else:
             news_urls_list.extend(urls_list)
-
-        if len(news_urls_list) < amount:
             url = scrape_next_page_link(html_content)
 
     news_to_insert = []
