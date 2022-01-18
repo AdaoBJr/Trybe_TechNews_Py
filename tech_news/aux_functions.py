@@ -68,4 +68,3 @@ def get_news_sources(selector):
 def get_news_categories(selector):
     news_categories = selector.css('div#js-categories a ::text').getall()
     return [category.strip() for category in news_categories]
-
