@@ -1,7 +1,8 @@
 from tech_news.database import find_news
+import datetime
+
+
 # Requisito 6
-
-
 def search_by_title(title):
     news_found = find_news()
     result = []
@@ -13,7 +14,16 @@ def search_by_title(title):
 
 # Requisito 7
 def search_by_date(date):
-    """Seu código deve vir aqui"""
+    news_found = find_news()
+    result = []
+    try:
+        datetime.datetime.strptime(date, '%Y-%m-%d')
+        for new in news_found:
+            if new["timestamp"][0:10] == date:
+                result.append((new["title"], new["url"]))
+        return result
+    except ValueError:
+        raise ValueError("Data inválida")
 
 
 # Requisito 8
