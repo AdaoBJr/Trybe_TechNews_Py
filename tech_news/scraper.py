@@ -51,7 +51,7 @@ def rm_tags(item):
             new_item.append(carac)
         if carac == '>':
             is_remove = False
-    return ''.join(new_item)
+    return ''.join(item)
 
 
 def search_autor(writer1, writer2, writer3):
@@ -63,10 +63,9 @@ def search_autor(writer1, writer2, writer3):
         return writer3.strip()
 
 
-# Requisito 4
-def scrape_noticia(html_content):
+def object_noticia(html_content):
     noticia = Selector(html_content)
-    url = noticia.css('meta::attr(content)').getall()[3]
+    url = noticia.css("head [rel='canonical']").css("link::attr(href)").get()
     title = noticia.css('.tec--article__header__title::text').get()
     timestamp = noticia.css('.tec--timestamp__item time::attr(datetime)').get()
     writer1 = noticia.css('.tec--author__info__link::text').get() or None
@@ -77,48 +76,56 @@ def scrape_noticia(html_content):
     shares_count = noticia.css('.tec--toolbar__item::text').get() or 0
     comments_count = noticia.css(
         '.tec--toolbar__item #js-comments-btn::attr(data-count)').get()
-    summary = noticia.css('.tec--article__body p').get()
+    summary = noticia.css(
+        '.tec--article__body p:nth-child(1) *::text').getall()
     sources = noticia.css('.z--mb-16 div a.tec--badge::text').getall()
     categories = noticia.css(
         '#js-categories .tec--badge--primary::text').getall()
-    shares_count_int = shares_count
-    if shares_count:
-        shares_count_replaced = shares_count.replace('Compartilharam', '')
-        shares_count_int = int(shares_count_replaced)
-    fullinfo = {
+    return {
         "url": url,
         "categories": rm_space(categories),
-        "comments_count": int(comments_count),
-        "shares_count": shares_count_int,
+        "comments_count": comments_count,
+        "shares_count": shares_count,
         "sources": rm_space(sources),
         "summary": rm_tags(summary),
         "timestamp": timestamp,
         "title": title,
         "writer": search_autor(writer1, writer2, writer3)
     }
-    return fullinfo
+
+
+# Requisito 4
+def scrape_noticia(html_content):
+    noticias = object_noticia(html_content)
+    if noticias["shares_count"]:
+        shares_count_replaced = noticias["shares_count"].replace(
+            'Compartilharam', '')
+        shares_count_int = int(shares_count_replaced)
+        noticias["shares_count"] = shares_count_int
+    if type(noticias["comments_count"]) is str:
+        print('AMIGO ESTOU AQUI')
+        noticias["comments_count"] = int(noticias["comments_count"])
+    return noticias
 
 
 # Requisito 5
 def get_tech_news(amount):
     url_base = "https://www.tecmundo.com.br/novidades"
-    next_page = "?page=1"
-    noticias_count = 0
-    noticias = []
+    noticias_link = []
     search_noticias = []
-    while noticias_count < amount:
-        html_content = fetch(url_base)
-        noticias.append(scrape_novidades(html_content))
-        noticias_count += len(noticias)
-    if noticias_count != amount:
-        for index, noticia in enumerate(noticias):
-            if (index + 1) == amount:
-                break
-            search_noticias.append(noticia)
-    print(len(search_noticias), 'QUANTIDADE DE NOTICIAS', amount, "QUANTIDADE DEFINIDA")
     noticias = []
+    while len(noticias_link) < amount:
+        html_content = fetch(url_base)
+        noticias_link.extend(scrape_novidades(html_content))
+        url_base = scrape_next_page_link(html_content)
+    for index, noticia in enumerate(noticias_link):
+        print(index, noticia)
+        search_noticias.append(noticia)
+        if (index + 1) == amount:
+            break
     for noticia in search_noticias:
-        result_noticia = scrape_noticia(noticia)
+        html_content = fetch(noticia)
+        result_noticia = scrape_noticia(html_content)
         noticias.append(result_noticia)
     create_news(noticias)
     return noticias
