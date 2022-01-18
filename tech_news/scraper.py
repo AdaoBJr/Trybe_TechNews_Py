@@ -22,7 +22,7 @@ def fetch(url):
 def scrape_novidades(html_content):
     """Seu código deve vir aqui"""
     selector = Selector(text=html_content)
-    news_hrefs = selector.css(".tec--nav li a::attr(href)").getall()
+    news_hrefs = selector.css(".tec--card__info h3 a::attr(href)").getall()
     return news_hrefs
 
 
@@ -39,6 +39,8 @@ def scrape_next_page_link(html_content):
 # Requisito 4
 def scrape_noticia(html_content):
     """Seu código deve vir aqui"""
+    selector = Selector(text=html_content)
+    url = selector.css("meta")
 
 
 # Requisito 5
