@@ -30,9 +30,7 @@ def scrape_novidades(html_content):
 def scrape_next_page_link(html_content):
     """Seu código deve vir aqui"""
     selector = Selector(text=html_content)
-    next_page_href = selector.css(
-        ".tec--list__item .tec--btn::attr(href)"
-    ).get()
+    next_page_href = selector.css(" .tec--btn::attr(href)").get()
     return next_page_href
 
 
