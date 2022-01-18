@@ -32,6 +32,7 @@ def search_by_source(source):
     news_found = find_news()
     result = []
     for new in news_found:
+        # https://www.kite.com/python/answers/how-to-use-range(len())-in-python
         for index in range(len(new["sources"])):
             new["sources"][index] = new["sources"][index].lower()
         if source.lower() in new["sources"]:
@@ -41,4 +42,12 @@ def search_by_source(source):
 
 # Requisito 9
 def search_by_category(category):
-    """Seu código deve vir aqui"""
+    news_found = find_news()
+    result = []
+    for new in news_found:
+        # https://www.kite.com/python/answers/how-to-use-range(len())-in-python
+        for index in range(len(new["categories"])):
+            new["categories"][index] = new["categories"][index].lower()
+        if category.lower() in new["categories"]:
+            result.append((new["title"], new["url"]))
+    return result
