@@ -85,7 +85,6 @@ def get_tech_news(amount):
         news_urls = scrape_novidades(content_html)
         next_url = scrape_next_page_link(content_html)
         content_html = fetch(next_url)
-        # list_news.append(news_urls)
 
         if len(news_urls) > amount:
             for url in news_urls[0:amount]:
@@ -97,5 +96,4 @@ def get_tech_news(amount):
                 list_news.append(scrape_noticia(current_page))
 
     create_news(list_news)
-    # print(list_news)
     return list_news
