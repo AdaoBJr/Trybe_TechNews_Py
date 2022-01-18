@@ -5,7 +5,7 @@ import time
 
 def fetch(url):
     """Seu código deve vir aqui"""
-    try: 
+    try:
 
         response = requests.get(
             url, timeout=1
