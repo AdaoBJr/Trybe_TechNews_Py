@@ -1,6 +1,14 @@
+from tech_news.database import find_news
 # Requisito 6
+
+
 def search_by_title(title):
-    """Seu código deve vir aqui"""
+    news_found = find_news()
+    result = []
+    for new in news_found:
+        if new["title"].lower() == title.lower():
+            result.append((new["title"], new["url"]))
+    return result
 
 
 # Requisito 7
