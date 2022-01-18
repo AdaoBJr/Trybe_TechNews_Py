@@ -1,6 +1,13 @@
 # Requisito 1
+import requests
+
+
 def fetch(url):
     """Seu código deve vir aqui"""
+    response = requests.get(
+        url, timeout=1
+    ).text
+    return response
 
 
 # Requisito 2
