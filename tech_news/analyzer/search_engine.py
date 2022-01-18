@@ -35,12 +35,16 @@ def search_by_date(date):
 
 # Requisito 8
 def search_by_source(source):
-    """Seu código deve vir aqui"""
+    regx = re.compile("(%s)" % source, re.IGNORECASE)  # 1, 2
+    data = search_news({"sources": regx})
+    return [(news["title"], news["url"]) for news in data]
 
 
 # Requisito 9
 def search_by_category(category):
-    """Seu código deve vir aqui"""
+    regx = re.compile("(%s)" % category, re.IGNORECASE)  # 1, 2
+    data = search_news({"categories": regx})
+    return [(news["title"], news["url"]) for news in data]
 
 
 """
