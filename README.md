@@ -10,7 +10,7 @@ Você já usa o _GitHub_ diariamente para desenvolver os exercícios, certo? Ago
 Aqui você vai encontrar os detalhes de como estruturar o desenvolvimento do seu projeto a partir desse repositório, utilizando uma branch específica e um _Pull Request_ para colocar seus códigos.
 
 ---
-
+flavio
 # Sumário
 
 - [Habilidades](#habilidades)
@@ -29,21 +29,39 @@ Aqui você vai encontrar os detalhes de como estruturar o desenvolvimento do seu
   - [MongoDB](#mongodb)
 
 Lista de requisitos:
-- [Requisitos obrigatórios](#requisitos-obrigatórios)
-  - [1 - Crie a função fetch](#1---crie-a-função-fetch)
-  - [2 - Crie a função scrape_novidades](#2---crie-a-função-scrape_novidades)
-  - [3 - Crie a função scrape_next_page_link](#3---crie-a-função-scrape_next_page_link)
-  - [4 - Crie a função scrape_noticia](#4---crie-a-função-scrape_noticia)
-  - [5 - Crie a função get_tech_news para obter as notícias!](#5---crie-a-função-get_tech_news-para-obter-as-notícias)
-  - [6 - Crie a função search_by_title](#6---crie-a-função-search_by_title)
-  - [7 - Crie a função search_by_date](#7---crie-a-função-search_by_date)
-  - [8 - Crie a função search_by_source,](#8---crie-a-função-search_by_source)
-  - [9 - Crie a função search_by_category](#9---crie-a-função-search_by_category)
-  - [10 - Crie a função top_5_news](#10---crie-a-função-top_5_news)
-  - [11 - Crie a função top_5_categories](#11---crie-a-função-top_5_categories)
-- [Requisitos bônus](#requisitos-bônus)
-  - [12 - Crie a função analyzer_menu](#12---crie-a-função-analyzer_menu)
-  - [13 - Implemente as funcionalidades do menu](#13---implemente-as-funcionalidades-do-menu)
+- [Boas vindas ao repositório do projeto de Tech News!](#boas-vindas-ao-repositório-do-projeto-de-tech-news)
+- [Sumário](#sumário)
+- [Habilidades](#habilidades)
+- [Entregáveis](#entregáveis)
+  - [O que deverá ser desenvolvido](#o-que-deverá-ser-desenvolvido)
+  - [Antes de começar a desenvolver:](#antes-de-começar-a-desenvolver)
+  - [Data de Entrega](#data-de-entrega)
+- [Instruções para entregar seu projeto:](#instruções-para-entregar-seu-projeto)
+  - [Durante o desenvolvimento](#durante-o-desenvolvimento)
+  - [- ⚠ Seu projeto não será avaliado com issues no linter, atente-se para manter seu código dentro dos padrões esperados.](#---seu-projeto-não-será-avaliado-com-issues-no-linter-atente-se-para-manter-seu-código-dentro-dos-padrões-esperados)
+  - [Depois de terminar o desenvolvimento](#depois-de-terminar-o-desenvolvimento)
+  - [Revisando um pull request](#revisando-um-pull-request)
+  - [Linter](#linter)
+- [Como desenvolver](#como-desenvolver)
+  - [Testes](#testes)
+  - [Raspagem de notícias](#raspagem-de-notícias)
+  - [MongoDB](#mongodb)
+- [Requisitos obrigatórios:](#requisitos-obrigatórios)
+    - [1 - Crie a função `fetch`](#1---crie-a-função-fetch)
+    - [2 - Crie a função `scrape_novidades`](#2---crie-a-função-scrape_novidades)
+    - [3 - Crie a função `scrape_next_page_link`](#3---crie-a-função-scrape_next_page_link)
+    - [4 - Crie a função `scrape_noticia`](#4---crie-a-função-scrape_noticia)
+    - [5 - Crie a função `get_tech_news` para obter as notícias!](#5---crie-a-função-get_tech_news-para-obter-as-notícias)
+    - [6 - Crie a função `search_by_title`](#6---crie-a-função-search_by_title)
+    - [7 - Crie a função `search_by_date`](#7---crie-a-função-search_by_date)
+    - [8 - Crie a função `search_by_source`,](#8---crie-a-função-search_by_source)
+    - [9 - Crie a função `search_by_category`](#9---crie-a-função-search_by_category)
+    - [10 - Crie a função `top_5_news`](#10---crie-a-função-top_5_news)
+    - [11 - Crie a função `top_5_categories`](#11---crie-a-função-top_5_categories)
+  - [Requisitos bônus:](#requisitos-bônus)
+    - [12 - Crie a função `analyzer_menu`](#12---crie-a-função-analyzer_menu)
+    - [13 - Implemente as funcionalidades do menu](#13---implemente-as-funcionalidades-do-menu)
+- [Avisos Finais](#avisos-finais)
 
 - [Avisos finais](#avisos-finais)
 
@@ -302,7 +320,7 @@ Alguns cuidados deverão ser tomados: como a nossa função poderá ser utilizad
 - Caso a resposta tenha o código de status diferente de `200`, deve-se retornar `None`;
 - Caso a requisição não receba resposta em até 3 segundos, ela deve ser abandonada (este caso é conhecido como "Timeout") e a função deve retornar None.
 
-✍️ Teste manual: abra um terminal Python importando estas funções através do comando `python3 -i tech_news/scraper.py` e as invoque utilizando diferentes parâmetros. Exemplo: 
+✍️ Teste manual: abra um terminal Python importando estas funções através do comando `python3 -i tech_news/scraper.py` e as invoque utilizando diferentes parâmetros. Exemplo:
 ```python
 >>> html = fetch(url_da_noticia)
 >>> scrape_noticia(html)
@@ -319,7 +337,7 @@ Alguns cuidados deverão ser tomados: como a nossa função poderá ser utilizad
 ### 2 - Crie a função `scrape_novidades`
 local: `tech_news/scraper.py`
 
-Para conseguirmos fazer o scrape da página de uma notícia, primeiro precisamos de links para várias páginas de notícias. Estes links estão contidos na página Novidades (https://www.tecmundo.com.br/novidades). 
+Para conseguirmos fazer o scrape da página de uma notícia, primeiro precisamos de links para várias páginas de notícias. Estes links estão contidos na página Novidades (https://www.tecmundo.com.br/novidades).
 
 Esta função fará o scrape da página Novidades para obter as URLs das páginas de notícias. Vamos utilizar as ferramentas que aprendemos no curso, como a biblioteca Parsel, para obter os dados que queremos de cada página.
 
@@ -328,7 +346,7 @@ Esta função fará o scrape da página Novidades para obter as URLs das página
 - A função deve retornar esta lista.
 - Caso não encontre nenhuma URL de notícia, a função deve retornar uma lista vazia.
 
-✍️ Teste manual: abra um terminal Python importando estas funções através do comando `python3 -i tech_news/scraper.py` e as invoque utilizando diferentes parâmetros. Exemplo: 
+✍️ Teste manual: abra um terminal Python importando estas funções através do comando `python3 -i tech_news/scraper.py` e as invoque utilizando diferentes parâmetros. Exemplo:
 ```python
 >>> html = fetch(url_da_noticia)
 >>> scrape_novidades(html)
@@ -355,7 +373,7 @@ Para buscar mais notícias, precisaremos fazer a paginação, e para isto, vamos
 ### 4 - Crie a função `scrape_noticia`
 local: `tech_news/scraper.py`
 
-Agora que sabemos pegar páginas HTML, e descobrir o link de notícias, é hora de fazer o scrape dos dados que procuramos! 
+Agora que sabemos pegar páginas HTML, e descobrir o link de notícias, é hora de fazer o scrape dos dados que procuramos!
 
 - A função deve receber como parâmetro o conteúdo HTML da página de uma única notícia da Tecmundo
 - A função deve, no conteúdo recebido, buscar as informações das notícias para preencher um dicionário com os seguintes atributos:
@@ -414,7 +432,7 @@ Agora que sabemos pegar páginas HTML, e descobrir o link de notícias, é hora 
   ```
   Repare que no exemplo dentro da tag _p_ encontram-se duas outras tags. Esse é um caso onde a tag _p_ é um ancestral e as tags _a_ e _em_ são as descendentes. Para obter todo o texto do exemplo, utiliza-se `*::text` no seletor.
 
-📌 **É bom saber que** ao fazer scraping na vida real, você está sempre "refém" de quem construiu o site. Por exemplo, pode ser que nem toda notícia tenha **exatamente** o mesmo HTML/CSS e você precise de criatividade para contornar isso. 
+📌 **É bom saber que** ao fazer scraping na vida real, você está sempre "refém" de quem construiu o site. Por exemplo, pode ser que nem toda notícia tenha **exatamente** o mesmo HTML/CSS e você precise de criatividade para contornar isso.
 
 
 
@@ -451,8 +469,8 @@ Agora que temos meios de popular nosso banco de dados com notícias, podemos com
 
 - A função deve receber uma string com um título de notícia
 - A função deve buscar as notícias do banco de dados por título
-- A função deve retornar uma lista de tuplas com as notícias encontradas nesta busca. 
-Exemplo: 
+- A função deve retornar uma lista de tuplas com as notícias encontradas nesta busca.
+Exemplo:
 ```python
 [
   ("Título1_aqui", "url1_aqui"),
@@ -564,7 +582,7 @@ Esta função irá listar as cinco notícias mais populares; nosso critério de 
 ### 11 - Crie a função `top_5_categories`
 local: `tech_news/analyzer/ratings.py`
 
-Esta função irá listar as cinco categorias com maior ocorrência no banco de dados. 
+Esta função irá listar as cinco categorias com maior ocorrência no banco de dados.
 
 - As categorias devem ser ordenadas por ordem alfabética.
 - As top 5 categorias da análise devem ser retornadas em uma lista no formato `["category1", "category2"]`;
