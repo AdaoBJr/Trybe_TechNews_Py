@@ -17,7 +17,8 @@ def search_by_date(date):
     news_found = find_news()
     result = []
     try:
-        datetime.datetime.strptime(date, '%Y-%m-%d')
+        # https://docs.python.org/3/library/datetime.html
+        datetime.datetime.fromisoformat(date)
         for new in news_found:
             if new["timestamp"][0:10] == date:
                 result.append((new["title"], new["url"]))
