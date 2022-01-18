@@ -21,16 +21,16 @@ def fetch(url):
 def scrape_novidades(html_content):
     if html_content == "":
         return []
-    seletor = Selector(html_content).css(
+    noticias = Selector(html_content).css(
         'h3 .tec--card__title__link::attr(href)').getall()
-    return seletor
+    return noticias
 
 
 # Requisito 3
 def scrape_next_page_link(html_content):
-    seletor = Selector(html_content).css(
+    link_proxima_pagina = Selector(html_content).css(
         "div.tec--list--lg a.tec--btn--lg::attr(href)").get()
-    return seletor
+    return link_proxima_pagina
 
 
 def rm_space(array):
@@ -65,8 +65,6 @@ def search_autor(writer1, writer2, writer3):
 
 # Requisito 4
 def scrape_noticia(html_content):
-    if html_content == "":
-        return []
     noticia = Selector(html_content)
     url = noticia.css('meta::attr(content)').getall()[3]
     title = noticia.css('.tec--article__header__title::text').get()
@@ -98,11 +96,29 @@ def scrape_noticia(html_content):
         "title": title,
         "writer": search_autor(writer1, writer2, writer3)
     }
-    create_news(fullinfo)
     return fullinfo
 
 
 # Requisito 5
 def get_tech_news(amount):
-    # Seu código aqui
-    return None
+    url_base = "https://www.tecmundo.com.br/novidades"
+    next_page = "?page=1"
+    noticias_count = 0
+    noticias = []
+    search_noticias = []
+    while noticias_count < amount:
+        html_content = fetch(url_base)
+        noticias.append(scrape_novidades(html_content))
+        noticias_count += len(noticias)
+    if noticias_count != amount:
+        for index, noticia in enumerate(noticias):
+            if (index + 1) == amount:
+                break
+            search_noticias.append(noticia)
+    print(len(search_noticias), 'QUANTIDADE DE NOTICIAS', amount, "QUANTIDADE DEFINIDA")
+    noticias = []
+    for noticia in search_noticias:
+        result_noticia = scrape_noticia(noticia)
+        noticias.append(result_noticia)
+    create_news(noticias)
+    return noticias
