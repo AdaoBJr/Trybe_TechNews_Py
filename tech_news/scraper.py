@@ -2,7 +2,6 @@ import requests
 from time import sleep
 from parsel import Selector
 import re
-from tech_news.database import create_news
 
 GETTER = {
     "news": "#js-main .tec--card__title__link::attr(href)",
@@ -88,18 +87,4 @@ def scrape_noticia(html_content):
 
 # Requisito 5
 def get_tech_news(amount):
-    fetch_url = fetch("https://www.tecmundo.com.br/novidades")
-    news_list = scrape_novidades(fetch_url)
-    content = []
-
-    while len(news_list) < amount:
-        next_page = fetch(scrape_next_page_link(fetch_url))
-        news_list.extend(scrape_novidades(next_page))
-
-    for i in range(amount):
-        news_url = news_list[i]
-        result = fetch(news_url)
-        content.append(scrape_noticia(result))
-
-    create_news(content)
-    return content
+    pass

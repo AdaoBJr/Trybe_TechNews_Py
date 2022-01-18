@@ -33,4 +33,3 @@ def search_by_source(source):
 # Requisito 9
 def search_by_category(category):
     return search("categories", category)
-
