@@ -13,7 +13,7 @@ def fetch(url):
             return None
     except requests.Timeout:
         return None
-        #teste req1
+
 
 # Requisito 2
 def scrape_novidades(html_content):
