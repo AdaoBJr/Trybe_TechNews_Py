@@ -1,5 +1,6 @@
 import requests
 from time import sleep
+from parsel import Selector
 
 # BASED ON *
 # https://www.w3schools.com/python/ref_requests_get.asp
@@ -26,7 +27,11 @@ def fetch(url):
 
 # Requisito 2
 def scrape_novidades(html_content):
-    """Seu código deve vir aqui"""
+    selector = Selector(text=html_content)
+
+    news = selector.css(
+      "#js-main .tec--card__title__link::attr(href)").getall()
+    return news
 
 
 # Requisito 3
