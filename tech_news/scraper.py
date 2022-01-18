@@ -35,7 +35,35 @@ def scrape_next_page_link(html_content):
 
 # Requisito 4
 def scrape_noticia(html_content):
-    """Seu código deve vir aqui"""
+    seletor = Selector(html_content)
+    # https://rockcontent.com/br/blog/canonical-tag/
+    url = seletor.css("link[rel=canonical]::attr(href)").get()
+    title = seletor.css(".tec--article__header__title::text").get()
+    timestamp = seletor.css("time::attr(datetime)").get()
+    writer = seletor.css(".z--font-bold").css("*::text").get().strip() or ""
+    shares_count = seletor.css("div.tec--toolbar__item::text").get()
+    if shares_count:
+        shares_count = shares_count.replace("Compartilharam", "").strip()
+    else:
+        shares_count = 0
+    comments_count = seletor.css(".tec--btn::attr(data-count)").get()
+    summary = "".join(
+        seletor.css(".tec--article__body > p:nth-child(1) ::text").getall()
+    )
+    sources = seletor.css(".z--mb-16 .tec--badge::text").getall()
+    categories = seletor.css(".tec--badge--primary::text").getall()
+
+    return {
+        "url": url,
+        "title": title,
+        "timestamp": timestamp,
+        "writer": writer,
+        "shares_count": int(shares_count),
+        "comments_count": int(comments_count),
+        "summary": summary,
+        "sources": [source.strip() for source in sources],
+        "categories": [category.strip() for category in categories],
+    }
 
 
 # Requisito 5
