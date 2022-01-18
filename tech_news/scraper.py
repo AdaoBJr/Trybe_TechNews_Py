@@ -35,7 +35,51 @@ def scrape_next_page_link(html_content):
 
 # Requisito 4
 def scrape_noticia(html_content):
-    """Seu código deve vir aqui"""
+    selector = Selector(html_content)
+    url = selector.css("link[rel=canonical]::attr(href)").get()
+    title = selector.css("h1.tec--article__header__title::text").get()
+    timestamp = selector.css("#js-article-date::attr(datetime)").get()
+
+    writer = selector.css(".z--font-bold ::text").get()
+    if writer:
+        writer = writer.strip()
+    else:
+        writer = None
+
+    shares_count = selector.css(
+        ".tec--toolbar > .tec--toolbar__item::text"
+    ).get()
+    if shares_count:
+        shares_count = int(shares_count.strip("Compartilharam"))
+    else:
+        shares_count = 0
+
+    comments_count = selector.css(
+        ".tec--toolbar__item > button::attr(data-count)"
+        ).get()
+
+    if comments_count:
+        comments_count = int(comments_count.strip("Comentários"))
+    else:
+        comments_count = 0
+
+    summary = "".join(
+        selector.css(".tec--article__body > p:nth-child(1) ::text").getall()
+    )
+    sources = selector.css(".z--mb-16 .tec--badge::text").getall()
+    categories = selector.css("#js-categories a ::text").getall()
+
+    return {
+        "url": url,
+        "title": title,
+        "timestamp": timestamp,
+        "writer": writer,
+        "shares_count": shares_count,
+        "comments_count": comments_count,
+        "summary": summary,
+        "sources": [source.strip() for source in sources],
+        "categories": [category.strip() for category in categories],
+    }
 
 
 # Requisito 5
