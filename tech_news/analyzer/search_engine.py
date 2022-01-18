@@ -18,6 +18,7 @@ def search_by_date(time):
     filtered_list = []
     news_list = find_news()
     try:
+        # doc datetime python
         timestamp = date.fromisoformat(time)
         for news in news_list:
             if timestamp == date.fromisoformat(news["timestamp"][0:10]):
