@@ -29,7 +29,7 @@ def scrape_novidades(html_content):
 def scrape_next_page_link(html_content):
     """Seu código deve vir aqui"""
     selector = parsel.Selector(html_content)
-    return selector.css("div.tec--list.tec--list--lg > a ::attr(href)").get()
+    return selector.css("div.tec--list.tec--list--lg > a::attr(href)").get()
 
 
 # Requisito 4
@@ -69,19 +69,18 @@ def scrape_noticia(html_content):
 def get_tech_news(amount):
     """Seu código deve vir aqui"""
     url = "https://www.tecmundo.com.br/novidades"
-    url_fetch = fetch(url)
-    news_scrape = scrape_novidades(url_fetch)
+    fetch_url = fetch(url)
     news_list = []
 
-    while len(news_scrape) < amount:
-        url = scrape_next_page_link(url_fetch)
-        url_fetch = fetch(url)
-        news_scrape.append(scrape_novidades(url_fetch))
+    while len(news_list) < amount:
+        for url in scrape_novidades(fetch_url):
+            if len(news_list) < amount:
+                news_fetch = fetch(url)
+                news_list.append(scrape_noticia(news_fetch))
 
-    for news in news_scrape:
-        fetch_news = fetch(news)
-        scraped_news = scrape_noticia(fetch_news)
-        news_list.append(scraped_news)
+        if len(news_list) < amount:
+            url = scrape_next_page_link(fetch_url)
+            fetch_url = fetch(url)
 
     create_news(news_list)
     return news_list
