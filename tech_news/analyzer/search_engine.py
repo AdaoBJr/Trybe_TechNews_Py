@@ -48,8 +48,10 @@ def search_by_source(source):
 
 # Requisito 9
 def search_by_category(category):
-    """Seu código deve vir aqui"""
-
-
-""" a = search_by_date("2020-11-23")
-print(a) """
+    query = {"categories": {"$regex": category, "$options": "i"}}
+    search_result = search_news(query)
+    return (
+        [(news["title"], news["url"]) for news in search_result]
+        if len(search_result) > 0
+        else []
+    )
