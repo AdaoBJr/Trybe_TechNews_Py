@@ -1,5 +1,6 @@
 import requests
 import time
+from tech_news.database import create_news
 from parsel import Selector
 
 # HELPER FUNCTIONS
@@ -76,18 +77,15 @@ def scrape_noticia(html_content):
     except AttributeError:
         stripped_writer = writer
 
-    shares_and_comments_count = selector.css(".tec--toolbar__item").re(
-        "^[0-9]*$"
+    shares_count = int(
+        selector.css(".tec--toolbar__item::text").re_first(r"[0-9]") or "0"
     )
-    try:
-        shares_count = shares_and_comments_count[0] or 0
-        comments_count = shares_and_comments_count[1] or 0
-    except IndexError:
-        shares_count = 0
-        comments_count = 0
+    comments_count = int(
+        selector.css(".tec--toolbar__item button::attr(data-count)").get()
+    )
 
     summary = selector.css(
-        ".tec--article__body p:first-child *::text"
+        ".tec--article__body > p:first-child *::text"
     ).getall()
 
     sources = selector.css(".z--mb-16 div a::text").getall()
@@ -112,3 +110,20 @@ def scrape_noticia(html_content):
 # Requisito 5
 def get_tech_news(amount):
     """Seu código deve vir aqui"""
+    base_url = "https://www.tecmundo.com.br/novidades"
+    pages_to_scrape = []
+    tech_news = []
+    while base_url and len(tech_news) < amount:
+        html_content = fetch(base_url)
+        pages_to_scrape = scrape_novidades(html_content)
+        for page in pages_to_scrape:
+            page_content = fetch(page)
+            page_info = scrape_noticia(page_content)
+            tech_news.append(page_info)
+        base_url = scrape_next_page_link(html_content=html_content)
+
+    while len(tech_news) > amount:
+        tech_news.pop()
+
+    create_news(tech_news)
+    return tech_news
