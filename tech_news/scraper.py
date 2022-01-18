@@ -6,8 +6,8 @@ def fetch(url):
     """Seu código deve vir aqui"""
     response = requests.get(
         url, timeout=1
-    ).text
-    return response
+    )
+    return response.text
 
 
 # Requisito 2
