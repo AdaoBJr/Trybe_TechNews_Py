@@ -1,4 +1,5 @@
 from tech_news.database import find_news
+from datetime import date
 
 # Requisito 6
 
@@ -13,8 +14,17 @@ def search_by_title(title):
 
 
 # Requisito 7
-def search_by_date(date):
-    """Seu código deve vir aqui"""
+def search_by_date(time):
+    filtered_list = []
+    news_list = find_news()
+    try:
+        timestamp = date.fromisoformat(time)
+        for news in news_list:
+            if timestamp == date.fromisoformat(news["timestamp"][0:10]):
+                filtered_list.append((news["title"], news["url"]))
+        return filtered_list
+    except ValueError:
+        raise ValueError("Data inválida!")
 
 
 # Requisito 8
