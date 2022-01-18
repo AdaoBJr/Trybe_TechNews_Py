@@ -65,72 +65,10 @@ def scrape_noticia(html_content):
     categories = selector.css("#js-categories a::text").getall()
     news["categories"] = [category.strip() for category in categories]
     return news
-    # news = {}
-    # selector = Selector(text=html_content)
-    # news["url"] = selector.css("link[rel=canonical]::attr(href)").get()
-    # news["title"] = selector.css(".tec--article__header__title::text").get()
-    # news["timestamp"] = selector.css("#js-article-date::attr(datetime)").get()
-    # news["writer"] = (
-    #     "".join(
-    #         selector.css(
-    #             ".z--m-none.z--truncate.z--font-bold *::text"
-    #         ).getall()
-    #     ).strip()
-    #     or "".join(
-    #         selector.css(".tec--timestamp__item.z--font-bold *::text").getall()
-    #     ).strip()
-    # )
-    # # r"\w+.+\w"
-    # news["shares_count"] = int(
-    #     selector.css(".tec--toolbar__item::text").re_first(r"\d+") or 0
-    # )
-    # news["comments_count"] = int(
-    #     selector.css("#js-comments-btn::attr(data-count)").get() or 0
-    # )
-    # # news["summary"] = "".join(
-    # summary = selector.css("div.tec--article__body > p:first-child *::text").getall()
-    # news["summary"] = "".join(summary)
-    # print(
-    #     "".join(
-    #         selector.css(
-    #             ".tec--article__body p:first-of-type *::text"
-    #         ).getall()
-    #     )
-    # )
-    # print(news["url"])
-
-    # news["sources"] = selector.css(".z--mb-16 div a::text").re(r"\w+.+\w")
-    # categories = selector.css("#js-categories a::text").getall()
-    # cat = []
-    # for category in categories:
-    #     # print(category.strip())
-    #     cat.append(category.strip())
-    # print(cat)
-    # news["categories"] = cat
-    # # news["categories"] = selector.css("#js-categories a::text").re(r"\w+.+\w")
-    # return news
 
 
 # Requisito 5
 def get_tech_news(amount):
-    # url = "https://www.tecmundo.com.br/novidades"
-    # res = fetch(url)
-    # link_list = scrape_novidades(res)
-    # scrapy_results = []
-    # while len(link_list) < amount:
-    #     url = scrape_next_page_link(res)
-    #     res = fetch(url)
-    #     # aqui também poderia ser usado o extend para adicionar no
-    #     # final da lista
-    #     link_list += scrape_novidades(res)
-    # # Tricks para array em python
-    # # https://gist.github.com/RatulSaha/b41c52614da34762a74d16dc066b68df
-    # for notice_link in link_list[0:amount]:
-    #     html = fetch(notice_link)
-    #     scrapy_of_page = scrape_noticia(html)
-    #     scrapy_results.append(scrapy_of_page)
-    # create_news(scrapy_results)
-    # return scrapy_results
     next_page = "https://www.tecmundo.com.br/novidades"
     url_news_list = scrape_novidades(fetch(next_page))
     news_list = []
