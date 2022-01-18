@@ -42,4 +42,11 @@ def search_by_source(source):
 
 # Requisito 9
 def search_by_category(category):
-    """Seu código deve vir aqui"""
+    response = find_news()
+    search = []
+    for new in response:
+        for i in range(len(new["categories"])):
+            new["categories"][i] = new["categories"][i].lower()
+        if category.lower() in new["categories"]:
+            search.append((new["title"], new["url"]))
+    return search
