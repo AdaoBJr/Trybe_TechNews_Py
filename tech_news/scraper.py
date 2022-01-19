@@ -16,7 +16,7 @@ def fetch(url):
     return res.text
 
 
-# Requisito 2
+
 def scrape_novidades(html_content):
     """Seu código deve vir aqui"""
     get_html_content = Selector(html_content).xpath(
@@ -25,9 +25,14 @@ def scrape_novidades(html_content):
     return get_html_content
 
 
-# Requisito 3
+
 def scrape_next_page_link(html_content):
     """Seu código deve vir aqui"""
+  get_html_content = Selector(html_content).xpath(
+      "/html/body/div/main/div/div/div/div/a/@href"
+  ).get()
+  return get_html_content
+
 
 
 # Requisito 4
