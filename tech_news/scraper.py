@@ -87,17 +87,16 @@ def scrape_noticia(html_content):
 def get_tech_news(amount):
     url_content = fetch("https://www.tecmundo.com.br/novidades")
     latest_news = scrape_novidades(url_content)
-    news_to_request = []
     news_by_amount = []
 
     while len(latest_news) < amount:
         next_page_url = scrape_next_page_link(url_content)
         new_news = fetch(next_page_url)
-        news_to_request.append(new_news)
+        latest_news.extend(scrape_novidades(new_news))
+        print(latest_news)
 
     for news in latest_news:
         if indexOf(latest_news, news) < amount:
-            news_to_request.append(news)
             news_to_fetch = fetch(news)
             news_scrapper = scrape_noticia(news_to_fetch)
             news_by_amount.append(news_scrapper)
