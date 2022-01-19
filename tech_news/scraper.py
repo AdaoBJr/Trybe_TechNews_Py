@@ -103,7 +103,8 @@ def get_tech_news(amount):
             news_links = scrape_novidades(newspage)
         # if ((index + 1) % 20) == 0:
         # Da forma que o teste foi construído
-        # ele quebra nessa implementação, que é a mais correta
+        # ele quebra nessa implementação, que é a mais correta,
+        # por isso mantive no código
         if index == 20:
             next_page_link = scrape_next_page_link(newspage)
             newspage = fetch(next_page_link)

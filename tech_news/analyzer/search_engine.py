@@ -1,6 +1,17 @@
+from tech_news.database import search_news
+
 # Requisito 6
+
+
 def search_by_title(title):
-    """Seu código deve vir aqui"""
+    result = [
+        (news["title"], news["url"])
+        for news in search_news(
+            {"title": {"$regex": f"{title}", "$options": "i"}}
+        )
+    ]
+    # The $options with ‘I’ parameter means case insensitivity
+    return result
 
 
 # Requisito 7
