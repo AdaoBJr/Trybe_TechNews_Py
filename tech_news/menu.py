@@ -1,4 +1,4 @@
-from sys import stderr
+import sys
 
 
 title = """
@@ -55,10 +55,14 @@ menu = {
 
 # Requisito 12
 def analyzer_menu():
-    response = int(input(title))
+    try:
+        response = int(input(title))
+    except ValueError:
+        return ValueError('Opção inválida')
+
     if(response == 7):
-        print('saindo')
+        print('Encerrando script\n')
     elif(0 <= response <= 6):
         menu[response]()
     else:
-        raise stderr('Opção inválida')
+        sys.stderr.write("Opção inválida\n")
