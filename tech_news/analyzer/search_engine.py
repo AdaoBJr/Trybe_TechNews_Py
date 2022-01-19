@@ -1,13 +1,14 @@
-from tech_news.database import (find_news, search_news)
+from tech_news.database import search_news
 import datetime
 
 
 # FONTE lower(): https://shortest.link/2z5G
 # Requisito 6
 def search_by_title(title):
-    search_news = find_news()
+    searche_news = search_news({'title': {
+        '$regex': title, '$options': 'index'}})
     news_by_title = []
-    for new in search_news:
+    for new in searche_news:
         if new['title'].lower() == title.lower():
             item = new['title'], new['url']
             news_by_title.append(item)
@@ -17,11 +18,12 @@ def search_by_title(title):
 # FONTE strptime(): encr.pw/Pf9PS
 # Requisito 7
 def search_by_date(date):
-    search_news = find_news()
+    searched_news = search_news({'timestamp': {
+        '$regex': date, '$options': 'index'}})
     news_by_date = []
     try:
         datetime.datetime.strptime(date, '%Y-%m-%d')
-        for new in search_news:
+        for new in searched_news:
             if new['timestamp'][:10] == date:
                 item = new['title'], new['url']
                 news_by_date.append(item)
