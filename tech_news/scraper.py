@@ -1,9 +1,11 @@
 import requests
 import time
 from parsel import Selector
+from tech_news.database import create_news
 # https://parsel.readthedocs.io/en/latest/usage.html
 # https://www.w3schools.com/python/ref_string_strip.asp
 
+URL = "https://www.tecmundo.com.br/novidades"
 
 def fetch(url):
     time.sleep(1)
@@ -68,4 +70,5 @@ def scrape_noticia(html_content):
 # Requisito 5
 def get_tech_news(amount):
     """Seu código deve vir aqui"""
-    pass
+    html = fetch(url)
+    res = []
