@@ -1,5 +1,5 @@
 from tech_news.database import find_news
-# from datetime import datetime
+import datetime
 
 
 # Requisito 6
@@ -19,9 +19,9 @@ def search_by_date(date):
     res = []
     for new in news:
         try:
+            datetime.date.fromisoformat(date)
             if date in new["timestamp"]:
                 res.append((new["title"], new["url"]))
-            print(res)
             return res
         except ValueError:
             raise ValueError('Data inválida')
