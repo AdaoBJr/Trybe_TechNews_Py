@@ -3,6 +3,10 @@ import requests
 import time
 
 
+def extractNumbers(string):
+    return int(''.join(filter(str.isdigit, string)))
+
+
 # Requisito 1
 def fetch(url):
     try:
@@ -35,7 +39,33 @@ def scrape_next_page_link(html_content):
 
 # Requisito 4
 def scrape_noticia(html_content):
-    """Seu código deve vir aqui"""
+    selector = Selector(html_content)
+    news = {}
+
+    url = selector.css("link[rel='canonical']::attr(href)").get()
+    title = selector.css("h1.tec--article__header__title::text").get()
+    timestamp = selector.css("div.tec--timestamp__item time::attr(datetime)").get()
+    writer = selector.css("a.tec--author__info__link::text").get().strip()
+    shares_count = selector.css(
+        "div.tec--toolbar__item::text").get().strip().split(" ")[0]
+    comments_count = selector.css(
+        ".tec--btn::attr(data-count)").get()
+    summary = selector.css(
+        ".tec--article__body > p:first-child *::text").getall()
+    sources = selector.css(".z--mb-16 .tec--badge::text").getall()
+    categories = selector.css(".tec--badge--primary::text").getall()
+
+    news["url"] = url
+    news["title"] = title
+    news["timestamp"] = timestamp
+    news["writer"] = writer
+    news["shares_count"] = int(shares_count)
+    news["comments_count"] = int(comments_count)
+    news["summary"] = "".join(summary)
+    news["sources"] = [source.strip() for source in sources]
+    news["categories"] = [category.strip() for category in categories]
+
+    return news
 
 
 # Requisito 5
