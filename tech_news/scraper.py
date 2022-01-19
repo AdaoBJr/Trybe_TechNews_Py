@@ -18,12 +18,19 @@ def fetch(url):
 # Requisito 2
 def scrape_novidades(html_content):
     selector = Selector(html_content)
-    return selector.css("div.tec--card__info h3 a::attr(href)").getall()
+    try:
+        return selector.css("div.tec--card__info h3 a::attr(href)").getall()
+    except AttributeError:
+        return None
 
 
 # Requisito 3
 def scrape_next_page_link(html_content):
-    """Seu código deve vir aqui"""
+    selector = Selector(html_content)
+    try:
+        return selector.css(".tec--list--lg .tec--btn--primary::attr(href)").get()
+    except AttributeError:
+        return None
 
 
 # Requisito 4
