@@ -44,8 +44,7 @@ def scrape_next_page_link(html_content):
 
 
 # Requisito 4
-
-def shares_count_func(selector): 
+def shares_count_func(selector):
     # pega o primeiro valor da string e converte para int
     answer = selector.css("div.tec--toolbar__item::text").get()
     if answer:
