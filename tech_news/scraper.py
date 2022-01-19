@@ -28,7 +28,7 @@ def scrape_novidades(html_content):
 def scrape_next_page_link(html_content):
     selector = Selector(html_content)
     try:
-        return selector.css(".tec--list--lg .tec--btn--primary::attr(href)").get()
+        return selector.css(".tec--btn--primary::attr(href)").get()
     except AttributeError:
         return None
 
