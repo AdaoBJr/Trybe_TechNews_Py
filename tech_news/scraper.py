@@ -1,6 +1,7 @@
 import requests
 import time
 from parsel import Selector
+#https://parsel.readthedocs.io/en/latest/usage.html
 
 
 def fetch(url):
