@@ -26,10 +26,10 @@ def scrape_novidades(html_content):
 
 def scrape_next_page_link(html_content):
     """Seu código deve vir aqui"""
-  get_html_content = Selector(html_content).xpath(
+    get_html_content = Selector(html_content).xpath(
       "/html/body/div/main/div/div/div/div/a/@href"
-  ).get()
-  return get_html_content
+    ).get()
+    return get_html_content
 
 
 # Requisito 4
