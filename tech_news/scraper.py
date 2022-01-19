@@ -49,6 +49,7 @@ def scrape_noticia(html_content):
         "div.tec--article__body > p:nth-child(1) *::text"
     ).getall()
     comments_count = html.css("#js-comments-btn::attr(data-count)").get()
+    shares_count = html.css(".tec--toolbar .tec--toolbar__item::text").get()
 
 
 # Requisito 5
