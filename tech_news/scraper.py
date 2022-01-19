@@ -2,6 +2,7 @@ import requests
 import time
 from parsel import Selector
 # https://parsel.readthedocs.io/en/latest/usage.html
+# https://www.w3schools.com/python/ref_string_strip.asp
 
 
 def fetch(url):
@@ -51,7 +52,18 @@ def scrape_noticia(html_content):
     comments_count = html.css("#js-comments-btn::attr(data-count)").get()
     shares_count = html.css(".tec--toolbar .tec--toolbar__item::text").get()
     categories = page.css("#js-categories a::text").getall()
-    
+    return {
+        "url": url,
+        "title": html.css(".tec--article__header__title::text").get(),
+        "timestamp": html.css("#js-article-date::attr(datetime)").get(),
+        "writer": writer.strip() if writer else None,
+        # "writer": writer.strip() if writer,
+        "shares_count": int(shares_count.split()[0]) if shares_count else 0,
+        "comments_count": int(comments_count),
+        "summary": ''.join(summary),
+        "sources": [source.strip() for source in sources],
+        "categories": [categorie.strip() for categorie in categories],
+    }
 
 # Requisito 5
 def get_tech_news(amount):
