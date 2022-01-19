@@ -19,6 +19,10 @@ def fetch(url):
 # Requisito 2
 def scrape_novidades(html_content):
     """Seu código deve vir aqui"""
+    get_all = Selector(html_content).xpath(
+      "/html/body/div/main/div/div/div/div/div/article/div/h3/a/@href"
+    ).getall()
+    return get_all
 
 
 # Requisito 3
