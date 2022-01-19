@@ -16,14 +16,12 @@ def fetch(url):
     return res.text
 
 
-
 def scrape_novidades(html_content):
     """Seu código deve vir aqui"""
     get_html_content = Selector(html_content).xpath(
       "/html/body/div/main/div/div/div/div/div/article/div/h3/a/@href"
     ).getall()
     return get_html_content
-
 
 
 def scrape_next_page_link(html_content):
