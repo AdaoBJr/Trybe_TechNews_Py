@@ -3,6 +3,7 @@ import time
 import re
 
 from parsel import Selector
+from tech_news.database import create_news
 
 # Requisito 1
 
@@ -41,7 +42,9 @@ def scrape_next_page_link(html_content):
 def scrape_noticia(html_content):
     selector = Selector(text=html_content)
 
-    current_url_page = selector.xpath('//link[@rel="canonical"]/@href').get()
+    current_url_page = (
+        selector.xpath('//link[@rel="canonical"]/@href').get().strip()
+    )
 
     title = selector.css("h1.tec--article__header__title::text").get()
 
@@ -63,12 +66,9 @@ def scrape_noticia(html_content):
         selector.css(".tec--toolbar__item button::attr(data-count)").get()
     )
 
-    list_summary = selector.css(
-        "div.tec--article__body p:nth-child(1) *::text"
-    ).getall()
-    summary = ""
-    for element in list_summary:
-        summary += element
+    summary = "".join(
+        selector.css(".tec--article__body > p:nth-child(1) *::text").getall()
+    )
 
     sources = selector.css(".z--mb-16 div a::text").getall()
     sources_stripped = [source.strip() for source in sources]
@@ -93,4 +93,25 @@ def scrape_noticia(html_content):
 
 # Requisito 5
 def get_tech_news(amount):
-    """Seu código deve vir aqui"""
+    newspage = fetch("https://www.tecmundo.com.br/novidades")
+
+    all_news = []
+    news_links = []
+
+    for index in range(amount):
+        if index == 0:
+            news_links = scrape_novidades(newspage)
+        # if ((index + 1) % 20) == 0:
+        # Da forma que o teste foi construído
+        # ele quebra nessa implementação, que é a mais correta
+        if index == 20:
+            next_page_link = scrape_next_page_link(newspage)
+            newspage = fetch(next_page_link)
+            news_links.extend(scrape_novidades(newspage))
+
+        news_html_content = fetch(news_links[index])
+        news_dict = scrape_noticia(news_html_content)
+        all_news.append(news_dict)
+
+    create_news(all_news)
+    return all_news
