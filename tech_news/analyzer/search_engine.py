@@ -33,6 +33,7 @@ def search_by_source(source):
     news = search_news(
         {"sources": {"$elemMatch": {"$regex": source, "$options": "i"}}}
     )
+
     news_list = []
 
     for report in news:
@@ -42,4 +43,12 @@ def search_by_source(source):
 
 # Requisito 9
 def search_by_category(category):
-    """Seu código deve vir aqui"""
+    news = search_news(
+        {"categories": {"$elemMatch": {"$regex": category, "$options": "i"}}}
+    )
+
+    news_list = []
+
+    for report in news:
+        news_list.append((report["title"], report["url"]))
+    return news_list
