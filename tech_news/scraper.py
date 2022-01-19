@@ -32,7 +32,6 @@ def scrape_next_page_link(html_content):
   return get_html_content
 
 
-
 # Requisito 4
 def scrape_noticia(html_content):
     """Seu código deve vir aqui"""
