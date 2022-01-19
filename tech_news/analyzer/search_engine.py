@@ -32,7 +32,7 @@ def search_by_source(source):
     news = find_news()
     res = []
     for new in news:
-        if source.upper() in [source_el.upper() for source_el in new["sources"]]:
+        if source.upper() in [src.upper() for src in new["sources"]]:
             res.append((new["title"], new["url"]))
             return res
         return []
