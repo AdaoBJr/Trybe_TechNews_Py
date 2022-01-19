@@ -1,6 +1,7 @@
 import requests
 import time
 from parsel import Selector
+from tech_news.database import create_news
 
 
 def remove_spaces(array):
@@ -88,13 +89,10 @@ def scrape_noticia(html_content):
         ".tec--article__body > p:nth-child(1) *::text"
         ).getall())
 
-    # SOURCES
     sources = remove_spaces(selector.css(
         ".z--mb-16 div a::text"
         ).getall())
 
-    # CATEGORIES
-    # remover espacos em branco
     categories = remove_spaces(selector.css(
         "#js-categories a::text"
         ).getall())
@@ -114,7 +112,24 @@ def scrape_noticia(html_content):
 
 # Requisito 5
 def get_tech_news(amount):
-    """Seu código deve vir aqui"""
+    html_text = fetch('https://www.tecmundo.com.br/novidades')
+    news = scrape_novidades(html_text)
+    scraped_news = []
+
+    while len(scraped_news) < amount:
+        for link in news:
+            html_text = fetch(link)
+            if html_text:
+                scraped_news.append(scrape_noticia(html_text))
+            else:
+                continue
+        if scrape_next_page_link(html_text):
+            html_text = fetch(scrape_next_page_link(html_text))
+            news = scrape_novidades(html_text)
+        else:
+            break
+    create_news(scraped_news)
+    return scraped_news
 
 
 def testar_manualmente(index):
