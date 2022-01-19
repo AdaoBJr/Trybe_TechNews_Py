@@ -42,11 +42,6 @@ def search_by_source(source):
 
 
 # Requisito 9
-# The function must receive the full category name as a parameter.
-# The function should fetch the news from the database by category.
-# The function must return in the same format as the previous requirement.
-# If no news is found, an empty list must be returned.
-# The search must be case insensitive
 def search_by_category(category):
     category_news = {
         "categories": {"$regex": category, "$options": "i"}
