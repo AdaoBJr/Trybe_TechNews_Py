@@ -17,18 +17,25 @@ def search_by_title(title):
 
 # FONTE strptime(): encr.pw/Pf9PS
 # Requisito 7
+def date_format_validation(date_input):
+    try:
+        datetime.datetime.strptime(date_input, '%Y-%m-%d')
+        return True
+    except ValueError:
+        return False
+
+
 def search_by_date(date):
+    valid_date = date_format_validation(date)
     searched_news = search_news({'timestamp': {
         '$regex': date, '$options': 'index'}})
     news_by_date = []
-    try:
-        datetime.datetime.strptime(date, '%Y-%m-%d')
+    if valid_date:
         for new in searched_news:
-            if new['timestamp'][:10] == date:
-                item = new['title'], new['url']
-                news_by_date.append(item)
+            item = new['title'], new['url']
+            news_by_date.append(item)
         return news_by_date
-    except ValueError:
+    else:
         raise ValueError("Data inválida")
 
 
