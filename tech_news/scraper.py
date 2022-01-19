@@ -1,8 +1,7 @@
 import requests
 import time
-import Selector from parsel
+from parsel import Selector
 
-# Requisito 1
 
 def fetch(url):
     time.sleep(1)
