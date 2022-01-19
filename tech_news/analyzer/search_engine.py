@@ -28,9 +28,23 @@ def search_by_date(date):
 
 # Requisito 8
 def search_by_source(source):
-    """Seu código deve vir aqui"""
+    data_news = find_news()
+    list_result = []
+
+    for element in data_news:
+        for index in element["sources"]:
+            if index.lower() == source.lower():
+                list_result.append((element["title"], element["url"]))
+    return list_result
 
 
 # Requisito 9
 def search_by_category(category):
-    """Seu código deve vir aqui"""
+    data_news = find_news()
+    list_result = []
+
+    for element in data_news:
+        for index in element["categories"]:
+            if index.lower() == category.lower():
+                list_result.append((element["title"], element["url"]))
+    return list_result
