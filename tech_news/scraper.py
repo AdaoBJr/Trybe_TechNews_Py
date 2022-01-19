@@ -1,6 +1,7 @@
 from parsel import Selector
 import requests
 import time
+from tech_news.database import create_news
 
 
 def extractNumbers(string):
@@ -86,4 +87,19 @@ def scrape_noticia(html_content):
 
 # Requisito 5
 def get_tech_news(amount):
-    """Seu código deve vir aqui"""
+    webpage = fetch("https://www.tecmundo.com.br/novidades")
+    news = scrape_novidades(webpage)
+    nextpage = scrape_next_page_link(webpage)
+    tech_news = []
+
+    while len(news) < amount:
+        webpage = fetch(nextpage)
+        news.extend(scrape_novidades(webpage))
+
+    for url in news[:amount]:
+        webpage = fetch(url)
+        tech_news.append(scrape_noticia(webpage))
+
+    create_news(tech_news)
+
+    return tech_news
