@@ -1,6 +1,7 @@
 from tech_news.database import find_news
 import datetime
 
+
 # Requisito 6
 def search_by_title(title):
     data_news = find_news()
