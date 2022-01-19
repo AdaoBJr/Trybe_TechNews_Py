@@ -44,6 +44,9 @@ def scrape_noticia(html_content):
             "#js-author-bar > div > p.z--m-none.z--truncate.z--font-bold::text"
         ).get()
     sources = html.css(".z--mb-16 .tec--badge::text").getall()
+    summary = html.css(
+        "div.tec--article__body > p:nth-child(1) *::text"
+    ).getall()
     )
 
 
