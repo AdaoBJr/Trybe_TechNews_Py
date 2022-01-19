@@ -36,8 +36,22 @@ def search_by_date(date):
 # Requisito 8
 def search_by_source(source):
     """Seu código deve vir aqui"""
+    find_news = db.find_news()
+    return [
+        (notice["title"], notice["url"])
+        for notice in find_news
+        if source.lower()
+        in (item_source.lower() for item_source in notice["sources"])
+    ]
 
 
 # Requisito 9
 def search_by_category(category):
     """Seu código deve vir aqui"""
+    find_news = db.find_news()
+    return [
+        (notice["title"], notice["url"])
+        for notice in find_news
+        if category.lower()
+        in (item_category.lower() for item_category in notice["categories"])
+    ]
