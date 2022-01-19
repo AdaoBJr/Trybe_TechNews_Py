@@ -43,8 +43,7 @@ def scrape_noticia(html_content):
         or html.css(".tec--timestamp__item.z--font-bold a::text").get()
         or html.css(
             "#js-author-bar > div > p.z--m-none.z--truncate.z--font-bold::text"
-        ).get()
-    )
+        ).get())
     sources = html.css(".z--mb-16 .tec--badge::text").getall()
     summary = html.css(
         "div.tec--article__body > p:nth-child(1) *::text"
@@ -69,5 +68,4 @@ def scrape_noticia(html_content):
 # Requisito 5
 def get_tech_news(amount):
     """Seu código deve vir aqui"""
-    URL = "https://www.tecmundo.com.br/novidades"
-    return URL
+    pass
