@@ -9,7 +9,7 @@ def search_by_title(title):
     news_by_title = []
     for new in search_news:
         if new['title'].lower() == title.lower():
-            item = new["title"], new["url"]
+            item = new['title'], new['url']
             news_by_title.append(item)
     return news_by_title
 
@@ -23,7 +23,7 @@ def search_by_date(date):
         datetime.datetime.strptime(date, '%Y-%m-%d')
         for new in search_news:
             if new['timestamp'][:10] == date:
-                item = new["title"], new["url"]
+                item = new['title'], new['url']
                 news_by_date.append(item)
         return news_by_date
     except ValueError:
@@ -32,15 +32,21 @@ def search_by_date(date):
 
 # Requisito 8
 def search_by_source(source):
-    searched_news = search_news({"sources": {
-        "$regex": source, "$options": "index"}})
+    searched_news = search_news({'sources': {
+        '$regex': source, '$options': 'index'}})
     news_by_source = []
     for new in searched_news:
-        item = new["title"], new["url"]
+        item = new['title'], new['url']
         news_by_source.append(item)
     return news_by_source
 
 
 # Requisito 9
 def search_by_category(category):
-    """Seu código deve vir aqui"""
+    searched_news = search_news({'categories': {
+        '$regex': category, '$options': 'index'}})
+    news_by_category = []
+    for new in searched_news:
+        item = new['title'], new['url']
+        news_by_category.append(item)
+    return news_by_category
