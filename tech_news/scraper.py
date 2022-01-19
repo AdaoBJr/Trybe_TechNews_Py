@@ -12,7 +12,7 @@ COLLECTOR = {
     "writer": ".z--font-bold",
     "shares_number": "#js-author-bar div:nth-child(1)::text",
     "comments_number": "#js-comments-btn::attr(data-count)",
-    "sumary": "div.tec--article__body p:nth-child(1) *::text",
+    "sumary": "div.tec--article__body > p:nth-child(1) *::text",
     "sources": ".z--mb-16 .tec--badge::text",
     "categories": ".tec--badge--primary::text",
     "timestamp": "#js-article-date::attr(datetime)",
@@ -85,26 +85,19 @@ def scrape_noticia(html_content):
 # Requisito 5
 def get_tech_news(amount):
     """Seu código deve vir aqui"""
-    content_fetch = fetch("https://www.tecmundo.com.br/novidades")
+    url = fetch("https://www.tecmundo.com.br/novidades")
+    news = scrape_novidades(url)
+    next_page_url = scrape_next_page_link(url)
 
-    news_list = scrape_novidades(content_fetch)
+    while len(news) < amount:
+        url = fetch(next_page_url)
+        news += scrape_novidades(url)
 
-    list_result = []
+    scraped_news = []
+    for n in news[:amount]:
+        html_news = fetch(n)
+        scraped_news.append(scrape_noticia(html_news))
 
-    while len(list_result) < amount:
-        for element in news_list:
-            content_fetch = fetch(element)
+    create_news(scraped_news)
 
-            if content_fetch:
-                list_result.append(scrape_noticia(content_fetch))
-
-        if scrape_next_page_link(content_fetch):
-
-            content_fetch = fetch(content_fetch)
-
-            news_list = scrape_novidades(content_fetch)
-        else:
-            break
-
-    create_news(list_result)
-    return list_result
+    return scraped_news
