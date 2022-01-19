@@ -28,7 +28,11 @@ def search_by_date(date):
 
 # Requisito 8
 def search_by_source(source):
-    """Seu código deve vir aqui"""
+    query = {"sources": {"$regex": source, "$options": "i"}}
+    selected_news = search_news(query)
+    tupla_title_url = [(item["title"], item["url"]) for item in selected_news]
+
+    return tupla_title_url
 
 
 # Requisito 9
