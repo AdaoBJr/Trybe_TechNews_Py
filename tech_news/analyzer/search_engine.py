@@ -39,7 +39,7 @@ def search_by_source(source):
     return result
 
 
-# Requisito 9
+# Requisito 9 -
 def search_by_category(category):
     news = search_news(
         {"categories": {"$regex": f"^{category}$", "$options": "i"}}
