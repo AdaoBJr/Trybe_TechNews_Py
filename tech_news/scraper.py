@@ -1,4 +1,5 @@
 import requests
+import time
 
 
 # Requisito 1
@@ -9,6 +10,7 @@ def fetch(url):
     except (requests.exceptions.HTTPError, requests.Timeout):
         return None
 
+    time.sleep(1)
     return response.text
 
 
