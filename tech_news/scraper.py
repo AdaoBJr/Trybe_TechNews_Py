@@ -121,7 +121,9 @@ class scrapy_crazy:
         return timestamp
 
     def writer_scrapy(selector):
-        autor = selector.css(".z--font-bold").css("*::text").get().strip()
+        # Você pode reselecionar parte do html com .css
+        # Reduz a complexidade da busca.
+        autor = selector.css(".z--font-bold ").css("*::text").get().strip()
 
         return autor
 
