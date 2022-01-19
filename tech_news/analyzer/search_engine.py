@@ -29,7 +29,13 @@ def search_by_date(date):
 
 # Requisito 8
 def search_by_source(source):
-    """Seu código deve vir aqui"""
+    news = find_news()
+    res = []
+    for new in news:
+        if source.upper() in [source_el.upper() for source_el in new["sources"]]:
+            res.append((new["title"], new["url"]))
+            return res
+        return []
 
 
 # Requisito 9
