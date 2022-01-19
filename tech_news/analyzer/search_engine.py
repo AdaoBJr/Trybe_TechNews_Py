@@ -49,4 +49,13 @@ def search_by_source(source):
 
 # Requisito 9
 def search_by_category(category):
-    """Seu código deve vir aqui"""
+    results_search_news = search_news(
+        {"categories": {"$elemMatch": {'$regex': category, '$options': 'i'}}})
+    # o option faz com que ignore o case sensitive da string
+
+    ZERO = 0
+    if len(results_search_news) > ZERO:
+        for new in results_search_news:
+            tupla_result = [(new['title'], new['url'])]
+            return tupla_result
+    return []
