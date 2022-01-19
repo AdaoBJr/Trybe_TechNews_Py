@@ -1,6 +1,6 @@
 import requests
 import time
-
+import Selector from parsel
 
 # Requisito 1
 
