@@ -28,12 +28,20 @@ def search_by_date(date):
             {"timestamp": {"$regex": f"{date}", "$options": "i"}}
         )
     ]
+
     return result
 
 
 # Requisito 8
 def search_by_source(source):
-    """Seu código deve vir aqui"""
+    result = [
+        (news["title"], news["url"])
+        for news in search_news(
+            {"sources": {"$regex": f"{source}", "$options": "i"}}
+        )
+    ]
+
+    return result
 
 
 # Requisito 9
