@@ -1,4 +1,4 @@
-from tech_news.database import find_news
+from tech_news.database import (find_news, search_news)
 import datetime
 
 
@@ -32,7 +32,13 @@ def search_by_date(date):
 
 # Requisito 8
 def search_by_source(source):
-    """Seu código deve vir aqui"""
+    searched_news = search_news({"sources": {
+        "$regex": source, "$options": "index"}})
+    news_by_source = []
+    for new in searched_news:
+        item = new["title"], new["url"]
+        news_by_source.append(item)
+    return news_by_source
 
 
 # Requisito 9
