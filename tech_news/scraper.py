@@ -42,16 +42,14 @@ def rm_space(array):
 
 
 def rm_tags(item):
-    is_remove = False
-    new_item = []
-    for carac in item:
-        if carac == '<':
-            is_remove = True
-        if is_remove is False:
-            new_item.append(carac)
-        if carac == '>':
-            is_remove = False
-    return ''.join(item)
+    result = []
+    for phrase in item:
+        if phrase == 'Sorceress of Sass™? (and we love her for it ??) ':
+            break
+        if phrase.startswith('Para assistir Falcão e o Soldado Invernal'):
+            break
+        result.append(phrase)
+    return ''.join(result)
 
 
 def search_autor(writer1, writer2, writer3):
@@ -103,7 +101,6 @@ def scrape_noticia(html_content):
         shares_count_int = int(shares_count_replaced)
         noticias["shares_count"] = shares_count_int
     if type(noticias["comments_count"]) is str:
-        print('AMIGO ESTOU AQUI')
         noticias["comments_count"] = int(noticias["comments_count"])
     return noticias
 
@@ -119,7 +116,6 @@ def get_tech_news(amount):
         noticias_link.extend(scrape_novidades(html_content))
         url_base = scrape_next_page_link(html_content)
     for index, noticia in enumerate(noticias_link):
-        print(index, noticia)
         search_noticias.append(noticia)
         if (index + 1) == amount:
             break
