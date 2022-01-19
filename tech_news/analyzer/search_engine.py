@@ -33,14 +33,16 @@ def search_by_date(date):
 
 
 # Requisito 8
+# Requisito feito com ajuda da colega camila
 def search_by_source(source):
     results_search_news = search_news(
-        {"sources": {"$elemMatch": {'$regex': source}}})
+        {"sources": {"$elemMatch": {'$regex': source, '$options': 'i'}}})
+    # o option faz com que ignore o case sensitive da string
 
     ZERO = 0
     if len(results_search_news) > ZERO:
-        for result in results_search_news:
-            tupla_result = [(result['title'], result['url'])]
+        for new in results_search_news:
+            tupla_result = [(new['title'], new['url'])]
             return tupla_result
     return []
 
