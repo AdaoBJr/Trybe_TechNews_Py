@@ -1,3 +1,4 @@
+import datetime
 from tech_news.database import search_news
 
 
@@ -12,7 +13,17 @@ def search_by_title(title):
 
 # Requisito 7
 def search_by_date(date):
-    """Seu código deve vir aqui"""
+    try:
+        datetime.datetime.strptime(date, "%Y-%m-%d")
+        query = {"timestamp": {"$regex": date, "$options": "i"}}
+        selected_news = search_news(query)
+        tupla_title_url = [
+            (item["title"], item["url"]) for item in selected_news]
+
+        return tupla_title_url
+
+    except ValueError:
+        raise ValueError("Data inválida")
 
 
 # Requisito 8
