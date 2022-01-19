@@ -71,4 +71,5 @@ def scrape_noticia(html_content):
 def get_tech_news(amount):
     """Seu código deve vir aqui"""
     html = fetch(url)
+    links = scrape_novidades(html_content)
     res = []
