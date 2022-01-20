@@ -39,6 +39,10 @@ def search_by_date(date):
 # Requisito 8
 def search_by_source(source):
     """Seu código deve vir aqui"""
+    my_arr = []
+    find_quer = {"title": {"$regex": source, "$options": "i"}}
+    send = search_news(find_quer)
+    return send
 
 
 # Requisito 9
