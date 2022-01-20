@@ -86,6 +86,3 @@ def get_tech_news(amount):
         # send_database = result.append(scrape_noticia(fetching))
     create_news(result)
     return result
-
-
-# get_tech_news(3)
