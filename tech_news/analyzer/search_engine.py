@@ -40,9 +40,9 @@ def search_by_date(date):
 def search_by_source(source):
     """Seu código deve vir aqui"""
     my_arr = []
-    find_query = {"title": {"$regex": source, "$options": "i"}}
+    find_query = {"sources": {"$regex": source, "$options": "i"}}
     send_query = search_news(find_query)
-    # return send
+    # return send_query
     for notice in send_query:
         my_arr.append((notice["title"], notice["url"]))
     return my_arr
