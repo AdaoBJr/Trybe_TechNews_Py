@@ -8,8 +8,8 @@ def top_5_news():
 
 
 def sorted_value(val):
-  top_val = val.sort()
-  return top_val[:5]
+    top_val = val.sort()
+    return top_val[:5]
 
 
 # Requisito 11
@@ -26,4 +26,3 @@ def top_5_categories():
         return res
     else:
         return empty
-

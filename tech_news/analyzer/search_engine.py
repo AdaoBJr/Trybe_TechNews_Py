@@ -61,4 +61,3 @@ def search_by_category(category):
         for noticia in send_query:
             my_arr.append((noticia["title"], noticia["url"]))
     return my_arr
-    
