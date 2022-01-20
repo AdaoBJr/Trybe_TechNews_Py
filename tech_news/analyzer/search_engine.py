@@ -9,7 +9,13 @@ def search_by_title(title):
     # search = search_news({'title': re.compile(title, re.IGNORECASE)})
     my_arr = []
     find = {"title": {"$regex": title, "$options": "i"}}
-    result = search_news(find)
+    send = search_news(find)
+    for a in send:
+      title = a.get("title")
+      path = a.get("url")
+      my_arr.append((title, path))
+    return my_arr
+      
 
 
 # Requisito 7
