@@ -6,7 +6,6 @@ from tech_news.database import create_news
 # https://www.w3schools.com/python/ref_string_strip.asp
 
 
-
 def fetch(url):
     time.sleep(1)
     try:
@@ -74,12 +73,12 @@ def get_tech_news(amount):
     path = "https://www.tecmundo.com.br/novidades"
     html = fetch(path)
     get_links = scrape_novidades(html)
-    while len(news_links) < amount:
+    while len(get_links) < amount:
         path = scrape_next_page_link(html)
         html = fetch(path)
         get_links.extend(scrape_novidades(html))
     for a in range(0, amount):
-        fetching = fetch(news_links[a])
+        fetching = fetch(get_links[a])
         news.append(scrape_noticia(news_content))
         result.append(scrape_noticia(fetching))
     create_news(result)
