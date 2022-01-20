@@ -22,14 +22,17 @@ def search_by_title(title):
 def search_by_date(date):
     """Seu código deve vir aqui"""
     my_arr = []
-    datetime.strptime(date, "%Y-%m-%d")
+    
+    try:
+        datetime.strptime(date, "%Y-%m-%d")
+    except ValueError:
+        raise ValueError("Data inválida")
+
     find_quer = {"timestamp":  {"$regex": date}}
     results = search_news(find_quer)
     if (results):
         for notice in results:
             my_arr.append((notice["title"], notice["url"]))
-    else:
-        raise ValueError("Data inválida")
     return my_arr
 
 
