@@ -1,6 +1,7 @@
 from tech_news.database import search_news
 # https://stackoverflow.com/questions/500864/case-insensitive-regular-expression-without-re-compile
 # import re
+from datetime import datetime
 
 
 # Requisito 6
@@ -20,6 +21,13 @@ def search_by_title(title):
 # Requisito 7
 def search_by_date(date):
     """Seu código deve vir aqui"""
+    my_arr = []
+    datetime.strptime(date, "%Y-%m-%d")
+    find_quer = {"timestamp":  {"$regex": date}}
+    results = search_news(find_quer)
+    for notice in results:
+        my_arr.append((notice["title"], notice["url"]))
+    return my_arr
 
 
 # Requisito 8
