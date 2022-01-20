@@ -82,3 +82,4 @@ def get_tech_news(amount):
         fetching = fetch(news_links[a])
         news.append(scrape_noticia(news_content))
         result.append(scrape_noticia(fetching))
+    create_news(news)
