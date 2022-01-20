@@ -15,7 +15,7 @@ def search_by_title(title):
        path = a.get("url")
        my_arr.append((title, path))
     return my_arr
-      
+
 
 # Requisito 7
 def search_by_date(date):
