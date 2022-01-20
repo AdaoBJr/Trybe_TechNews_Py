@@ -7,6 +7,7 @@ def search_by_title(title):
     response = find_news()
     search = []
     for new in response:
+        # https://www.geeksforgeeks.org/isupper-islower-lower-upper-python-applications/
         if new["title"].lower() == title.lower():
             search.append((new["title"], new["url"]))
     return search
@@ -20,7 +21,8 @@ def search_by_date(date):
         # https://docs.python.org/3/library/datetime.html
         datetime.date.fromisoformat(date)
         for new in response:
-            if new["timestamp"][0:10] == date:
+            # http://devfuria.com.br/python/sequencias-fatiamento/
+            if new["timestamp"][:10] == date:
                 search.append((new["title"], new["url"]))
         return search
     except ValueError:

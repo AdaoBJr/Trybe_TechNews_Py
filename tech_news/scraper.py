@@ -34,6 +34,7 @@ def scrape_next_page_link(html_content):
     return next_page
 
 
+# https://www.w3.org/TR/selectors/
 # Requisito 4
 def scrape_noticia(html_content):
     seletor = Selector(html_content)
@@ -41,15 +42,19 @@ def scrape_noticia(html_content):
     url = seletor.css("link[rel=canonical]::attr(href)").get()
     title = seletor.css(".tec--article__header__title::text").get()
     timestamp = seletor.css("time::attr(datetime)").get()
+    # Entendimento com Alessandra Rezende
     writer = seletor.css(".z--font-bold").css("*::text").get().strip() or ""
+    # Entendimento com Camila Arruda
     shares_count = seletor.css("div.tec--toolbar__item::text").get()
     if shares_count:
         shares_count = shares_count.replace("Compartilharam", "").strip()
     else:
         shares_count = 0
     comments_count = seletor.css(".tec--btn::attr(data-count)").get()
+    # https://medium.com/automa%C3%A7%C3%A3o-com-batista/aprenda-por-definitivo-a-usar-css-selector-adeus-xpath-1f3956763c2
+    # https://github.com/tryber/sd-10b-live-lectures/blob/lecture/34.3-extra/main_scraper.py
     summary = "".join(
-        seletor.css(".tec--article__body > p:nth-child(1) ::text").getall()
+        seletor.css(".tec--article__body > p:first-child ::text").getall()
     )
     sources = seletor.css(".z--mb-16 .tec--badge::text").getall()
     categories = seletor.css(".tec--badge--primary::text").getall()
@@ -79,7 +84,8 @@ def get_tech_news(amount):
         html_content = fetch(url)
         news.extend(scrape_novidades(html_content))
 
-    for new_url in news[0:amount]:
+    # http://devfuria.com.br/python/sequencias-fatiamento/
+    for new_url in news[:amount]:
         response = fetch(new_url)
         new = scrape_noticia(response)
         news_list.append(new)
