@@ -1,6 +1,15 @@
+from tech_news.database import search_news
+# https://stackoverflow.com/questions/500864/case-insensitive-regular-expression-without-re-compile
+import re
+
+
 # Requisito 6
 def search_by_title(title):
     """Seu código deve vir aqui"""
+    # search = search_news({'title': re.compile(title, re.IGNORECASE)})
+    my_arr = []
+    find = {"title": {"$regex": title, "$options": "i"}}
+    result = search_news(find)
 
 
 # Requisito 7
