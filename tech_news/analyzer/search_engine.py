@@ -22,7 +22,7 @@ def search_by_title(title):
 def search_by_date(date):
     """Seu código deve vir aqui"""
     my_arr = []
-    
+
     try:
         datetime.strptime(date, "%Y-%m-%d")
     except ValueError:
