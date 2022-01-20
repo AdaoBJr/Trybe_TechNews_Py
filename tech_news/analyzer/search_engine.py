@@ -44,8 +44,8 @@ def search_by_source(source):
     send_query = search_news(find_query)
     # return send
     for notice in send_query:
-        list.append((notice["title"], notice["url"]))
-    return list
+        my_arr.append((notice["title"], notice["url"]))
+    return my_arr
 
 
 # Requisito 9
