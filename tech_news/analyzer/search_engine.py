@@ -11,9 +11,9 @@ def search_by_title(title):
     find_quer = {"title": {"$regex": title, "$options": "i"}}
     send = search_news(find_quer)
     for a in send:
-       title = a.get("title")
-       path = a.get("url")
-       my_arr.append((title, path))
+        title = a.get("title")
+        path = a.get("url")
+        my_arr.append((title, path))
     return my_arr
 
 
