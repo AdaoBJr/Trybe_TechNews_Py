@@ -102,7 +102,7 @@ def get_tech_news(amount):
             page_news_html = fetch(news_links[counter])
 
         result_news_scraped.append(scrape_noticia(page_news_html))
-        # print(f"OBJETO {counter}:::", news_scraped[counter], "\n")
+        # print(f"OBJETO {counter}:::", result_news_scraped[counter], "\n")
         counter += 1
 
     create_news(result_news_scraped)
