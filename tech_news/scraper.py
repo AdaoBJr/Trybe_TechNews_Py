@@ -5,7 +5,7 @@ from tech_news.database import create_news
 # https://parsel.readthedocs.io/en/latest/usage.html
 # https://www.w3schools.com/python/ref_string_strip.asp
 
-URL = "https://www.tecmundo.com.br/novidades"
+
 
 def fetch(url):
     time.sleep(1)
@@ -71,12 +71,13 @@ def scrape_noticia(html_content):
 def get_tech_news(amount):
     """Seu código deve vir aqui"""
     result = []
-    html = fetch(URL)
-    get_links = scrape_novidades(html_content)
+    path = "https://www.tecmundo.com.br/novidades"
+    html = fetch(path)
+    get_links = scrape_novidades(html)
     while len(news_links) < amount:
-        URL = scrape_next_page_link(html_content)
-        html = fetch(URL)
-        get_links.extend(scrape_novidades(html_content))
+        path = scrape_next_page_link(html)
+        html = fetch(path)
+        get_links.extend(scrape_novidades(html))
     for a in range(0, amount):
         fetching = fetch(news_links[a])
         news.append(scrape_noticia(news_content))
