@@ -87,4 +87,5 @@ def get_tech_news(amount):
     create_news(result)
     return result
 
-get_tech_news(6)
+
+# get_tech_news(3)
