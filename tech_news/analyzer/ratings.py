@@ -15,11 +15,13 @@ def sorted_value(val):
 # Requisito 11
 def top_5_categories():
     """Seu código deve vir aqui"""
-    empyt = []
-  
+    empty = []
+    top_categories = []
     list_news = find_news()
     if (list_news):
-        return list_news
+        for index in list_news:
+            top_categories.extend(index["categories"])
+        return top_categories
     else:
-        return empyt
+        return empty
 
