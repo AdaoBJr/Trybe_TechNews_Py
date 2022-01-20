@@ -70,7 +70,7 @@ def scrape_noticia(html_content):
 def get_tech_news(amount):
     """Seu código deve vir aqui"""
     result = []
-    #send_database = []
+    # send_database = []
     path = "https://www.tecmundo.com.br/novidades"
     html = fetch(path)
     get_links = scrape_novidades(html)
@@ -83,6 +83,6 @@ def get_tech_news(amount):
         fetching = fetch(get_links[a])
         # result.append(scrape_noticia(news_content))
         result.append(scrape_noticia(fetching))
-        #send_database = result.append(scrape_noticia(fetching))
+        # send_database = result.append(scrape_noticia(fetching))
     create_news(result)
     return result
