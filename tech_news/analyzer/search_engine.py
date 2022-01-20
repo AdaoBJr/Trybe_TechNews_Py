@@ -25,9 +25,12 @@ def search_by_date(date):
     datetime.strptime(date, "%Y-%m-%d")
     find_quer = {"timestamp":  {"$regex": date}}
     results = search_news(find_quer)
-    for notice in results:
-        my_arr.append((notice["title"], notice["url"]))
-    return my_arr
+    if (results):
+        for notice in results:
+            my_arr.append((notice["title"], notice["url"]))
+        return my_arr
+    else:
+      raise ValueError("Data inválida")
 
 
 # Requisito 8
