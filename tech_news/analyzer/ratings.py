@@ -21,7 +21,9 @@ def top_5_categories():
     if (list_news):
         for index in list_news:
             top_categories.extend(index["categories"])
-        return top_categories
+        numbers_of_categories = list(Counter(top_categories).keys())
+        res = sorted_value(numbers_of_categories)
+        return res
     else:
         return empty
 
