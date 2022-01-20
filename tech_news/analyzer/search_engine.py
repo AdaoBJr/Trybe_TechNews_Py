@@ -31,8 +31,8 @@ def search_by_date(date):
     find_quer = {"timestamp":  {"$regex": date}}
     results = search_news(find_quer)
     if (results):
-        for a in results:
-            my_arr.append((a["title"], a["url"]))
+        for noticia in results:
+            my_arr.append((noticia["title"], noticia["url"]))
     return my_arr
 
 
@@ -44,8 +44,8 @@ def search_by_source(source):
     send_query = search_news(find_query)
     # return send_query
     if(send_query):
-        for a in send_query:
-            my_arr.append((a["title"], a["url"]))
+        for noticia in send_query:
+            my_arr.append((noticia["title"], noticia["url"]))
     return my_arr
 
 
@@ -58,6 +58,7 @@ def search_by_category(category):
     # my_arr.append(send_query)
     # return my_arr
     if(send_query):
-        for a in send_query:
-            my_arr.append((a["title"], a["url"]))
+        for noticia in send_query:
+            my_arr.append((noticia["title"], noticia["url"]))
     return my_arr
+    
