@@ -70,12 +70,15 @@ def scrape_noticia(html_content):
 # Requisito 5
 def get_tech_news(amount):
     """Seu código deve vir aqui"""
+    result = []
     url = URL
     html = fetch(url)
     get_links = scrape_novidades(html_content)
-    res = []
     while len(news_links) < amount:
         url = scrape_next_page_link(html_content)
         html = fetch(url)
         get_links.extend(scrape_novidades(html_content))
-    
+    for a in range(0, amount):
+        fetching = fetch(news_links[a])
+        news.append(scrape_noticia(news_content))
+        result.append(scrape_noticia(fetching))
