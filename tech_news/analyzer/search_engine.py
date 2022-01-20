@@ -52,3 +52,8 @@ def search_by_source(source):
 # Requisito 9
 def search_by_category(category):
     """Seu código deve vir aqui"""
+    my_arr = []
+    find_query = {"categories": {"$regex": category, "$options": "i"}}
+    send_query = search_news(find_query)
+    return send_query
+    
