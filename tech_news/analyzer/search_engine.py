@@ -55,5 +55,6 @@ def search_by_category(category):
     my_arr = []
     find_query = {"categories": {"$regex": category, "$options": "i"}}
     send_query = search_news(find_query)
-    return send_query
+    my_arr.append(send_query)
+    return my_arr
     
