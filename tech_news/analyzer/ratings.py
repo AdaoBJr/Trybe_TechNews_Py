@@ -16,7 +16,10 @@ def sorted_value(val):
 def top_5_categories():
     """Seu código deve vir aqui"""
     empyt = []
-    top_categories = []
+  
     list_news = find_news()
-    return list_news
+    if (list_news):
+        return list_news
+    else:
+        return empyt
 
