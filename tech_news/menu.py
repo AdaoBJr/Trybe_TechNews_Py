@@ -1,5 +1,9 @@
 import sys
-
+from tech_news.analyzer.search_engine import search_by_title, search_by_date
+from tech_news.analyzer.search_engine import search_by_source
+from tech_news.analyzer.search_engine import search_by_category
+from tech_news.analyzer.ratings import top_5_news, top_5_categories
+from tech_news.scraper import get_tech_news
 
 title = """
 Selecione uma das opções a seguir:
@@ -15,31 +19,43 @@ Selecione uma das opções a seguir:
 
 
 def populate_database():
-    response = int(input("Digite quantas notícias serão buscadas: "))
+    amount = int(input("Digite quantas notícias serão buscadas: "))
+    response = get_tech_news(amount)
+    print(response)
 
 
 def get_news_by_title():
-    response = str(input("Digite o título: "))
+    title = str(input("Digite o título: "))
+    response = search_by_title(title)
+    print(response)
 
 
 def get_news_by_date():
-    response = str(input("Digite a data no formato aaaa-mm-dd: "))
+    date = str(input("Digite a data no formato aaaa-mm-dd: "))
+    response = search_by_date(date)
+    print(response)
 
 
 def get_news_by_source():
-    response = str(input("Digite a fonte: "))
+    source = str(input("Digite a fonte: "))
+    response = search_by_source(source)
+    print(response)
 
 
 def get_news_by_category():
-    response = str(input("Digite a categoria: "))
+    category = str(input("Digite a categoria: "))
+    response = search_by_category(category)
+    print(response)
 
 
 def get_top_five_popular_news():
-    print('buscando top 5 noticias populares')
+    response = top_5_news()
+    print(response)
 
 
 def get_top_five_popular_categories():
-    print('buscando top 5 categoria populares')
+    response = top_5_categories()
+    print(response)
 
 
 menu = {
