@@ -43,8 +43,9 @@ def search_by_source(source):
     find_query = {"sources": {"$regex": source, "$options": "i"}}
     send_query = search_news(find_query)
     # return send_query
-    for notice in send_query:
-        my_arr.append((notice["title"], notice["url"]))
+    if(send_query):
+        for notice in send_query:
+            my_arr.append((notice["title"], notice["url"]))
     return my_arr
 
 
