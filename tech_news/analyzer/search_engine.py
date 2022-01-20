@@ -28,9 +28,9 @@ def search_by_date(date):
     if (results):
         for notice in results:
             my_arr.append((notice["title"], notice["url"]))
-        return my_arr
     else:
-      raise ValueError("Data inválida")
+        raise ValueError("Data inválida")
+    return my_arr
 
 
 # Requisito 8
