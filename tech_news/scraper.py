@@ -32,18 +32,26 @@ def scrape_novidades(html_content):
     return links
 
 
-print(scrape_novidades(fetch("https://www.tecmundo.com.br/novidades")))
-
-
 # Requisito 3
 def scrape_next_page_link(html_content):
     """Seu código deve vir aqui"""
+    selector = Selector(text=html_content)
+    next_page_link = selector.css(
+        "div.tec--list a.tec--btn::attr(href)"
+    ).get()
+    return next_page_link
 
 
 # Requisito 4
 def scrape_noticia(html_content):
     """Seu código deve vir aqui"""
+    selector = Selector(text=html_content)
+    url = selector.css("head link[rel=canonical]::attr(href)").get()
+    title = selector.css("h1.tec--article__header__title::text").get()
+    return {url, title}
 
+
+print(scrape_noticia(fetch("https://www.tecmundo.com.br/minha-serie/232000-7-servicos-voce-assistir-doramas-brasil.htm")))
 
 # Requisito 5
 def get_tech_news(amount):
