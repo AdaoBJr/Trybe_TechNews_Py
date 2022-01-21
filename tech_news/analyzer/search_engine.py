@@ -38,7 +38,7 @@ def search_by_source(source):
     for iNews in news:
         list_titles.append((iNews["title"], iNews["url"]))
 
-    return
+    return list_titles
 
 
 # Requisito 9
