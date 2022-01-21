@@ -21,7 +21,7 @@ def top_5_news():
     # porém limitado a 5 notícias.
     five = [list_news for list_news in list_news[:5]]
     my_arr = []
-    for a in list_news:
+    for a in five:
         my_arr.append(tuple([a["title"], a["url"]]))
     return my_arr
 
