@@ -7,6 +7,11 @@ def top_5_news():
     """Seu código deve vir aqui"""
 
 
+def sort_list(list):
+    sorted = list.sort()
+    top_5_categories = sorted[:5]
+    return top_5_categories
+
 # Requisito 11
 def top_5_categories():
     """Seu código deve vir aqui"""
@@ -16,8 +21,7 @@ def top_5_categories():
         for index in list_news:
             top_categories.extend(index["categories"])
         numbers_of_categories = list(Counter(top_categories).keys())
-        numbers_of_categories.sort()
-        top_5_categories = numbers_of_categories[:5]
-        return top_5_categories
+        res = sort_list(numbers_of_categories)
+        return res
     else:
         return []
