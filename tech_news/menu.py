@@ -5,19 +5,19 @@ import sys
 case = {
     # Caso a opção 0 seja selecionada,
     # deve-se exibir a mensagem "Digite quantas notícias serão buscadas:"
-    "0": "Digite quantas notícias serão buscadas:",
+    "0": int(input("Digite quantas notícias serão buscadas:")),
     # Caso a opção 1 seja selecionada,
     # deve-se exibir a mensagem "Digite o título:";
-    "1": "Digite o título:",
+    "1": input("Digite o título:"),
     # Caso a opção 2 seja selecionada,
     # deve-se exibir a mensagem "Digite a data no formato aaaa-mm-dd:";
-    "2": "Digite a data no formato aaaa-mm-dd:",
+    "2": input("Digite a data no formato aaaa-mm-dd:"),
     # Caso a opção 3 seja selecionada,
     # deve-se exibir a mensagem "Digite a fonte:";
-    "3": "Digite a fonte:",
+    "3": input("Digite a fonte:"),
     # Caso a opção 4 seja selecionada,
     # deve-se exibir a mensagem "Digite a categoria:";
-    "4": "Digite a categoria:"
+    "4": input("Digite a categoria:")
 }
 
 
