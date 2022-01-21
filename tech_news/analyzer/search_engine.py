@@ -1,8 +1,10 @@
 from tech_news.database import db
 from datetime import datetime
 
-
+# Requisito feito com a ajuda do joão
 # Requisito 6
+
+
 def search_by_title(title):
     news = db.news.find({"title": {"$regex": title, "$options": "i"}})
     news_list = []
@@ -30,9 +32,22 @@ def search_by_date(date):
 
 # Requisito 8
 def search_by_source(source):
-    """Seu código deve vir aqui"""
+    news = db.news.find({"sources": {"$regex": source, "$options": "i"}})
+    list_titles = []
+
+    for iNews in news:
+        list_titles.append((iNews["title"], iNews["url"]))
+
+    return
 
 
 # Requisito 9
 def search_by_category(category):
-    """Seu código deve vir aqui"""
+    news = db.news.find({"categories": {"$regex": category, "$options": "i"}})
+
+    list_titles = []
+
+    for iNews in news:
+        list_titles.append((iNews["title"], iNews["url"]))
+
+    return list_titles
