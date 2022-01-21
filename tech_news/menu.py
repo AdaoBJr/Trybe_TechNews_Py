@@ -1,5 +1,8 @@
+import sys
+
+
 # Requisito 12
-informe_info = {
+case = {
     # Caso a opção 0 seja selecionada, seve-se exibir a mensagem "Digite quantas notícias serão buscadas:"
     "0": "Digite quantas notícias serão buscadas:",
     # Caso a opção 1 seja selecionada, deve-se exibir a mensagem "Digite o título:";
@@ -27,7 +30,7 @@ def analyzer_menu():
     6 - Listar top 5 categorias;
     7 - Sair.
     """
-    options = input(
+    select_menu = input(
         "Selecione uma das opções a seguir:\n"
         "0 - Popular o banco de dados com notícias;\n"
         "1 - Buscar notícias por título;\n"
@@ -38,3 +41,10 @@ def analyzer_menu():
         "6 - Listar top 5 categorias;\n"
         "7 - Sair."
     )
+    if select_menu in case.keys():
+        input_info = input(case[select_menu])
+        return input_info
+    else:
+      # Caso a opção não exista, exiba a mensagem de erro 
+      # "Opção inválida" na stderr
+      print("Opção inválida", file=sys.stderr)
