@@ -9,15 +9,17 @@ def top_5_news():
     # return list_news
     if(list_news):
         for a in list_news:
-          # calcular a sua "popularidade"
-          # somando seu número de compartilhamentos e comentários.
+            # calcular a sua "popularidade"
+            # somando seu número de compartilhamentos e comentários.
             sum = a["shares_count"] + a["comments_count"]
             a["popularity"] = sum
             # print(a)
         # A função deve ordenar as notícias por ordem de popularidade.
-        # Em caso de empate, o desempate deve ser por ordem alfabética de título.
+        # o desempate deve ser por ordem alfabética de título.
         list_news = sorted(list_news, key=lambda x: x["title"])
-        list_news = sorted(list_news, key=lambda x: x["popularity"], reverse=True)
+        list_news = sorted(
+          list_news, key=lambda x: x["popularity"], reverse=True
+        )
         # A função deve ter retorno no mesmo formato do requisito anterior,
         # porém limitado a 5 notícias.
         five = [list_news for list_news in list_news[:5]]
