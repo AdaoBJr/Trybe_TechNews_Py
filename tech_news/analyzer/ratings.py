@@ -5,7 +5,6 @@ from collections import Counter
 # Requisito 10
 def top_5_news():
     """Seu código deve vir aqui"""
-    my_arr = []
     list_news = find_news()
     # return list_news
     for a in list_news:
@@ -19,10 +18,12 @@ def top_5_news():
     return_five = list_news[:5]
     return return_five
 
+
 def sort_list(list):
     sorted = list.sort()
     top_5_categories = sorted[:5]
     return top_5_categories
+
 
 # Requisito 11
 def top_5_categories():
