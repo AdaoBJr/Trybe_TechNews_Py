@@ -1,6 +1,7 @@
 import requests
 import time
 from parsel import Selector
+from tech_news.database import create_news
 
 
 def fetch(url):
@@ -71,5 +72,22 @@ def scrape_noticia(html_content):
 
 
 # Requisito 5
+# Requisito feito com a ajuda do João
 def get_tech_news(amount):
-    """Seu código deve vir aqui"""
+    fetch_url = fetch("https://www.tecmundo.com.br/novidades")
+    data_news = scrape_novidades(fetch_url)
+
+    while len(data_news) < amount:
+        url_next = fetch(scrape_next_page_link(fetch_url))
+        data_news.extend(scrape_novidades(url_next))
+
+    news = []
+
+    for url in data_news:
+        url = scrape_noticia(fetch(url))
+        if len(news) < amount:
+            news.append(url)
+
+    create_news(news)
+
+    return news
