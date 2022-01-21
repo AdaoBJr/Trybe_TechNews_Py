@@ -5,6 +5,9 @@ from collections import Counter
 # Requisito 10
 def top_5_news():
     """Seu código deve vir aqui"""
+    my_arr = []
+    list_news = find_news()
+    # return list_news
 
 
 def sort_list(list):
