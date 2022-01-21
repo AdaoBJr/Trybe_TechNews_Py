@@ -1,3 +1,4 @@
+from parsel import Selector
 import time
 import requests
 
@@ -20,12 +21,18 @@ def fetch(url):
         return None
 
 
-fetch('http://www.google.com')
-
-
 # Requisito 2
 def scrape_novidades(html_content):
     """Seu código deve vir aqui"""
+    selector = Selector(text=html_content)
+    parentElement = selector.css("div.tec--list")
+    links = parentElement.css(
+        "a.tec--card__thumb__link::attr(href)"
+    ).getall()
+    return links
+
+
+print(scrape_novidades(fetch("https://www.tecmundo.com.br/novidades")))
 
 
 # Requisito 3
