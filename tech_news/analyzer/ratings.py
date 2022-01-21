@@ -8,7 +8,7 @@ def top_5_news():
     list_news = find_news()
     # return list_news
     for a in list_news:
-        # calcular a sua "popularidade" 
+        # calcular a sua "popularidade"
         # somando seu número de compartilhamentos e comentários.
         sum = a["shares_count"] + a["comments_count"]
         a["popularity"] = sum
@@ -17,7 +17,7 @@ def top_5_news():
     # Em caso de empate, o desempate deve ser por ordem alfabética de título.
     list_news = sorted(list_news, key=lambda x: x["title"])
     list_news = sorted(list_news, key=lambda x: x["popularity"], reverse=True)
-    
+
     return_five = list_news[:5]
     return return_five
 
