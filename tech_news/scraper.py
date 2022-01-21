@@ -33,8 +33,73 @@ def scrape_next_page_link(html_content):
 
 
 # Requisito 4
+def get_url(selection):
+    return selection.css('link[rel=canonical]::attr(href)').get()
+
+
+def get_title(selection):
+    return selection.css('#js-article-title::text').get()
+
+
+def get_timestamp(selection):
+    return selection.css('#js-article-date::attr(datetime)').get()
+
+
+def get_writer(selection):
+    try:
+        writer = selection.css(
+            ".z--font-bold"
+        ).css("*::text").get().strip() or ''  # get helped by @gmcerqueira's PR
+        return writer.strip()
+    except AttributeError:
+        return None
+
+
+def get_shares(selection):
+    try:
+        shares_count = (
+            selection.css('.tec--toolbar__item::text').get().strip().split(' ')
+        )
+        return int(shares_count[0])
+    except AttributeError:
+        return 0
+
+
+def get_comments(selection):
+    comments_count = selection.css('#js-comments-btn::attr(data-count)').get()
+    return int(comments_count)
+
+
+def get_summary(selection):
+    return ''.join(
+        selection.css('.tec--article__body > p:nth-child(1) ::text').getall()
+    )
+
+
+def get_sources(selection):
+    sources = selection.css('.z--mb-16 .tec--badge::text').getall()
+    return [source.strip() for source in sources]
+
+
+def get_categories(selection):
+    categories = selection.css('#js-categories > a::text').getall()
+    return [category.strip() for category in categories]
+
+
 def scrape_noticia(html_content):
-    """Seu código deve vir aqui"""
+    selection = Selector(html_content)
+
+    return {
+        'url': get_url(selection),
+        'title': get_title(selection),
+        'timestamp': get_timestamp(selection),
+        'writer': get_writer(selection),
+        'shares_count': get_shares(selection),
+        'comments_count': get_comments(selection),
+        'summary': get_summary(selection),
+        'sources': get_sources(selection),
+        'categories': get_categories(selection),
+    }
 
 
 # Requisito 5
