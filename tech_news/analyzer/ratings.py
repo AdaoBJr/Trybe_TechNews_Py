@@ -4,7 +4,6 @@ from collections import Counter
 
 # Requisito 10
 def top_5_news():
-  
     """Seu código deve vir aqui"""
     list_news = find_news()
     # return list_news
@@ -20,9 +19,11 @@ def top_5_news():
     list_news = sorted(list_news, key=lambda x: x["popularity"], reverse=True)
     # A função deve ter retorno no mesmo formato do requisito anterior,
     # porém limitado a 5 notícias.
-    five = [list_news for news in list_news[:5]]
-    list_five = five
-    return list_five
+    five = [list_news for list_news in list_news[:5]]
+    my_arr = []
+    for a in list_news:
+        my_arr.append(tuple([a["title"], a["url"]]))
+    return my_arr
 
 
 # Requisito 11
