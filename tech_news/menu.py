@@ -3,15 +3,20 @@ import sys
 
 # Requisito 12
 case = {
-    # Caso a opção 0 seja selecionada, seve-se exibir a mensagem "Digite quantas notícias serão buscadas:"
+    # Caso a opção 0 seja selecionada,
+    # deve-se exibir a mensagem "Digite quantas notícias serão buscadas:"
     "0": "Digite quantas notícias serão buscadas:",
-    # Caso a opção 1 seja selecionada, deve-se exibir a mensagem "Digite o título:";
+    # Caso a opção 1 seja selecionada,
+    # deve-se exibir a mensagem "Digite o título:";
     "1": "Digite o título:",
-    # Caso a opção 2 seja selecionada, deve-se exibir a mensagem "Digite a data no formato aaaa-mm-dd:";
+    # Caso a opção 2 seja selecionada,
+    # deve-se exibir a mensagem "Digite a data no formato aaaa-mm-dd:";
     "2": "Digite a data no formato aaaa-mm-dd:",
-    # Caso a opção 3 seja selecionada, deve-se exibir a mensagem "Digite a fonte:";
+    # Caso a opção 3 seja selecionada,
+    # deve-se exibir a mensagem "Digite a fonte:";
     "3": "Digite a fonte:",
-    # Caso a opção 4 seja selecionada, deve-se exibir a mensagem "Digite a categoria:";
+    # Caso a opção 4 seja selecionada,
+    # deve-se exibir a mensagem "Digite a categoria:";
     "4": "Digite a categoria:"
 }
 
@@ -45,6 +50,6 @@ def analyzer_menu():
         input_info = input(case[select_menu])
         return input_info
     else:
-      # Caso a opção não exista, exiba a mensagem de erro
-      # "Opção inválida" na stderr
-      print("Opção inválida", file=sys.stderr)
+        # Caso a opção não exista, exiba a mensagem de erro
+        # "Opção inválida" na stderr
+        print("Opção inválida", file=sys.stderr)
