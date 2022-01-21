@@ -19,14 +19,17 @@ def fetch(url):
 # Requisito 2
 def scrape_novidades(html_content):
     selector = Selector(text=html_content)
-    tag = selector.css('div.tec--list')
-    news = tag.css('.tec--card__thumb__link::attr(href)').getall()
+    news = selector.css(
+        'div.tec--list .tec--card__thumb__link::attr(href)'
+    ).getall()
     return news
 
 
 # Requisito 3
 def scrape_next_page_link(html_content):
-    """Seu código deve vir aqui"""
+    selector = Selector(text=html_content)
+    next_page_link = selector.css('div.tec--list a.tec--btn::attr(href)').get()
+    return next_page_link
 
 
 # Requisito 4
