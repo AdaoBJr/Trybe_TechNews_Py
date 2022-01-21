@@ -45,6 +45,6 @@ def analyzer_menu():
         input_info = input(case[select_menu])
         return input_info
     else:
-      # Caso a opção não exista, exiba a mensagem de erro 
+      # Caso a opção não exista, exiba a mensagem de erro
       # "Opção inválida" na stderr
       print("Opção inválida", file=sys.stderr)
