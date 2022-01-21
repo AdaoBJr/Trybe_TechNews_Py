@@ -10,7 +10,7 @@ def top_5_news():
     if(list_news):
         for a in list_news:
           # calcular a sua "popularidade"
-        # somando seu número de compartilhamentos e comentários.
+          # somando seu número de compartilhamentos e comentários.
             sum = a["shares_count"] + a["comments_count"]
             a["popularity"] = sum
             # print(a)
@@ -26,7 +26,7 @@ def top_5_news():
             my_arr.append(tuple([a["title"], a["url"]]))
         return my_arr
     else:
-      # Caso não haja notícias disponíveis, deve-se retornar uma lista vazia.
+        # Caso não haja notícias disponíveis, deve-se retornar uma lista vazia.
         return []
 
 
