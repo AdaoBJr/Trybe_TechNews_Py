@@ -9,7 +9,8 @@ def top_5_news():
     # return list_news
     for a in list_news:
         # calcular a sua "popularidade" somando seu número de compartilhamentos e comentários.
-        a["popularity"] = a["shares_count"] + a["comments_count"]
+        sum = a["shares_count"] + a["comments_count"]
+        a["popularity"] = sum
         # print(a)
     # A função deve ordenar as notícias por ordem de popularidade.
     # Em caso de empate, o desempate deve ser por ordem alfabética de título.
