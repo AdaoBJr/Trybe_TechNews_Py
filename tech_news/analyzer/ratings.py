@@ -4,6 +4,7 @@ from collections import Counter
 
 # Requisito 10
 def top_5_news():
+  
     """Seu código deve vir aqui"""
     list_news = find_news()
     # return list_news
@@ -17,15 +18,11 @@ def top_5_news():
     # Em caso de empate, o desempate deve ser por ordem alfabética de título.
     list_news = sorted(list_news, key=lambda x: x["title"])
     list_news = sorted(list_news, key=lambda x: x["popularity"], reverse=True)
-
-    return_five = list_news[:5]
-    return return_five
-
-
-def sort_list(list):
-    sorted = list.sort()
-    top_5_categories = sorted[:5]
-    return top_5_categories
+    # A função deve ter retorno no mesmo formato do requisito anterior,
+    # porém limitado a 5 notícias.
+    five = [list_news for news in list_news[:5]]
+    list_five = five
+    return list_five
 
 
 # Requisito 11
@@ -37,7 +34,8 @@ def top_5_categories():
         for index in list_news:
             top_categories.extend(index["categories"])
         numbers_of_categories = list(Counter(top_categories).keys())
-        res = sort_list(numbers_of_categories)
-        return res
+        numbers_of_categories.sort()
+        top_5_categories = numbers_of_categories[:5]
+        return top_5_categories
     else:
         return []
