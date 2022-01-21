@@ -1,9 +1,7 @@
 import sys
 
 
-# Requisito 12
-def analyzer_menu():
-    menu = input("""Selecione uma das opções a seguir:
+menu = """Selecione uma das opções a seguir:
  0 - Popular o banco com notícias;
  1 - Buscar notícias por título;
  2 - Buscar notícias por data;
@@ -11,9 +9,10 @@ def analyzer_menu():
  4 - Buscar notícias por categoria;
  5 - Listar top 5 notícias;
  6 - Listar top 5 categorias;
- 7 - Sair.""")
+ 7 - Sair."""
 
-    calls = {
+
+calls = {
         "0": lambda: int(input("Digite quantas notícias serão buscadas:")),
         "1": lambda: input("Digite o título:"),
         "2": lambda: input("Digite a data no formato aaaa-mm-dd:"),
@@ -21,7 +20,12 @@ def analyzer_menu():
         "4": lambda: input("Digite a categoria:"),
     }
 
+
+# Requisito 12
+def analyzer_menu():
+    initial = input(menu)
+
     try:
-        calls[menu]()
+        calls[initial]()
     except KeyError:
         sys.stderr.write("Opção inválida\n")
