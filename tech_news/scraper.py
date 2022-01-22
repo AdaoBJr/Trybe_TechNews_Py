@@ -20,7 +20,8 @@ def scrape_novidades(html_content):
     if html_content == "" or html_content is None:
         return list()
     selector = Selector(text=html_content)
-    novidades_urls_list = selector.css(".tec--card__info h3 a::attr(href)").getall()
+    novidades_urls_list = selector.css(
+        ".tec--card__info h3 a::attr(href)").getall()
     return novidades_urls_list
 
 
