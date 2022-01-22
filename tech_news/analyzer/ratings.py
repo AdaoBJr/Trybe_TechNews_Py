@@ -17,4 +17,8 @@ def top_5_news():
 
 # Requisito 11
 def top_5_categories():
-    """Seu código deve vir aqui"""
+    bd_news = find_news()
+    categories = [
+        category for bd_new in bd_news for category in bd_new["categories"]]
+    categories.sort(key=lambda category: category)
+    return categories[0:5]
