@@ -17,7 +17,7 @@ def fetch(url):
 
 # Requisito 2
 def scrape_novidades(html_content):
-    if html_content == "":
+    if html_content == "" or html_content == None:
         return list()
     selector = Selector(text=html_content)
     novidades_urls_list = selector.css(".tec--card__info h3 a::attr(href)")
