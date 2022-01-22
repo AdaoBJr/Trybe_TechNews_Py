@@ -11,9 +11,9 @@ def search_by_title(title):
 
 # Requisito 7
 
-def validate_date(date):
+def validate_date(raw_date):
     try:
-        datetime.strptime(date, "%Y-%m-%d")
+        datetime.strptime(raw_date, "%Y-%m-%d")
         return True
     except ValueError:
         return False
@@ -26,7 +26,7 @@ def search_by_date(date):
         news_tuples = [(new["title"], new["url"]) for new in matched_news]
         return news_tuples
     else:
-        raise ValueError("Data Invalida")
+        raise ValueError("Data inválida")
 
 
 # Requisito 8
