@@ -1,7 +1,7 @@
 import requests
 from parsel import Selector
 import time
-# from database import create_news
+from database import create_news
 
 
 # Requisito 1
@@ -77,7 +77,7 @@ def scrape_noticia(html_content):
 
 # Requisito 5
 def get_tech_news(amount):
-    """ if amount == 0:
+    if amount == 0:
         return None
     news = []
     news_page = fetch("https://www.tecmundo.com.br/novidades")
@@ -94,4 +94,4 @@ def get_tech_news(amount):
         news.append(new)
 
     create_news(news)
-    return news """
+    return news
