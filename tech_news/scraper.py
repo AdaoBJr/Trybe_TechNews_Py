@@ -45,7 +45,8 @@ def scrape_noticia(html_content):
     writer = selector.css(".tec--author__info a::text").get() or None
     shares_count = selector.css(
         "div.tec--toolbar__item::text").get() or 0
-    shares_count = int(shares_count.strip(" Compartilharam "))
+    if shares_count != 0:
+        shares_count = int(shares_count.strip(" Compartilharam "))
     comments_count = int(selector.css(
         "#js-comments-btn::attr(data-count)").get())
     summary = selector.css(
