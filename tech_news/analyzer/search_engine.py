@@ -21,7 +21,8 @@ def validate_date(date):
 
 def search_by_date(date):
     if validate_date(date):
-        matched_news = search_news({"timestamp": {"$regex": date}})
+        matched_news = search_news({
+            "timestamp": {"$regex": date, "$options": "i"}})
         news_tuples = [(new["title"], new["url"]) for new in matched_news]
         return news_tuples
     else:
