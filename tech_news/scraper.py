@@ -43,7 +43,9 @@ def scrape_noticia(html_content):
         "h1.tec--article__header__title::text").get()
     timestamp = selector.css(
         ".tec--timestamp__item time::attr(datetime)").get()
-    writer = selector.css(".tec--author__info a::text").get().strip() or None
+    writer = selector.css(".tec--author__info a::text").get() or None
+    if writer is not None:
+        writer = writer.strip()
     shares_count = selector.css(
         "div.tec--toolbar__item::text").get() or 0
     if shares_count != 0:
