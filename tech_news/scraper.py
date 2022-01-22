@@ -6,13 +6,12 @@ import time
 def fetch(url):
     time.sleep(1)
     try:
-        response = requests.get(url, timeout=5)
-    except requests.ReadTimeout:
+        response = requests.get(url, timeout=2)
+        if response.status_code == 200:
+            return response.text
         return None
-    finally:
-        if response.status_code != 200:
-            return None
-        return response.text
+    except requests.Timeout:
+        return None
 
 
 # Requisito 2
