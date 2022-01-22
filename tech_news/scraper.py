@@ -1,4 +1,5 @@
 import requests
+from parsel import Selector
 import time
 
 
@@ -6,7 +7,7 @@ import time
 def fetch(url):
     time.sleep(1)
     try:
-        response = requests.get(url, timeout=2)
+        response = requests.get(url, timeout=3)
         if response.status_code == 200:
             return response.text
         return None
@@ -16,7 +17,9 @@ def fetch(url):
 
 # Requisito 2
 def scrape_novidades(html_content):
-    """Seu código deve vir aqui"""
+    selector = Selector(text=html_content)
+    novidades_urls_list = selector.css(".tec--card__info h3 a::attr(href)")
+    return novidades_urls_list
 
 
 # Requisito 3
