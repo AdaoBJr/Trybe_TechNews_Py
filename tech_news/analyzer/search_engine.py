@@ -17,7 +17,7 @@ def search_by_date(date):
         news_tuples = [(new["title"], new["url"]) for new in matched_news]
         return news_tuples
     except ValueError:
-        ValueError("Data Invalida")
+        raise ValueError("Data Invalida")
 
 
 # Requisito 8
