@@ -56,7 +56,9 @@ def scrape_noticia(html_content):
     for sum in summary:
         summary_text = summary_text + sum
     sources = selector.css(".z--mb-16 a.tec--badge::text").getall()
+    sources = [source.strip() for source in sources]
     categories = selector.css("#js-categories a::text").getall()
+    categories = [category.strip() for category in categories]
 
     return {
         "url": url,
