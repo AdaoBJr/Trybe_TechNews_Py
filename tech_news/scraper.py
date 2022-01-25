@@ -6,7 +6,7 @@ import time
 def fetch(url):
     time.sleep(1)
     request = requests.get(url)
-    if request.status_code == '200':
+    if request.status_code == 200:
         return request.text
     return None
 
