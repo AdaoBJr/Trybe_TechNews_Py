@@ -1,6 +1,14 @@
+import requests
+import time
+
+
 # Requisito 1
 def fetch(url):
-    "Seu código deve vir aqui"
+    time.sleep(1)
+    request = requests.get(url)
+    if request.status_code == '200':
+        return request.text
+    return None
 
 
 # Requisito 2
@@ -16,6 +24,7 @@ def scrape_next_page_link(html_content):
 # Requisito 4
 def scrape_noticia(html_content):
     """Seu código deve vir aqui"""
+
 
 
 # Requisito 5
