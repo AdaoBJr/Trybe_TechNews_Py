@@ -108,16 +108,14 @@ def get_tech_news(amount):
     URL = 'https://www.tecmundo.com.br/novidades'
     html = fetch(URL)
     scraped_news = scrape_novidades(html)
-    all_news = []
+    tech_news = []
 
     while len(scraped_news) < amount:
         next_link = scrape_next_page_link(html)
         fetch_next_page = fetch(next_link)
-        all_news.extend(scrape_novidades(fetch_next_page))
+        scraped_news.extend(scrape_novidades(fetch_next_page))
 
-    tech_news = []
-
-    for news in all_news[:amount]:
+    for news in scraped_news[:amount]:
         html_news = fetch(news)
         tech_news.append(scrape_noticia(html_news))
 
