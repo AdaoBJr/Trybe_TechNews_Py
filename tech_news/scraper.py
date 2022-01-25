@@ -17,9 +17,10 @@ def fetch(url):
 
 # Requisito 2
 def scrape_novidades(html_content):
-    site_selector = Selector(text=html_content)
+    selector = Selector(text=html_content)
     novidades = (
-        site_selector.css('.tec--card__title__link::attr(href)').getall())
+        selector.css('''
+            .tec--list__item.tec--card__title__link::attr(href)''').getall())
     return novidades
 
 
